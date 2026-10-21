@@ -216,9 +216,81 @@ background: rgba(15, 15, 15, 0.85);
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
 }
+
+.bg-stack {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  background-color: black;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.bg-layer.dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-repeat: repeat;
+  background-position: 0 0;
+}
+
+.bg-layer.photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.bg-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-150%);
+  z-index: 5;
+  padding: 14px 28px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 15, 15, 0.9);
+  color: white;
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-shadow: 0 0 6px #9e5ac9;
+  box-shadow:
+    0 4px 5px rgba(255, 255, 255, 0.6),
+    0 8px 10px #9e5ac9,
+    0 10px 15px #9e5ac9;
+  opacity: 0;
+  pointer-events: none;
+  opacity: 1;
+transform: translateX(-50%);
+color: white !important;
+}
+
+.bg-toast.show {
+  animation: toastDrop 3.5s ease forwards;
+}
+
+@keyframes toastDrop {
+  0%   { transform: translateX(-50%) translateY(-150%); opacity: 0; }
+  12%  { transform: translateX(-50%) translateY(0);     opacity: 1; }
+  55%  { transform: translateX(-50%) translateY(0);     opacity: 1; }
+  100% { transform: translateX(-50%) translateY(-150%); opacity: 0; }
+}
 </style>
     </head>
     <body>
+
+      <div id="bg-toast" class="bg-toast"></div>
 
       <div class="bg-stack">
         <div id="bg-a" class="bg-layer"></div>
@@ -299,7 +371,7 @@ background: rgba(15, 15, 15, 0.85);
         </div>
         <h1>GLOSSOM</h1>
         <h2 id="message"></h2>
-        <h3>change</h3>
+
         <div class="buttons">
             <button class="circle-btn">UL</button>
             <button class="circle-btn">Games</button>
@@ -385,35 +457,87 @@ setInterval(updateClock, 1000);
           </script>
 
 <script>
-  const images = [
+  const backgrounds = [
+    "default",  
     "images/hollywoodsunset.jpg",
     "images/vegasnight.jpg"
   ];
 
-  const bgLayer = document.getElementById("bg-image");
-  const bgBtn = document.getElementById("bg-btn");
-  let currentBg = -1;
-  let changing = false;
 
-  images.forEach((src) => { new Image().src = src; });
+  const layers = [
+    document.getElementById("bg-a"),
+    document.getElementById("bg-b")
+  ];
+  const bgBtn = document.getElementById("bg-btn");
+
+  let front = 0;     
+  let current = 0;    
+  let busy = false;
+
+  function paint(el, bg) {
+    if (bg === "default") {
+      el.className = "bg-layer dots";
+      el.style.backgroundImage = "";
+    } else {
+      el.className = "bg-layer photo";
+      el.style.backgroundImage = `url("${bg}")`;
+    }
+  }
+
+  paint(layers[0], "default");
+  layers[0].style.opacity = 1;
+
+  backgrounds.forEach((bg) => {
+    if (bg !== "default") new Image().src = bg;
+  });
+
+  function crossfadeTo(bg) {
+    const incoming = layers[1 - front];
+    const outgoing = layers[front];
+
+    paint(incoming, bg);
+    incoming.style.zIndex = 2;
+    outgoing.style.zIndex = 1;
+
+    incoming.style.transition = "none";
+    incoming.style.opacity = 0;
+    void incoming.offsetWidth;          
+    incoming.style.transition = "";
+    incoming.style.opacity = 1;
+
+    front = 1 - front;
+  }
 
   bgBtn.addEventListener("click", () => {
-    if (changing) return;
-    changing = true;
+    if (busy) return;
+    busy = true;
 
-    let next;
-    do {
-      next = Math.floor(Math.random() * images.length);
-    } while (next === currentBg && images.length > 1);
-    currentBg = next;
+    const next = (current + 1) % backgrounds.length;
+    current = next;
 
-    bgLayer.style.opacity = 0;                       
-    setTimeout(() => {
-      bgLayer.style.backgroundImage = `url("${images[next]}")`;
-      bgLayer.style.opacity = 1;                    
-      changing = false;
-    }, 400);
+    crossfadeTo(backgrounds[next]);
+    showToast(backgrounds[next]);
+    setTimeout(() => { busy = false; }, 650);
   });
+
+  const names = {
+  "default": "Default BG",
+  "images/hollywoodsunset.jpg": "Sunset in the Depth of Hollywood",
+  "images/vegasnight.jpg": "The Vegas Night Shine",
+};
+
+const toast = document.getElementById("bg-toast");
+
+function showToast(bg) {
+  toast.textContent = names[bg] || bg;
+  toast.classList.remove("show");
+  void toast.offsetWidth;          
+  toast.classList.add("show");
+}
+
+  
+setTimeout(() => { busy = false; }, 650);
+
 </script>
     </body>
 </html>
