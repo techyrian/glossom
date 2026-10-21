@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">  
+        <title>GLOSSOM</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+<style>
+   body {
+   background-color: black;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-attachment: fixed;
+   color: white;
+ }
+
+    h1 {
+        font-family: "Fredoka", sans-serif;
+        font-size: 2rem;
+        color: white;
+        text-align: center;
+        margin-bottom: 5rem;
+        text-shadow:
+        0 0 5px #fff,
+        0 20px 10px #9e5ac9,
+        0 20px 15px #9e5ac9;
+        opacity: 0;
+        animation: fadeIn 1s ease forwards;
+        font-size: 7rem;
+
+    }
+
+    h2 {
+        font-family: "Fredoka",  sans-serif;
+        font-size: 2rem;
+        color: white;
+        text-align: center;
+        text-shadow:
+        0 0 5px #fff,
+        0 20px 10px #9e5ac9,
+        0 20px 15px #9e5ac9;
+        opacity: 0;
+        animation: fadeIn 3s ease forwards;
+    }
+
+    @keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+    .aurora {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.blob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  filter: blur(50px);
+  will-change: transform;
+}
+
+
+.blob1 { background: radial-gradient(circle, #c58bff 0%, #9e5ac9 55%, transparent 80%); }
+.blob2 { background: radial-gradient(circle, #7fa2ff 0%, #3a6bff 55%, transparent 80%); }
+.blob3 { background: radial-gradient(circle, #b07dff 0%, #7b3fe4 55%, transparent 80%); }
+.blob4 { background: radial-gradient(circle, #7fa2ff 0%, #3a6bff 55%, transparent 80%); }
+.blob5 { background: radial-gradient(circle, #c58bff 0%, #9e5ac9 55%, transparent 80%); }
+
+.wind {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.band {
+  position: absolute;
+  left: 0;
+  width: 70vw;
+  height: 28vh;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: windFlow 24s linear infinite;
+}
+
+.band1 { top: 5%;  background: radial-gradient(ellipse, #8fd3ff, transparent 70%); animation-duration: 24s; animation-delay: 0s; }
+.band2 { top: 30%; background: radial-gradient(ellipse, #b388ff, transparent 70%); animation-duration: 30s; animation-delay: -10s; }.band3 { top: 55%; background: radial-gradient(ellipse, #a3dcff, transparent 70%); animation-duration: 27s; animation-delay: -18s; }
+.band4 { top: 75%; background: radial-gradient(ellipse, #c4a1ff, transparent 70%); animation-duration: 34s; animation-delay: -25s; }
+.band1 { top: 5%;  background: radial-gradient(ellipse, #8fd3ff, transparent 70%); animation-duration: 12s; animation-delay: 0s; }
+.band2 { top: 30%; background: radial-gradient(ellipse, #b388ff, transparent 70%); animation-duration: 15s; animation-delay: -5s; }
+.band3 { top: 55%; background: radial-gradient(ellipse, #a3dcff, transparent 70%); animation-duration: 13s; animation-delay: -9s; }
+.band4 { top: 75%; background: radial-gradient(ellipse, #c4a1ff, transparent 70%); animation-duration: 17s; animation-delay: -12s; }
+
+@keyframes windFlow {
+  0%   { transform: translate(-80vw, 0) scaleX(1);      opacity: 0; }
+  15%  { opacity: 0.55; }
+  50%  { transform: translate(15vw, -8vh) scaleX(1.25); }
+  85%  { opacity: 0.55; }
+  100% { transform: translate(110vw, 5vh) scaleX(1);    opacity: 0; }
+}
+
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.circle-btn {
+  position: relative;  
+  width: 120px;
+  height: 120px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+background: rgba(15, 15, 15, 0.85);
+ display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: white;
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  padding: 10px;
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: break-word;
+  cursor: pointer;
+  box-shadow:
+    0 4px 5px rgba(255, 255, 255, 0.6),
+    0 8px 10px #9e5ac9,
+    0 10px 15px #9e5ac9;
+  text-shadow: 0 0 6px #9e5ac9;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+  animation-delay: 0.6s;
+}
+
+.circle-btn:hover {
+  transform: scale(1.1);
+  box-shadow:
+    0 4px 8px #fff,
+    0 8px 16px #9e5ac9,
+    0 12px 24px #9e5ac9;
+}
+
+.circle-btn:focus,
+.circle-btn:focus-visible {
+  outline: none;
+}
+
+
+
+.clock {
+  text-align: center;
+  font-family: "Fredoka", sans-serif;
+  font-size: 4rem;
+  font-weight: 900;
+  color: white;
+  text-shadow:
+    0 4px 5px #fff,
+    0 8px 10px #9e5ac9,
+    0 10px 15px #9e5ac9;
+  position: relative;
+  z-index: 1;
+}
+
+.corner-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  width: 140px;
+  height: 140px;
+  font-size: 1.15rem;
+  padding: 10px;
+}
+
+.corner-btn .icon {
+  font-size: 2.6rem;
+}
+
+.bg-image {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.bg-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+</style>
+    </head>
+    <body>
+
+      <div class="bg-stack">
+        <div id="bg-a" class="bg-layer"></div>
+        <div id="bg-b" class="bg-layer"></div>
+      </div>
+      
+        <div class="wind">
+            <div class="band band1"></div>
+            <div class="band band2"></div>
+            <div class="band band3"></div>
+            <div class="band band4"></div>
+          </div>
+
+        <div class="aurora">
+            <div class="blob blob1"></div>            
+            <div class="blob blob2"></div>
+            <div class="blob blob3"></div>
+            <div class="blob blob4"></div>
+            <div class="blob blob5"></div>
+        </div>
+
+        <div id="clock" class="clock">
+            <div id="clock-time"></div>
+            <div id="clock-zone"></div>
+          </div>
+
+          <button id="bg-btn" class="circle-btn corner-btn">
+            <span class="icon">🖼️</span>
+            <span>Change Background</span>
+          </button>
+
+            <script>
+                const blobs = document.querySelectorAll(".blob");
+
+                    
+              
+
+                const settings = [
+  { speed: 0.05, ox: -40, oy: -30 },
+{ speed: 0.03, ox:  40, oy: -30 },
+  { speed: 0.04, ox:   0, oy:  40 },
+ { speed: 0.02, ox: -50, oy:  30 },
+  { speed: 0.06, ox:  50, oy:  15 }
++    { speed: 0.05, ox: -8, oy: -6 },
+  { speed: 0.03, ox:  8, oy: -6 },
+ { speed: 0.04, ox:  0, oy:  8 },
+  { speed: 0.02, ox: -10, oy: 6 },
+  { speed: 0.06, ox:  10, oy: 3 }
+ ];
+              
+                let mouseX = window.innerWidth / 2;
+                let mouseY = window.innerHeight / 2;
+              
+                const state = Array.from(blobs).map((el, i) => ({
+                  el,
+                  x: mouseX,
+                  y: mouseY,
+                  ...settings[i]
+                }));
+              
+                window.addEventListener("pointermove", (e) => {
+                  mouseX = e.clientX;
+                  mouseY = e.clientY;
+                });
+              
+                function animate() {
+                  state.forEach((b) => {
+                    b.x += (mouseX + b.ox - b.x) * b.speed;
+                    b.y += (mouseY + b.oy - b.y) * b.speed;
+                    const half = b.el.offsetWidth / 2;
+                    b.el.style.transform = `translate(${b.x - half}px, ${b.y - half}px)`;
+                  });
+                  requestAnimationFrame(animate);
+                }
+              
+                animate();
+              </script>
+        </div>
+        <h1>GLOSSOM</h1>
+        <h2 id="message"></h2>
+
+        <div class="buttons">
+            <button class="circle-btn">UL</button>
+            <button class="circle-btn">Games</button>
+            <button class="circle-btn">Music</button>   
+          </div>
+        <script>
+            const messages = [
+                "Don't worry, you can be free here",
+                "Infinite possibilites start here",
+                "Fun fact: Glossom isn't even a real word, we just mixed the words 'blossom' and 'gloss'",
+                "I don't think anyone even reads these, they just come for the games, that's it.",
+                "Freedom lives here, so take your time",
+                "Some poeple might think these messages are cringe, I just put them because any another link pretty much has them too",
+                "I have VS code on my chromebook, so don't be surprised if you see me making a website in the middle of class :/",
+                "Make sure not to take granted for this link, I might not make anymore once all the links to this site get blocked",
+                "67 67 67 67",
+                "I've ran out of messages to put here",
+                "You're not just here for the games, right?",
+                "Please read these so I feel like I actually have a reason to make messages",
+                "Be free",
+                "PLEASE DON'T GET THIS LINK BLOCKED BRU IM GONNA CRASH IF IT DOES",
+                "I'm gonna work on Glossom at school too, what are the teachers gonna do, tell on me? >:)"
+            ];
+
+            
+ 
+
+            const message = document.getElementById("message");
+  let last = Math.floor(Math.random() * messages.length);
+
+  message.textContent = messages[last];
+
+  function changeMessage() {
+    let i;
+    do {
+      i = Math.floor(Math.random() * messages.length);
+    } while (i === last && messages.length > 1);
+    last = i;
+
+    const out = message.animate(
+      [{ opacity: 1 }, { opacity: 0 }],
+      { duration: 500, fill: "forwards" }
+    );
+
+    out.onfinish = () => {
+      message.textContent = messages[i];
+
+      message.animate(
+        [{ opacity: 0 }, { opacity: 1 }],
+        { duration: 800, easing: "ease", fill: "forwards" }
+      );
+    };
+  }
+
+  setInterval(changeMessage, 4000);
+</script>
+
+        <script>
+const timeEl = document.getElementById("clock-time");
+const zoneEl = document.getElementById("clock-zone");
+
+function updateClock() {
+  const now = new Date();
+
+  timeEl.textContent = now.toLocaleTimeString("en-US", {
+    timeZone: "America/Chicago",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+
+  zoneEl.textContent = now
+    .toLocaleTimeString("en-US", {
+      timeZone: "America/Chicago",
+      timeZoneName: "short"
+    })
+    .split(" ")
+    .pop();
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+          </script>
+
+<script>
+  const images = [
+    "images/hollywoodsunset.jpg",
+    "images/vegasnight.jpg"
+  ];
+
+  const bgLayer = document.getElementById("bg-image");
+  const bgBtn = document.getElementById("bg-btn");
+  let currentBg = -1;
+  let changing = false;
+
+  images.forEach((src) => { new Image().src = src; });
+
+  bgBtn.addEventListener("click", () => {
+    if (changing) return;
+    changing = true;
+
+    let next;
+    do {
+      next = Math.floor(Math.random() * images.length);
+    } while (next === currentBg && images.length > 1);
+    currentBg = next;
+
+    bgLayer.style.opacity = 0;                       
+    setTimeout(() => {
+      bgLayer.style.backgroundImage = `url("${images[next]}")`;
+      bgLayer.style.opacity = 1;                    
+      changing = false;
+    }, 400);
+  });
+</script>
+    </body>
+</html>

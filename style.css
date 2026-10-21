@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.clock #clock-zone {
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+  }
+
+  
