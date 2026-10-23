@@ -478,11 +478,276 @@ color: white !important;
   white-space: nowrap;
   opacity: 0.85;
 }
+
+.note {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.55);
+  animation: noteFade 0.5s ease both;
+}
+
+.note[hidden] {
+  display: none;
+}
+
+@keyframes noteFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.note-card {
+  position: relative;
+  width: min(92vw, 420px);
+  padding: 28px 24px 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 15, 15, 0.95);
+  color: white;
+  text-align: center;
+  font-family: "Fredoka", sans-serif;
+  box-shadow:
+    0 4px 5px rgba(255, 255, 255, 0.6),
+    0 8px 10px #9e5ac9,
+    0 10px 15px #9e5ac9;
+}
+
+.note-card h1 {
+  font-size: 2rem;
+  margin: 0 0 12px;
+  opacity: 1;
+  animation: none;
+  text-shadow:
+    0 4px 5px #fff,
+    0 8px 10px #9e5ac9;
+}
+
+.note-card p {
+  margin: 0 0 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.note-close {
+  width: 120px;
+  height: 56px;
+  padding: 0;
+  margin: 0 auto;
+  font-size: 1.1rem;
+}
+
+.note-x {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.note-x:hover {
+  opacity: 1;
+}
+
+.log-scroll {
+  max-height: 50vh;
+  overflow-y: auto;
+  text-align: left;
+  margin-bottom: 20px;
+  padding-right: 6px;
+}
+
+.log-entry {
+  margin-bottom: 18px;
+}
+
+.log-date {
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 6px;
+}
+
+.log-tag {
+  display: inline-block;
+  padding: 2px 12px;
+  margin: 6px 0 2px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.log-tag.new   { background: rgba(58, 107, 255, 0.45); }
+.log-tag.fix   { background: rgba(158, 90, 201, 0.55); }
+.log-tag.change { background: rgba(143, 211, 255, 0.35); }
+
+.log-entry ul {
+  margin: 4px 0 0;
+  padding-left: 22px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.browser {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  background: rgba(8, 8, 12, 0.97);
+  font-family: "Fredoka", sans-serif;
+  color: white;
+}
+.browser[hidden] { display: none; }
+
+.br-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.br-tabs { display: flex; gap: 6px; flex: 1; overflow-x: auto; }
+.br-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.br-tab.active { background: rgba(158, 90, 201, 0.45); }
+.br-tab span.x { opacity: 0.6; }
+.br-tab span.x:hover { opacity: 1; }
+.br-close {
+  background: none; border: none; color: white;
+  font-size: 1.3rem; cursor: pointer; opacity: 0.7;
+}
+.br-close:hover { opacity: 1; }
+
+.br-body { flex: 1; position: relative; overflow: hidden; }
+.br-home { height: 100%; overflow-y: auto; padding: 16px; }
+.br-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+
+#br-search {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.05rem;
+  outline: none;
+}
+.br-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 14px;
+}
+.br-card {
+  aspect-ratio: 1;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 15, 15, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 10px rgba(158, 90, 201, 0.7);
+}
+.br-card:hover { transform: scale(1.05); }
+
+/* .proxy-container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 30px 20px;
+  text-align: center;
+  color: white;
+  background: #172440;
+  border: 1px solid #ffffff25;
+  border-radius: 16px;
+}
+
+.proxy-container p {
+  color: #d2dcf0;
+}
+
+.proxy-container form {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.proxy-container input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+}
+
+.proxy-container button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #60a5fa;
+  color: #10172a;
+  cursor: pointer;
+} */
 </style>
     </head>
-    <body>
-
       <body>
+
+        
+<div class="proxy-container">
+  <h2>School Web Portal</h2>
+  <p>Enter a website address below.</p>
+
+  <form id="searchForm">
+    <input
+      type="url"
+      id="website"
+      placeholder="https://example.com"
+      required
+    >
+
+    <button type="submit">Go</button>
+  </form>
+
+  <p id="message"></p>
+
+  <div class="website-links">
+    <a href="https://www.khanacademy.org/" target="_blank" rel="noopener noreferrer">
+      Khan Academy
+    </a>
+
+    <a href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer">
+      Wikipedia
+    </a>
+
+    <a href="https://www.nasa.gov/" target="_blank" rel="noopener noreferrer">
+      NASA
+    </a>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
 
         <div id="bg-toast" class="bg-toast"></div>
       
@@ -516,9 +781,9 @@ color: white !important;
         <h2 id="message"></h2>
       
         <div class="buttons">
-          <button class="circle-btn">UL</button>
-          <button class="circle-btn">Games</button>
-          <button class="circle-btn">Music</button>   
+          <button id="log-btn" class="circle-btn">Update Log</button>         
+          <button id="games-btn" class="circle-btn">Games</button>         
+           <button class="circle-btn">Music</button>   
           <button class="circle-btn">AI</button>   
         </div>
       
@@ -554,6 +819,65 @@ color: white !important;
           <input id="info-search" type="text" placeholder="Search a city or continent" autocomplete="off">
           <div class="info-hint">Find your city, then choose it with the Time Zone button.</div>
           <div id="info-list"></div>
+        </div>
+
+        <div id="note" class="note" role="dialog" aria-labelledby="note-title">
+          <div class="note-card">
+            <button id="note-x" class="note-x" aria-label="Close note">✕</button>
+            <h1 id="note-title">Welcome to GLOSSOM</h1>
+            <p>After the long await, it's finally here. This will be rolled out for more people too, many people can share this link, but don't let anyone ruin this, because you never know that it could even get blocked today.
+            </p>
+            <button id="note-close" class="circle-btn note-close">
+              <span>Got it</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="log" class="note" role="dialog" aria-labelledby="log-title" hidden>
+          <div class="note-card log-card">
+            <button id="log-x" class="note-x" aria-label="Close update log">✕</button>
+            <h1 id="log-title">Update Log</h1>
+        
+            <div class="log-scroll">
+              <div class="log-entry">
+                <div class="log-date">January 5th, 2027</div>
+                <div class="log-tag new">GLOSSOM release, more bugs will be fixed and patched.</div>
+                <ul>
+                  <li>Be free around here.</li>
+                  <li>More updates coming, and more bugs... so expect those, you'll be notified we get a new update.</li>
+                </ul>
+              </div>
+        
+              <div class="log-entry">
+                <div class="log-date"></div>
+                <div class="log-tag new">New</div>
+                <ul>
+                  <li></li>
+                </ul>
+                <div class="log-tag fix"></div>
+                <ul>
+                  <li></li>
+                </ul>
+              </div>
+            </div>
+        
+            <button id="log-close" class="circle-btn note-close">
+              <span>Close</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="browser" class="browser" hidden>
+          <div class="br-bar">
+            <div id="br-tabs" class="br-tabs"></div>
+            <button id="br-close" class="br-close" aria-label="Close">✕</button>
+          </div>
+          <div id="br-body" class="br-body">
+            <div id="br-home" class="br-home">
+              <input id="br-search" type="text" placeholder="Search games..." autocomplete="off">
+              <div id="br-grid" class="br-grid"></div>
+            </div>
+          </div>
         </div>
       
             <script>
@@ -1051,6 +1375,130 @@ anim.onfinish = () => ring.remove();
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeInfo();
+  });
+</script>
+
+<script>
+  const note = document.getElementById("note");
+
+  function closeNote() {
+    note.hidden = true;
+  }
+
+  document.getElementById("note-close").addEventListener("click", closeNote);
+  document.getElementById("note-x").addEventListener("click", closeNote);
+
+  note.addEventListener("pointerdown", (e) => {
+    if (e.target === note) closeNote();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeNote();
+  });
+</script>
+
+<script>
+  const logPanel = document.getElementById("log");
+  const logBtn = document.getElementById("log-btn");
+
+  function openLog() { logPanel.hidden = false; }
+  function closeLog() { logPanel.hidden = true; }
+
+  logBtn.addEventListener("click", openLog);
+  document.getElementById("log-close").addEventListener("click", closeLog);
+  document.getElementById("log-x").addEventListener("click", closeLog);
+
+  logPanel.addEventListener("pointerdown", (e) => {
+    if (e.target === logPanel) closeLog();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeLog();
+  });
+</script>
+
+<script>
+  const games = [
+    { name: "My Game 1", url: "games/mygame1/index.html" },
+    { name: "My Game 2", url: "games/mygame2/index.html" }
+  ];
+
+  const browserEl = document.getElementById("browser");
+  const tabsEl = document.getElementById("br-tabs");
+  const bodyEl = document.getElementById("br-body");
+  const homeEl = document.getElementById("br-home");
+  const gridEl = document.getElementById("br-grid");
+  const searchEl = document.getElementById("br-search");
+
+  let tabs = [{ id: "home", title: "Games", frame: null }];
+  let activeId = "home";
+  let nextId = 1;
+
+  function renderGrid(q = "") {
+    gridEl.innerHTML = "";
+    games
+      .filter((g) => g.name.toLowerCase().includes(q.trim().toLowerCase()))
+      .forEach((g) => {
+        const card = document.createElement("div");
+        card.className = "br-card";
+        card.textContent = g.name;
+        card.addEventListener("click", () => openGame(g));
+        gridEl.appendChild(card);
+      });
+    if (!gridEl.children.length) gridEl.textContent = "No games found";
+  }
+
+  function renderTabs() {
+    tabsEl.innerHTML = "";
+    tabs.forEach((t) => {
+      const el = document.createElement("div");
+      el.className = "br-tab" + (t.id === activeId ? " active" : "");
+      el.textContent = t.title;
+      if (t.id !== "home") {
+        const x = document.createElement("span");
+        x.className = "x";
+        x.textContent = "✕";
+        x.addEventListener("click", (e) => { e.stopPropagation(); closeTab(t.id); });
+        el.appendChild(x);
+      }
+      el.addEventListener("click", () => activate(t.id));
+      tabsEl.appendChild(el);
+    });
+  }
+
+  function activate(id) {
+    activeId = id;
+    homeEl.style.display = id === "home" ? "" : "none";
+    tabs.forEach((t) => { if (t.frame) t.frame.style.display = t.id === id ? "" : "none"; });
+    renderTabs();
+  }
+
+  function openGame(g) {
+    const frame = document.createElement("iframe");
+    frame.className = "br-frame";
+    frame.src = g.url;
+    frame.allow = "fullscreen; gamepad";
+    bodyEl.appendChild(frame);
+    const id = "t" + nextId++;
+    tabs.push({ id, title: g.name, frame });
+    activate(id);
+  }
+
+  function closeTab(id) {
+    const t = tabs.find((x) => x.id === id);
+    if (t && t.frame) t.frame.remove();
+    tabs = tabs.filter((x) => x.id !== id);
+    activate("home");
+  }
+
+  function openBrowser() { renderGrid(); activate(activeId); browserEl.hidden = false; }
+  function closeBrowser() { browserEl.hidden = true; }
+
+  document.getElementById("games-btn").addEventListener("click", openBrowser);
+  document.getElementById("br-close").addEventListener("click", closeBrowser);
+  searchEl.addEventListener("input", () => renderGrid(searchEl.value));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !browserEl.hidden) closeBrowser();
   });
 </script>
     </body>
