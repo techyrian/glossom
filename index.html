@@ -1,233 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">  
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>GLOSSOM</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GLOSSOM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
 <style>
-   body {
-   background-color: black;
+body {
+  margin: 0;
+  background-color: black;
   background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
   background-size: 24px 24px;
   background-attachment: fixed;
-   color: white;
- }
-
-    h1 {
-        font-family: "Fredoka", sans-serif;
-        font-size: 2rem;
-        color: white;
-        text-align: center;
-        text-shadow:
-        0 0 5px #fff,   
-        0 20px 10px #9e5ac9,
-        0 20px 15px #9e5ac9;
-        opacity: 0;
-        animation: fadeIn 1s ease forwards;
-        font-size: 7rem;
-        margin-bottom: 20px;
-    }
-
-    h2 {
-        font-family: "Fredoka",  sans-serif;
-        font-size: 2rem;
-        color: white;
-        text-align: center;
-        text-shadow:
-        0 0 5px #fff,
-        0 20px 10px #9e5ac9,
-        0 20px 15px #9e5ac9;
-        opacity: 0;
-        animation: fadeIn 3s ease forwards;
-    }
-
-    @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  color: white;
 }
 
-    .aurora {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
+h1 {
+  font-family: "Fredoka", sans-serif;
+  color: white;
+  text-align: center;
+  text-shadow: 0 0 5px #fff, 0 20px 10px #9e5ac9, 0 20px 15px #9e5ac9;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
 }
 
+h2 {
+  font-family: "Fredoka", sans-serif;
+  color: white;
+  text-align: center;
+  text-shadow: 0 0 5px #fff, 0 20px 10px #9e5ac9, 0 20px 15px #9e5ac9;
+  opacity: 0;
+  animation: fadeIn 3s ease forwards;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.aurora { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 .blob {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 80px;
-  height: 80px;
+  position: absolute; top: 0; left: 0;
+  width: 80px; height: 80px;
   border-radius: 50%;
   filter: blur(50px);
   will-change: transform;
 }
-
-
 .blob1 { background: radial-gradient(circle, #c58bff 0%, #9e5ac9 55%, transparent 80%); }
 .blob2 { background: radial-gradient(circle, #7fa2ff 0%, #3a6bff 55%, transparent 80%); }
 .blob3 { background: radial-gradient(circle, #b07dff 0%, #7b3fe4 55%, transparent 80%); }
 .blob4 { background: radial-gradient(circle, #7fa2ff 0%, #3a6bff 55%, transparent 80%); }
 .blob5 { background: radial-gradient(circle, #c58bff 0%, #9e5ac9 55%, transparent 80%); }
 
-.wind {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-
+.wind { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 .band {
-  position: absolute;
-  left: 0;
-  width: 70vw;
-  height: 28vh;
+  position: absolute; left: 0;
+  width: 70vw; height: 28vh;
   border-radius: 50%;
   filter: blur(70px);
   opacity: 0;
   will-change: transform, opacity;
   animation: windFlow 24s linear infinite;
 }
-
-.band1 { top: 5%;  background: radial-gradient(ellipse, #8fd3ff, transparent 70%); animation-duration: 24s; animation-delay: 0s; }
-.band2 { top: 30%; background: radial-gradient(ellipse, #b388ff, transparent 70%); animation-duration: 30s; animation-delay: -10s; }.band3 { top: 55%; background: radial-gradient(ellipse, #a3dcff, transparent 70%); animation-duration: 27s; animation-delay: -18s; }
-.band4 { top: 75%; background: radial-gradient(ellipse, #c4a1ff, transparent 70%); animation-duration: 34s; animation-delay: -25s; }
 .band1 { top: 5%;  background: radial-gradient(ellipse, #8fd3ff, transparent 70%); animation-duration: 12s; animation-delay: 0s; }
 .band2 { top: 30%; background: radial-gradient(ellipse, #b388ff, transparent 70%); animation-duration: 15s; animation-delay: -5s; }
 .band3 { top: 55%; background: radial-gradient(ellipse, #a3dcff, transparent 70%); animation-duration: 13s; animation-delay: -9s; }
 .band4 { top: 75%; background: radial-gradient(ellipse, #c4a1ff, transparent 70%); animation-duration: 17s; animation-delay: -12s; }
 
 @keyframes windFlow {
-  0%   { transform: translate(-80vw, 0) scaleX(1);      opacity: 0; }
+  0%   { transform: translate(-80vw, 0) scaleX(1); opacity: 0; }
   15%  { opacity: 0.55; }
   50%  { transform: translate(15vw, -8vh) scaleX(1.25); }
   85%  { opacity: 0.55; }
-  100% { transform: translate(110vw, 5vh) scaleX(1);    opacity: 0; }
+  100% { transform: translate(110vw, 5vh) scaleX(1); opacity: 0; }
 }
 
-
-.buttons {
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-  margin-top: 30px;
-  position: relative;
-  z-index: 1;
-}
-
-.circle-btn {
-  position: relative;  
-  width: 120px;
-  height: 120px;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-background: rgba(15, 15, 15, 0.85);
- display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: white;
-  font-family: "Fredoka", sans-serif;
-  font-size: 1.5rem;
-  font-weight: 900;
-  padding: 10px;
-  line-height: 1.2;
-  text-align: center;
-  overflow-wrap: break-word;
-  cursor: pointer;
-  box-shadow:
-    0 4px 5px rgba(255, 255, 255, 0.6),
-    0 8px 10px #9e5ac9,
-    0 10px 15px #9e5ac9;
-  text-shadow: 0 0 6px #9e5ac9;
-  transition: transform 0.2s, box-shadow 0.2s;
-
-  opacity: 0;
-  animation: fadeIn 0.8s ease forwards;
-  animation-delay: 0.6s;
-}
-
-.circle-btn:hover {
-  transform: scale(1.1);
-  box-shadow:
-    0 4px 8px #fff,
-    0 8px 16px #9e5ac9,
-    0 12px 24px #9e5ac9;
-}
-
-.circle-btn:focus,
-.circle-btn:focus-visible {
-  outline: none;
-}
-
-
-
-.clock {
-  margin-top: 40px;
-  text-align: center;
-  font-family: "Fredoka", sans-serif;
-  font-size: 4rem;
-  font-weight: 900;
-  color: white;
-  text-shadow:
-    0 4px 5px #fff,
-    0 8px 10px #9e5ac9,
-    0 10px 15px #9e5ac9;
-  position: relative;
-  z-index: 1;
-}
-
-.corner-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 2;
-  width: 140px;
-  height: 140px;
-  font-size: 1.15rem;
-  padding: 10px;
-}
-
-.corner-btn .icon {
-  font-size: 2.6rem;
-}
-
-.bg-image {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.bg-image::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-}
-
-.bg-stack {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
+.bg-stack { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 .bg-layer {
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   background-color: black;
   background-size: cover;
   background-position: center;
@@ -235,25 +84,16 @@ background: rgba(15, 15, 15, 0.85);
   opacity: 0;
   transition: opacity 0.6s ease;
 }
-
 .bg-layer.dots {
   background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
   background-size: 24px 24px;
   background-repeat: repeat;
   background-position: 0 0;
 }
-
-.bg-layer.photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-}
+.bg-layer.photo::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); }
 
 .bg-toast {
-  position: fixed;
-  top: 20px;
-  left: 50%;
+  position: fixed; top: 20px; left: 50%;
   transform: translateX(-50%) translateY(-150%);
   z-index: 5;
   padding: 14px 28px;
@@ -266,43 +106,26 @@ background: rgba(15, 15, 15, 0.85);
   font-weight: 700;
   white-space: nowrap;
   text-shadow: 0 0 6px #9e5ac9;
-  box-shadow:
-    0 4px 5px rgba(255, 255, 255, 0.6),
-    0 8px 10px #9e5ac9,
-    0 10px 15px #9e5ac9;
+  box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
   opacity: 0;
   pointer-events: none;
 }
-
-.bg-toast.show {
-  animation: toastDrop 3.5s ease forwards;
-}
-
+.bg-toast.show { animation: toastDrop 3.5s ease forwards; }
+.bg-toast:empty { display: none; }
 @keyframes toastDrop {
   0%   { transform: translateX(-50%) translateY(-150%); opacity: 0; }
-  12%  { transform: translateX(-50%) translateY(0);     opacity: 1; }
-  55%  { transform: translateX(-50%) translateY(0);     opacity: 1; }
+  12%  { transform: translateX(-50%) translateY(0); opacity: 1; }
+  55%  { transform: translateX(-50%) translateY(0); opacity: 1; }
   100% { transform: translateX(-50%) translateY(-150%); opacity: 0; }
 }
 
-.bg-toast:empty {
-  display: none;
-}
-
 .wave-ring {
-  position: fixed;
-  overflow: visible;
-  pointer-events: none;
-  z-index: 4;
+  position: fixed; overflow: visible; pointer-events: none; z-index: 4;
   filter: drop-shadow(0 0 5px #9e5ac9) drop-shadow(0 0 12px #3a6bff);
 }
-
 .btn-ripple {
-  position: absolute;
-  box-sizing: border-box;
-  width: 0;
-  height: 0;
-  opacity: 0;
+  position: absolute; box-sizing: border-box;
+  width: 0; height: 0; opacity: 0;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   pointer-events: none;
@@ -311,55 +134,64 @@ background: rgba(15, 15, 15, 0.85);
   filter: drop-shadow(0 0 5px #8fd3ff) drop-shadow(0 0 10px #3a6bff);
 }
 
-.clock-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
+.circle-btn {
+  position: relative;
+  width: 120px; height: 120px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 15, 15, 0.85);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px;
+  color: white;
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  padding: 10px;
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: break-word;
+  cursor: pointer;
+  box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
+  text-shadow: 0 0 6px #9e5ac9;
+  transition: transform 0.2s, box-shadow 0.2s;
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+  animation-delay: 0.6s;
 }
+.circle-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px #fff, 0 8px 16px #9e5ac9, 0 12px 24px #9e5ac9;
+}
+.circle-btn:focus, .circle-btn:focus-visible { outline: none; }
 
+.clock {
+  text-align: center;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 4px 5px #fff, 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
+  position: relative; z-index: 1;
+}
+.clock-row { display: flex; justify-content: center; align-items: center; gap: 20px; }
 .clock-icon {
-  width: 5rem;
-  height: 5rem;
-  flex: 0 0 5rem;
-  font-size: 3.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   line-height: 1;
-  filter:
-    drop-shadow(0 4px 4px rgba(255, 255, 255, 0.7))
-    drop-shadow(0 8px 8px #9e5ac9)
-    drop-shadow(0 10px 12px #9e5ac9);
+  filter: drop-shadow(0 4px 4px rgba(255, 255, 255, 0.7)) drop-shadow(0 8px 8px #9e5ac9) drop-shadow(0 10px 12px #9e5ac9);
 }
+#icon-left { transform: scaleX(-1); }
 
-#icon-left {
-  transform: scaleX(-1);
-}
-
-.tz-btn {
-  width: 110px;
-  height: 90px;
-  margin: 0;
-  padding: 8px;
-  font-size: 0.95rem;
-  z-index: 1;
-}
-
-.tz-btn .icon {
-  font-size: 1.6rem;
-}
+.tz-btn { width: 110px; height: 90px; margin: 0; padding: 8px; font-size: 0.95rem; z-index: 1; }
+.tz-btn .icon { font-size: 1.6rem; }
+.tz-row { display: flex; justify-content: center; gap: 20px; position: relative; z-index: 1; }
 
 .tz-panel {
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  position: fixed; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   z-index: 6;
   width: min(90vw, 360px);
   max-height: 70vh;
-  display: flex;
-  flex-direction: column;
+  display: flex; flex-direction: column;
   gap: 10px;
   padding: 16px;
   border-radius: 24px;
@@ -367,23 +199,11 @@ background: rgba(15, 15, 15, 0.85);
   background: rgba(15, 15, 15, 0.95);
   color: white;
   font-family: "Fredoka", sans-serif;
-  box-shadow:
-    0 4px 5px rgba(255, 255, 255, 0.6),
-    0 8px 10px #9e5ac9,
-    0 10px 15px #9e5ac9;
+  box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
 }
-
-.tz-panel[hidden] {
-  display: none;
-}
-
-.tz-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-  text-align: center;
-}
-
-#tz-search {
+.tz-panel[hidden] { display: none; }
+.tz-title { font-weight: 700; font-size: 1.1rem; text-align: center; }
+#tz-search, #info-search {
   padding: 10px 14px;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -393,111 +213,28 @@ background: rgba(15, 15, 15, 0.85);
   font-size: 1rem;
   outline: none;
 }
+#tz-list, #info-list { overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+#info-list { gap: 6px; }
+.tz-item { padding: 8px 12px; border-radius: 12px; cursor: pointer; font-weight: 600; }
+.tz-item:hover { background: rgba(158, 90, 201, 0.35); }
+.tz-item.active { background: rgba(58, 107, 255, 0.35); }
 
-#tz-list {
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.tz-item {
-  padding: 8px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.tz-item:hover {
-  background: rgba(158, 90, 201, 0.35);
-}
-
-.tz-item.active {
-  background: rgba(58, 107, 255, 0.35);
-}
-
-.tz-row {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin: 10px auto;
-  position: relative;
-  z-index: 1;
-}
-
-.info-panel {
-  width: min(92vw, 460px);
-}
-
-#info-search {
-  padding: 10px 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.06);
-  color: white;
-  font-family: "Fredoka", sans-serif;
-  font-size: 1rem;
-  outline: none;
-}
-
-.info-hint {
-  font-size: 0.85rem;
-  opacity: 0.75;
-  text-align: center;
-}
-
-#info-list {
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.info-group summary {
-  cursor: pointer;
-  padding: 8px 12px;
-  border-radius: 12px;
-  font-weight: 700;
-}
-
-.info-group summary:hover {
-  background: rgba(158, 90, 201, 0.35);
-}
-
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 6px 14px;
-  font-weight: 600;
-}
-
-.info-time {
-  white-space: nowrap;
-  opacity: 0.85;
-}
+.info-panel { width: min(92vw, 460px); }
+.info-hint { font-size: 0.85rem; opacity: 0.75; text-align: center; }
+.info-group summary { cursor: pointer; padding: 8px 12px; border-radius: 12px; font-weight: 700; }
+.info-group summary:hover { background: rgba(158, 90, 201, 0.35); }
+.info-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 14px; font-weight: 600; }
+.info-time { white-space: nowrap; opacity: 0.85; }
 
 .note {
-  position: fixed;
-  inset: 0;
-  z-index: 8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed; inset: 0; z-index: 8;
+  display: flex; align-items: center; justify-content: center;
   padding: 20px;
   background: rgba(0, 0, 0, 0.55);
   animation: noteFade 0.5s ease both;
 }
-
-.note[hidden] {
-  display: none;
-}
-
-@keyframes noteFade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
+.note[hidden] { display: none; }
+@keyframes noteFade { from { opacity: 0; } to { opacity: 1; } }
 .note-card {
   position: relative;
   width: min(92vw, 420px);
@@ -508,139 +245,61 @@ background: rgba(15, 15, 15, 0.85);
   color: white;
   text-align: center;
   font-family: "Fredoka", sans-serif;
-  box-shadow:
-    0 4px 5px rgba(255, 255, 255, 0.6),
-    0 8px 10px #9e5ac9,
-    0 10px 15px #9e5ac9;
+  box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
 }
-
 .note-card h1 {
   font-size: 2rem;
   margin: 0 0 12px;
   opacity: 1;
   animation: none;
-  text-shadow:
-    0 4px 5px #fff,
-    0 8px 10px #9e5ac9;
+  text-shadow: 0 4px 5px #fff, 0 8px 10px #9e5ac9;
 }
-
-.note-card p {
-  margin: 0 0 20px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.note-close {
-  width: 120px;
-  height: 56px;
-  padding: 0;
-  margin: 0 auto;
-  font-size: 1.1rem;
-}
-
+.note-card p { margin: 0 0 20px; font-size: 1.1rem; font-weight: 600; line-height: 1.4; }
+.note-close { width: 120px; height: 56px; padding: 0; margin: 0 auto; font-size: 1.1rem; }
 .note-x {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-  opacity: 0.7;
+  position: absolute; top: 10px; right: 14px;
+  background: none; border: none; color: white;
+  font-size: 1.2rem; cursor: pointer; opacity: 0.7;
 }
+.note-x:hover { opacity: 1; }
 
-.note-x:hover {
-  opacity: 1;
-}
-
-.log-scroll {
-  max-height: 50vh;
-  overflow-y: auto;
-  text-align: left;
-  margin-bottom: 20px;
-  padding-right: 6px;
-}
-
-.log-entry {
-  margin-bottom: 18px;
-}
-
-.log-date {
-  font-weight: 700;
-  font-size: 1.15rem;
-  margin-bottom: 6px;
-}
-
-.log-tag {
-  display: inline-block;
-  padding: 2px 12px;
-  margin: 6px 0 2px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-.log-tag.new   { background: rgba(58, 107, 255, 0.45); }
-.log-tag.fix   { background: rgba(158, 90, 201, 0.55); }
+.log-scroll { max-height: 50vh; overflow-y: auto; text-align: left; margin-bottom: 20px; padding-right: 6px; }
+.log-entry { margin-bottom: 18px; }
+.log-date { font-weight: 700; font-size: 1.15rem; margin-bottom: 6px; }
+.log-tag { display: inline-block; padding: 2px 12px; margin: 6px 0 2px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
+.log-tag.new { background: rgba(58, 107, 255, 0.45); }
+.log-tag.fix { background: rgba(158, 90, 201, 0.55); }
 .log-tag.change { background: rgba(143, 211, 255, 0.35); }
-
-.log-entry ul {
-  margin: 4px 0 0;
-  padding-left: 22px;
-  font-weight: 600;
-  line-height: 1.5;
-}
+.log-entry ul { margin: 4px 0 0; padding-left: 22px; font-weight: 600; line-height: 1.5; }
 
 .browser {
-  position: fixed;
-  inset: 0;
-  z-index: 9;
-  display: flex;
-  flex-direction: column;
+  position: fixed; inset: 0; z-index: 9;
+  display: flex; flex-direction: column;
   background: rgba(8, 8, 12, 0.97);
   font-family: "Fredoka", sans-serif;
   color: white;
 }
 .browser[hidden] { display: none; }
-
-.br-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
+.br-bar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
 .br-tabs { display: flex; gap: 6px; flex: 1; overflow-x: auto; }
 .br-tab {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: flex; align-items: center; gap: 8px;
   padding: 8px 14px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.06);
-  cursor: pointer;
-  white-space: nowrap;
-  font-weight: 600;
+  cursor: pointer; white-space: nowrap; font-weight: 600;
 }
 .br-tab.active { background: rgba(158, 90, 201, 0.45); }
 .br-tab span.x { opacity: 0.6; }
 .br-tab span.x:hover { opacity: 1; }
-.br-close {
-  background: none; border: none; color: white;
-  font-size: 1.3rem; cursor: pointer; opacity: 0.7;
-}
+.br-close { background: none; border: none; color: white; font-size: 1.3rem; cursor: pointer; opacity: 0.7; }
 .br-close:hover { opacity: 1; }
-
 .br-body { flex: 1; position: relative; overflow: hidden; }
 .br-home { height: 100%; overflow-y: auto; padding: 16px; }
 .br-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
-
 #br-search {
-  width: 100%;
-  padding: 12px 16px;
-  margin-bottom: 16px;
+  width: 100%; box-sizing: border-box;
+  padding: 12px 16px; margin-bottom: 16px;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.05);
@@ -649,352 +308,480 @@ background: rgba(15, 15, 15, 0.85);
   font-size: 1.05rem;
   outline: none;
 }
-.br-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 14px;
-}
+.br-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
 .br-card {
   aspect-ratio: 1;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(15, 15, 15, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 10px;
-  font-weight: 700;
-  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 10px;
+  font-weight: 700; cursor: pointer;
   box-shadow: 0 6px 10px rgba(158, 90, 201, 0.7);
 }
 .br-card:hover { transform: scale(1.05); }
 
-.proxy-container {
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 30px 20px;
-  text-align: center;
+.music {
+  position: fixed; inset: 0; z-index: 9;
+  display: flex; flex-direction: column;
+  background: rgba(8, 8, 12, 0.97);
+  font-family: "Fredoka", sans-serif;
   color: white;
-  background: #172440;
-  border: 1px solid #ffffff25;
+}
+.music[hidden] { display: none; }
+.mu-bar { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+.mu-bar .mu-section-title { flex: 1; margin: 0; }
+.mu-close { background: none; border: none; color: white; font-size: 1.3rem; cursor: pointer; opacity: 0.7; }
+.mu-close:hover { opacity: 1; }
+.mu-section-title { font-weight: 700; font-size: 1.4rem; margin: 8px 0 12px; text-shadow: 0 0 6px #9e5ac9; }
+.mu-linkbar { display: flex; gap: 10px; padding: 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+#mu-link {
+  flex: 1; min-width: 0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-family: "Fredoka", sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+}
+#mu-link:focus { border-color: #9e5ac9; }
+.mu-go {
+  padding: 10px 20px;
+  border: none; border-radius: 14px;
+  background: #9e5ac9; color: white;
+  font-family: "Fredoka", sans-serif; font-weight: 700;
+  cursor: pointer;
+}
+.mu-go:hover { background: #b07dff; }
+.mu-embed { padding: 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+.mu-embed[hidden] { display: none; }
+.mu-embed iframe { width: 100%; border: 0; border-radius: 14px; display: block; }
+.mu-body { flex: 1; overflow-y: auto; padding: 16px; }
+.sp-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 20px; }
+.sp-row iframe { width: 100%; border: 0; border-radius: 14px; display: block; }
+
+.page {
+  position: relative; z-index: 1;
+  min-height: 100vh; min-height: 100dvh;
+  box-sizing: border-box;
+  padding: 16px 20px 24px;
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+}
+
+.top-row { display: grid; grid-template-columns: 1fr minmax(0, 520px) 1fr; align-items: start; gap: 16px; }
+.top-left { justify-self: start; }
+.top-left .corner-btn {
+  width: clamp(90px, 14vh, 140px);
+  height: clamp(90px, 14vh, 140px);
+  font-size: clamp(0.8rem, 1.8vh, 1.15rem);
+}
+.top-left .corner-btn .icon { font-size: clamp(1.6rem, 4vh, 2.6rem); }
+
+.portal {
+  padding: 12px 16px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 15, 15, 0.85);
+  color: white;
+  text-align: center;
+  font-family: "Fredoka", sans-serif;
+  box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
+}
+.portal-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; text-shadow: 0 0 6px #9e5ac9; }
+.portal form { display: flex; gap: 8px; }
+.portal input {
+  flex: 1; min-width: 0;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  font-family: "Fredoka", sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+}
+.portal input::placeholder { color: rgba(255, 255, 255, 0.5); }
+.portal input:focus { border-color: #9e5ac9; }
+.portal button {
+  position: relative; overflow: hidden;
+  padding: 9px 18px;
+  border: none; border-radius: 8px;
+  background: #9e5ac9; color: white;
+  font-family: "Fredoka", sans-serif; font-weight: bold;
+  cursor: pointer;
+}
+.portal button:hover { background: #b07dff; }
+.portal p { margin: 6px 0 0; color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; }
+.portal p:empty { display: none; }
+.portal-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.portal-links a {
+  display: inline-block;
+  padding: 8px 18px;
   border-radius: 16px;
-}
-
-.proxy-container p {
-  color: #d2dcf0;
-}
-
-.proxy-container form {
-  display: flex;
-  gap: 10px;
-  margin: 20px 0;
-}
-
-.proxy-container input {
-  flex: 1;
-  min-width: 0;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-}
-
-.proxy-container button {
-  position: relative;
-  overflow: hidden;
-  padding: 13px 22px;
-  border: none;
-  border-radius: 8px;
-  background: #60a5fa;
-  color: #10172a;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-
-.proxy-container {
-  width: calc(100% - 40px);
-  max-width: 650px;
-  margin: 40px auto;
-  padding: 28px 24px;
-  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 15, 15, 0.85);
   color: white;
-  background: rgba(20, 30, 55, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  text-shadow: 0 0 6px #9e5ac9;
+  box-shadow: 0 2px 3px rgba(255, 255, 255, 0.5), 0 4px 6px #9e5ac9, 0 6px 10px #9e5ac9;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.portal-links a:hover {
+  transform: scale(1.08);
+  box-shadow: 0 2px 6px #fff, 0 4px 10px #9e5ac9, 0 8px 16px #9e5ac9;
+}
+
+.hero { text-align: center; }
+.main-row { display: flex; justify-content: center; align-items: center; gap: clamp(10px, 2vw, 28px); }
+.main-row h1 { margin: 0; font-size: clamp(2.5rem, 8vw, 7rem); line-height: 1; white-space: nowrap; }
+.main-row .circle-btn {
+  flex: 0 0 auto;
+  width: clamp(70px, 9vw, 120px);
+  height: clamp(70px, 9vw, 120px);
+  font-size: clamp(0.85rem, 1.7vw, 1.5rem);
+  gap: 4px;
+}
+.main-row .circle-btn .icon { font-size: clamp(1.4rem, 3vw, 2.6rem); line-height: 1; }
+.hero h2 { margin: 28px auto 0; max-width: 900px; min-height: 2.4em; font-size: clamp(1rem, 2.2vw, 2rem); }
+
+.bottom { text-align: center; }
+.bottom .clock { margin: 0; font-size: clamp(2rem, 8vh, 4rem); }
+.bottom .clock-icon {
+  width: clamp(2.5rem, 8vh, 5rem);
+  height: clamp(2.5rem, 8vh, 5rem);
+  flex: 0 0 clamp(2.5rem, 8vh, 5rem);
+  font-size: clamp(1.8rem, 6vh, 3.5rem);
+}
+#clock-zone { font-size: 0.6em; }
+.bottom .tz-row { margin: 12px auto 0; }
+
+@media (max-width: 700px) {
+  .top-row { grid-template-columns: auto 1fr; }
+  .top-right { display: none; }
+  .main-row { flex-wrap: wrap; }
+  .main-row h1 { order: -1; flex-basis: 100%; text-align: center; }
+}
+
+/* ===== MUSIC LAYOUT ===== */
+#mu-search {
+  flex: 1; min-width: 0;
+  padding: 12px 16px;
   border-radius: 18px;
-  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.05rem;
+  outline: none;
 }
+#mu-search:focus { border-color: #9e5ac9; }
 
-.proxy-container h2 {
-  margin: 0 0 12px;
-  font-size: 28px;
-}
-
-.proxy-container p {
-  color: #d2dcf0;
-}
-
-.proxy-container form {
-  display: flex;
-  gap: 10px;
-  margin: 22px 0;
-}
-
-.proxy-container input {
-  flex: 1;
-  min-width: 0;
-  padding: 13px;
-  border: 1px solid #b8c8e8;
-  border-radius: 8px;
-  font-size: 15px;
-}
-
-.proxy-container button {
-  padding: 13px 22px;
+.mu-head { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.mu-arrows { display: flex; gap: 8px; }
+.mu-arrow {
+  width: 36px; height: 36px;
+  border-radius: 50%;
   border: none;
-  border-radius: 8px;
-  background: #60a5fa;
-  color: #10172a;
-  font-weight: bold;
+  background: rgba(255, 255, 255, 0.1);
+  color: white; font-size: 1.1rem;
   cursor: pointer;
 }
+.mu-arrow:hover { background: rgba(158, 90, 201, 0.6); }
 
-.proxy-container button:hover {
-  background: #93c5fd;
+.mu-cards {
+  display: flex; gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 12px; margin-bottom: 20px;
+  scrollbar-width: none;
 }
-
-.proxy-container .website-links {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-top: 22px;
+.mu-cards::-webkit-scrollbar { display: none; }
+.mu-card { flex: 0 0 168px; cursor: pointer; transition: transform 0.2s; }
+.mu-card:hover { transform: scale(1.04); }
+.mu-card img, .mu-li img {
+  display: block; width: 100%;
+  aspect-ratio: 1; object-fit: cover;
+  background: linear-gradient(135deg, #3a6bff, #9e5ac9);
 }
+.mu-card img { border-radius: 16px; box-shadow: 0 6px 10px rgba(158, 90, 201, 0.7); }
+.mu-card .t { margin-top: 8px; font-weight: 700; }
+.mu-card .a { opacity: 0.7; font-size: 0.95rem; }
 
-.proxy-container .website-links a {
-  color: #93c5fd;
-  text-decoration: none;
+.mu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 8px 24px;
+  margin-bottom: 20px;
 }
+.mu-li { display: flex; align-items: center; gap: 14px; padding: 6px; border-radius: 14px; cursor: pointer; }
+.mu-li:hover { background: rgba(158, 90, 201, 0.3); }
+.mu-li img { width: 56px; height: 56px; flex: 0 0 56px; border-radius: 10px; }
+.mu-li div { min-width: 0; }
+.mu-li .t, .mu-li .a { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mu-li .t { font-weight: 700; }
+.mu-li .a { opacity: 0.7; font-size: 0.95rem; }
 
-.proxy-container .website-links a:hover {
-  text-decoration: underline;
+.mu-msg { opacity: 0.8; padding: 8px 0; }
+
+.mu-player { padding: 10px 16px; border-top: 1px solid rgba(255, 255, 255, 0.12); background: rgba(15, 15, 15, 0.95); }
+.mu-player[hidden] { display: none; }
+.mu-player iframe { width: 100%; border: 0; border-radius: 14px; display: block; }
+
+.mu-prog { display: flex; align-items: center; gap: 12px; margin-top: 10px; font-size: 0.95rem; }
+.mu-tog {
+  flex: 0 0 40px; width: 40px; height: 40px;
+  border-radius: 50%; border: none;
+  background: rgba(158, 90, 201, 0.5);
+  color: white; font-size: 1rem; cursor: pointer;
+  box-shadow: 0 0 10px #9e5ac9;
 }
-
-@media (max-width: 480px) {
-  .proxy-container form {
-    flex-direction: column;
-  }
+#mu-seek {
+  flex: 1; min-width: 0; height: 6px;
+  -webkit-appearance: none; appearance: none;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.25);
+  outline: none;
 }
-
+#mu-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #f2f2f2; border: 2px solid #b8b8c8; cursor: pointer;
+}
+#mu-seek::-moz-range-track { height: 6px; border-radius: 99px; background: rgba(255, 255, 255, 0.25); }
+#mu-seek::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #f2f2f2; border: 2px solid #b8b8c8; cursor: pointer;
+}
 </style>
-    </head>
-      <body>
+</head>
+<body>
 
+<div id="bg-toast" class="bg-toast"></div>
 
-        <div id="bg-toast" class="bg-toast"></div>
-      
-        <div class="bg-stack">
-          <div id="bg-a" class="bg-layer"></div>
-          <div id="bg-b" class="bg-layer"></div>
-        </div>
-      
-        <div class="wind">
-          <div class="band band1"></div>
-          <div class="band band2"></div>
-          <div class="band band3"></div>
-          <div class="band band4"></div>
-        </div>
-      
-        <div class="aurora">
-          <div class="blob blob1"></div>
-          <div class="blob blob2"></div>
-          <div class="blob blob3"></div>
-          <div class="blob blob4"></div>
-          <div class="blob blob5"></div>
-        </div>
-      
-        <button id="bg-btn" class="circle-btn corner-btn">
-          <span class="icon">🖼️</span>
-          <span>Change Background</span>
-        </button>
-      
-      
-        <h1>GLOSSOM</h1>
-        <h2 id="message"></h2>
-      
-        <div class="buttons">
-          <button id="log-btn" class="circle-btn">Update Log</button>         
-          <button id="games-btn" class="circle-btn">Games</button>         
-           <button class="circle-btn">Music</button>   
-          <button class="circle-btn">AI</button>   
-        </div>
-      
-        <div id="clock" class="clock">
-          <div class="clock-row">
-            <span class="clock-icon" id="icon-left"></span>
-            <div id="clock-time"></div>
-            <span class="clock-icon" id="icon-right"></span>
-          </div>
-          <div id="clock-zone"></div>
-        </div>
-      
-        <div class="tz-row">
-          <button id="tz-btn" class="circle-btn tz-btn">
-            <span class="icon">🕒</span>
-            <span>Time Zone</span>
-          </button>
-        
-          <button id="tz-info-btn" class="circle-btn tz-btn">
-            <span class="icon">🌍</span>
-            <span>Check Time Zones</span>
-          </button>
-        </div>
-      
-        <div id="tz-panel" class="tz-panel" hidden>
-          <div class="tz-title">Choose your time zone</div>
-          <input id="tz-search" type="text" placeholder="Search (e.g. London, Tokyo)" autocomplete="off">
-          <div id="tz-list"></div>
-        </div>          
+<div class="bg-stack">
+  <div id="bg-a" class="bg-layer"></div>
+  <div id="bg-b" class="bg-layer"></div>
+</div>
 
-        <div id="info-panel" class="tz-panel info-panel" hidden>
-          <div class="tz-title">Find your time zone</div>
-          <input id="info-search" type="text" placeholder="Search a city or continent" autocomplete="off">
-          <div class="info-hint">Find your city, then choose it with the Time Zone button.</div>
-          <div id="info-list"></div>
-        </div>
+<div class="wind">
+  <div class="band band1"></div>
+  <div class="band band2"></div>
+  <div class="band band3"></div>
+  <div class="band band4"></div>
+</div>
 
-        <div id="note" class="note" role="dialog" aria-labelledby="note-title">
-          <div class="note-card">
-            <button id="note-x" class="note-x" aria-label="Close note">✕</button>
-            <h1 id="note-title">Welcome to GLOSSOM</h1>
-            <p>After the long await, it's finally here. This will be rolled out for more people too, many people can share this link, but don't let anyone ruin this, because you never know that it could even get blocked today.
-            </p>
-            <button id="note-close" class="circle-btn note-close">
-              <span>Got it</span>
-            </button>
-          </div>
-        </div>
+<div class="aurora">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+  <div class="blob blob4"></div>
+  <div class="blob blob5"></div>
+</div>
 
-        <div id="log" class="note" role="dialog" aria-labelledby="log-title" hidden>
-          <div class="note-card log-card">
-            <button id="log-x" class="note-x" aria-label="Close update log">✕</button>
-            <h1 id="log-title">Update Log</h1>
-        
-            <div class="log-scroll">
-              <div class="log-entry">
-                <div class="log-date">January 5th, 2027</div>
-                <div class="log-tag new">GLOSSOM release, more bugs will be fixed and patched.</div>
-                <ul>
-                  <li>Be free around here.</li>
-                  <li>More updates coming, and more bugs... so expect those, you'll be notified we get a new update.</li>
-                </ul>
-              </div>
-        
-              <div class="log-entry">
-                <div class="log-date"></div>
-                <div class="log-tag new">New</div>
-                <ul>
-                  <li></li>
-                </ul>
-                <div class="log-tag fix"></div>
-                <ul>
-                  <li></li>
-                </ul>
-              </div>
-            </div>
-        
-            <button id="log-close" class="circle-btn note-close">
-              <span>Close</span>
-            </button>
-          </div>
-        </div>
+<div class="page">
 
-        <div id="browser" class="browser" hidden>
-          <div class="br-bar">
-            <div id="br-tabs" class="br-tabs"></div>
-            <button id="br-close" class="br-close" aria-label="Close">✕</button>
-          </div>
-          <div id="br-body" class="br-body">
-            <div id="br-home" class="br-home">
-              <input id="br-search" type="text" placeholder="Search games..." autocomplete="off">
-              <div id="br-grid" class="br-grid"></div>
-            </div>
-          </div>
-        </div>
-      
-            <script>
-                const blobs = document.querySelectorAll(".blob");
+  <div class="top-row">
+    <div class="top-left">
+      <button id="bg-btn" class="circle-btn corner-btn">
+        <span class="icon">🖼️</span>
+        <span>Change Background</span>
+      </button>
+    </div>
 
-                    
-              
+    <section class="portal">
+      <div class="portal-title">School Web Portal</div>
+      <form id="searchForm">
+        <input type="url" id="website" placeholder="https://example.com" required>
+        <button type="submit">Go</button>
+      </form>
+      <p id="portalMessage" aria-live="polite"></p>
+      <div class="portal-links">
+        <a href="https://www.khanacademy.org/" target="_blank" rel="noopener noreferrer">Khan Academy</a>
+        <a href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer">Wikipedia</a>
+        <a href="https://www.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA</a>
+      </div>
+    </section>
 
-                const settings = [
-  { speed: 0.05, ox: -40, oy: -30 },
-{ speed: 0.03, ox:  40, oy: -30 },
-  { speed: 0.04, ox:   0, oy:  40 },
- { speed: 0.02, ox: -50, oy:  30 },
-  { speed: 0.06, ox:  50, oy:  15 }
-+    { speed: 0.05, ox: -8, oy: -6 },
-  { speed: 0.03, ox:  8, oy: -6 },
- { speed: 0.04, ox:  0, oy:  8 },
-  { speed: 0.02, ox: -10, oy: 6 },
-  { speed: 0.06, ox:  10, oy: 3 }
- ];
-              
-                let mouseX = window.innerWidth / 2;
-                let mouseY = window.innerHeight / 2;
-              
-                const state = Array.from(blobs).map((el, i) => ({
-                  el,
-                  x: mouseX,
-                  y: mouseY,
-                  ...settings[i]
-                }));
-              
-                window.addEventListener("pointermove", (e) => {
-                  mouseX = e.clientX;
-                  mouseY = e.clientY;
-                });
-              
-                function animate() {
-                  state.forEach((b) => {
-                    b.x += (mouseX + b.ox - b.x) * b.speed;
-                    b.y += (mouseY + b.oy - b.y) * b.speed;
-                    const half = b.el.offsetWidth / 2;
-                    b.el.style.transform = `translate(${b.x - half}px, ${b.y - half}px)`;
-                  });
-                  requestAnimationFrame(animate);
-                }
-              
-                animate();
-              </script>
-        </div>
+    <div class="top-right"></div>
+  </div>
 
-        <script>
-            const messages = [
-                "Don't worry, you can be free here",
-                "Infinite possibilites start here",
-                "Fun fact: Glossom isn't even a real word, we just mixed the words 'blossom' and 'gloss'",
-                "I don't think anyone even reads these, they just come for the games, that's it.",
-                "Freedom lives here, so take your time",
-                "Some poeple might think these messages are cringe, I just put them because any another link pretty much has them too",
-                "I have VS code on my chromebook, so don't be surprised if you see me making a website in the middle of class :/",
-                "I'm gonna try to make 3 more links after this one, I have many more planned",
-                "67 67 67 67",
-                "I've ran out of messages to put here",
-                "You're not just here for the games, right?",
-                "Please read these so I feel like I actually have a reason to make messages",
-                "Be free",
-                "PLEASE DON'T GET THIS LINK BLOCKED BRU IM GONNA CRASH IF IT DOES",
-                "Do the 67 form"
-            ];
+  <div class="hero">
+    <div class="main-row">
+      <button id="log-btn" class="circle-btn"><span class="icon">📜</span><span>Update Log</span></button>
+      <button id="games-btn" class="circle-btn"><span class="icon">🎮</span><span>Games</span></button>
+      <h1>GLOSSOM</h1>
+      <button id="music-btn" class="circle-btn"><span class="icon">🎵</span><span>Music</span></button>
+      <button class="circle-btn"><span class="icon">🤖</span><span>AI</span></button>
+    </div>
+    <h2 id="message"></h2>
+  </div>
 
-            
- 
+  <div class="bottom">
+    <div id="clock" class="clock">
+      <div class="clock-row">
+        <span class="clock-icon" id="icon-left"></span>
+        <div id="clock-time"></div>
+        <span class="clock-icon" id="icon-right"></span>
+      </div>
+      <div id="clock-zone"></div>
+    </div>
 
-            const message = document.getElementById("message");
+    <div class="tz-row">
+      <button id="tz-btn" class="circle-btn tz-btn">
+        <span class="icon">🕒</span>
+        <span>Time Zone</span>
+      </button>
+      <button id="tz-info-btn" class="circle-btn tz-btn">
+        <span class="icon">🌍</span>
+        <span>Check Time Zones</span>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<div id="tz-panel" class="tz-panel" hidden>
+  <div class="tz-title">Choose your time zone</div>
+  <input id="tz-search" type="text" placeholder="Search (e.g. London, Tokyo)" autocomplete="off">
+  <div id="tz-list"></div>
+</div>
+
+<div id="info-panel" class="tz-panel info-panel" hidden>
+  <div class="tz-title">Find your time zone</div>
+  <input id="info-search" type="text" placeholder="Search a city or continent" autocomplete="off">
+  <div class="info-hint">Find your city, then choose it with the Time Zone button.</div>
+  <div id="info-list"></div>
+</div>
+
+<div id="note" class="note" role="dialog" aria-labelledby="note-title">
+  <div class="note-card">
+    <button id="note-x" class="note-x" aria-label="Close note">✕</button>
+    <h1 id="note-title">Welcome to GLOSSOM</h1>
+    <p>After the long await, it's finally here. This will be rolled out for more people too, many people can share this link, but don't let anyone ruin this, because you never know that it could even get blocked today.</p>
+    <button id="note-close" class="circle-btn note-close"><span>Got it</span></button>
+  </div>
+</div>
+
+<div id="log" class="note" role="dialog" aria-labelledby="log-title" hidden>
+  <div class="note-card log-card">
+    <button id="log-x" class="note-x" aria-label="Close update log">✕</button>
+    <h1 id="log-title">Update Log</h1>
+    <div class="log-scroll">
+      <div class="log-entry">
+        <div class="log-date">January 5th, 2027</div>
+        <div class="log-tag new">GLOSSOM release, more bugs will be fixed and patched.</div>
+        <ul>
+          <li>Be free around here.</li>
+          <li>More updates coming, and more bugs... so expect those, you'll be notified we get a new update.</li>
+        </ul>
+      </div>
+    </div>
+    <button id="log-close" class="circle-btn note-close"><span>Close</span></button>
+  </div>
+</div>
+
+<div id="browser" class="browser" hidden>
+  <div class="br-bar">
+    <div id="br-tabs" class="br-tabs"></div>
+    <button id="br-close" class="br-close" aria-label="Close">✕</button>
+  </div>
+  <div id="br-body" class="br-body">
+    <div id="br-home" class="br-home">
+      <input id="br-search" type="text" placeholder="Search games..." autocomplete="off">
+      <div id="br-grid" class="br-grid"></div>
+    </div>
+  </div>
+</div>
+
+<div id="music" class="music" hidden>
+  <div class="mu-bar">
+    <input id="mu-search" type="text" placeholder="Search songs, artists..." autocomplete="off">
+    <button id="mu-close" class="mu-close" aria-label="Close">✕</button>
+  </div>
+
+  <div id="mu-body" class="mu-body"></div>
+
+  <div id="mu-player" class="mu-player" hidden>
+    <div id="mu-embedbox"></div>
+    <div class="mu-prog">
+      <button id="mu-toggle" class="mu-tog" aria-label="Play or pause">▶</button>
+      <span id="mu-cur">0:00</span>
+      <input id="mu-seek" type="range" min="0" max="100" value="0" step="0.1">
+      <span id="mu-dur">0:00</span>
+    </div>
+  </div>
+
+  <div class="mu-linkbar">
+    <input id="mu-link" type="text" placeholder="Paste a Spotify link to play it" autocomplete="off">
+    <button id="mu-link-go" class="mu-go">Play</button>
+  </div>
+  <div id="mu-embed" class="mu-embed" hidden>
+    <iframe id="mu-frame" allow="autoplay; encrypted-media; clipboard-write; fullscreen" loading="lazy"></iframe>
+  </div>
+
+  <div id="mu-body" class="mu-body"></div>
+</div>
+
+<script>
+  const blobs = document.querySelectorAll(".blob");
+
+  const settings = [
+    { speed: 0.05, ox: -40, oy: -30 },
+    { speed: 0.03, ox:  40, oy: -30 },
+    { speed: 0.04, ox:   0, oy:  40 },
+    { speed: 0.02, ox: -50, oy:  30 },
+    { speed: 0.06, ox:  50, oy:  15 }
+  ];
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+
+  const state = Array.from(blobs).map((el, i) => ({ el, x: mouseX, y: mouseY, ...settings[i] }));
+
+  window.addEventListener("pointermove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function animate() {
+    state.forEach((b) => {
+      b.x += (mouseX + b.ox - b.x) * b.speed;
+      b.y += (mouseY + b.oy - b.y) * b.speed;
+      const half = b.el.offsetWidth / 2;
+      b.el.style.transform = `translate(${b.x - half}px, ${b.y - half}px)`;
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+</script>
+
+<script>
+  const messages = [
+    "Don't worry, you can be free here",
+    "Infinite possibilities start here",
+    "Fun fact: Glossom isn't even a real word, we just mixed the words 'blossom' and 'gloss'",
+    "I don't think anyone even reads these, they just come for the games, that's it.",
+    "Freedom lives here, so take your time",
+    "Some people might think these messages are cringe, I just put them because any other link pretty much has them too",
+    "I have VS code on my chromebook, so don't be surprised if you see me making a website in the middle of class :/",
+    "I'm gonna try to make 3 more links after this one, I have many more planned",
+    "67 67 67 67",
+    "I've ran out of messages to put here",
+    "You're not just here for the games, right?",
+    "Please read these so I feel like I actually have a reason to make messages",
+    "Be free",
+    "PLEASE DON'T GET THIS LINK BLOCKED BRU IM GONNA CRASH IF IT DOES",
+    "Do the 67 form"
+  ];
+
+  const message = document.getElementById("message");
   let last = Math.floor(Math.random() * messages.length);
-
   message.textContent = messages[last];
 
   function changeMessage() {
@@ -1004,148 +791,120 @@ background: rgba(15, 15, 15, 0.85);
     } while (i === last && messages.length > 1);
     last = i;
 
-    const out = message.animate(
-      [{ opacity: 1 }, { opacity: 0 }],
-      { duration: 500, fill: "forwards" }
-    );
-
+    const out = message.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, fill: "forwards" });
     out.onfinish = () => {
       message.textContent = messages[i];
-
-      message.animate(
-        [{ opacity: 0 }, { opacity: 1 }],
-        { duration: 800, easing: "ease", fill: "forwards" }
-      );
+      message.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 800, easing: "ease", fill: "forwards" });
     };
   }
-
   setInterval(changeMessage, 4000);
 </script>
 
-        <script>
-const timeEl = document.getElementById("clock-time");
-const zoneEl = document.getElementById("clock-zone");
-const iconLeft = document.getElementById("icon-left");
-const iconRight = document.getElementById("icon-right");
+<script>
+  const timeEl = document.getElementById("clock-time");
+  const zoneEl = document.getElementById("clock-zone");
+  const iconLeft = document.getElementById("icon-left");
+  const iconRight = document.getElementById("icon-right");
 
-const tzBtn = document.getElementById("tz-btn");
-const tzPanel = document.getElementById("tz-panel");
-const tzSearch = document.getElementById("tz-search");
-const tzList = document.getElementById("tz-list");
+  const tzBtn = document.getElementById("tz-btn");
+  const tzPanel = document.getElementById("tz-panel");
+  const tzSearch = document.getElementById("tz-search");
+  const tzList = document.getElementById("tz-list");
 
-const allZones = Intl.supportedValuesOf
-  ? Intl.supportedValuesOf("timeZone")
-  : ["America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles",
-     "Europe/London", "Europe/Paris", "Asia/Tokyo", "Australia/Sydney"];
+  const allZones = Intl.supportedValuesOf
+    ? Intl.supportedValuesOf("timeZone")
+    : ["America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles",
+       "Europe/London", "Europe/Paris", "Asia/Tokyo", "Australia/Sydney"];
 
-let tz = "";
-try { tz = localStorage.getItem("tz") || ""; } catch (e) {}
-if (!tz) tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "America/Chicago";
-try { new Intl.DateTimeFormat("en-US", { timeZone: tz }); } catch (e) { tz = "America/Chicago"; }
+  let tz = "";
+  try { tz = localStorage.getItem("tz") || ""; } catch (e) {}
+  if (!tz) tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "America/Chicago";
+  try { new Intl.DateTimeFormat("en-US", { timeZone: tz }); } catch (e) { tz = "America/Chicago"; }
 
-let currentIcon = "";
+  let currentIcon = "";
 
-function updateClock() {
-  const now = new Date();
+  function updateClock() {
+    const now = new Date();
 
-  timeEl.textContent = now.toLocaleTimeString("en-US", {
-    timeZone: tz,
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit"
-  });
-
-  zoneEl.textContent = now
-    .toLocaleTimeString("en-US", { timeZone: tz, timeZoneName: "short" })
-    .split(" ")
-    .pop();
-
-  const hour = Number(
-    new Intl.DateTimeFormat("en-US", {
-      timeZone: tz,
-      hour: "numeric",
-      hourCycle: "h23"
-    }).format(now)
-  );
-
-  const icon = hour >= 7 && hour < 19 ? "sun" : "moon";
-
-  if (icon !== currentIcon) {
-    currentIcon = icon;
-    const symbol = icon === "sun" ? "☀️" : "🌙";
-    iconLeft.innerHTML = symbol;
-    iconRight.innerHTML = symbol;
-  }
-}
-
-function renderList(filter = "") {
-  const q = filter.trim().toLowerCase().replace(/ /g, "_");
-  tzList.innerHTML = "";
-
-  allZones
-    .filter((z) => z.toLowerCase().includes(q))
-    .forEach((z) => {
-      const item = document.createElement("div");
-      item.className = "tz-item" + (z === tz ? " active" : "");
-      item.textContent = z.replace(/_/g, " ");
-      item.addEventListener("click", () => {
-        tz = z;
-        try { localStorage.setItem("tz", z); } catch (e) {}
-        currentIcon = "";
-        updateClock();
-        closePanel();
-      });
-      tzList.appendChild(item);
+    timeEl.textContent = now.toLocaleTimeString("en-US", {
+      timeZone: tz, hour: "numeric", minute: "2-digit", second: "2-digit"
     });
-}
 
-function openPanel() {
-  tzSearch.value = "";
-  renderList();
-  tzPanel.hidden = false;
-  const active = tzList.querySelector(".active");
-  if (active) active.scrollIntoView({ block: "center" });
-  tzSearch.focus();
-}
+    zoneEl.textContent = now
+      .toLocaleTimeString("en-US", { timeZone: tz, timeZoneName: "short" })
+      .split(" ")
+      .pop();
 
-function closePanel() {
-  tzPanel.hidden = true;
-}
+    const hour = Number(
+      new Intl.DateTimeFormat("en-US", { timeZone: tz, hour: "numeric", hourCycle: "h23" }).format(now)
+    );
 
-tzBtn.addEventListener("click", () => {
-  tzPanel.hidden ? openPanel() : closePanel();
-});
+    const icon = hour >= 7 && hour < 19 ? "sun" : "moon";
+    if (icon !== currentIcon) {
+      currentIcon = icon;
+      const symbol = icon === "sun" ? "☀️" : "🌙";
+      iconLeft.innerHTML = symbol;
+      iconRight.innerHTML = symbol;
+    }
+  }
 
-tzSearch.addEventListener("input", () => renderList(tzSearch.value));
+  function renderList(filter = "") {
+    const q = filter.trim().toLowerCase().replace(/ /g, "_");
+    tzList.innerHTML = "";
 
-document.addEventListener("pointerdown", (e) => {
-  if (!tzPanel.hidden && !tzPanel.contains(e.target) && !tzBtn.contains(e.target)) closePanel();
-});
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closePanel();
-});
+    allZones
+      .filter((z) => z.toLowerCase().includes(q))
+      .forEach((z) => {
+        const item = document.createElement("div");
+        item.className = "tz-item" + (z === tz ? " active" : "");
+        item.textContent = z.replace(/_/g, " ");
+        item.addEventListener("click", () => {
+          tz = z;
+          try { localStorage.setItem("tz", z); } catch (e) {}
+          currentIcon = "";
+          updateClock();
+          closePanel();
+        });
+        tzList.appendChild(item);
+      });
+  }
 
-updateClock();
-setInterval(updateClock, 1000);
-          </script>
+  function openPanel() {
+    tzSearch.value = "";
+    renderList();
+    tzPanel.hidden = false;
+    const active = tzList.querySelector(".active");
+    if (active) active.scrollIntoView({ block: "center" });
+    tzSearch.focus();
+  }
+
+  function closePanel() { tzPanel.hidden = true; }
+
+  tzBtn.addEventListener("click", () => { tzPanel.hidden ? openPanel() : closePanel(); });
+  tzSearch.addEventListener("input", () => renderList(tzSearch.value));
+
+  document.addEventListener("pointerdown", (e) => {
+    if (!tzPanel.hidden && !tzPanel.contains(e.target) && !tzBtn.contains(e.target)) closePanel();
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePanel(); });
+
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
 
 <script>
   const backgrounds = [
-    "default",  
+    "default",
     "images/hollywoodsunset.jpg",
     "images/vegasnight.jpg",
     "images/newbeginning.jpg"
   ];
 
-
-  const layers = [
-    document.getElementById("bg-a"),
-    document.getElementById("bg-b")
-  ];
+  const layers = [document.getElementById("bg-a"), document.getElementById("bg-b")];
   const bgBtn = document.getElementById("bg-btn");
 
-  let front = 0;     
-  let current = 0;    
+  let front = 0;
+  let current = 0;
   let busy = false;
 
   function paint(el, bg) {
@@ -1161,9 +920,7 @@ setInterval(updateClock, 1000);
   paint(layers[0], "default");
   layers[0].style.opacity = 1;
 
-  backgrounds.forEach((bg) => {
-    if (bg !== "default") new Image().src = bg;
-  });
+  backgrounds.forEach((bg) => { if (bg !== "default") new Image().src = bg; });
 
   function crossfadeTo(bg) {
     const incoming = layers[1 - front];
@@ -1175,133 +932,123 @@ setInterval(updateClock, 1000);
 
     incoming.style.transition = "none";
     incoming.style.opacity = 0;
-    void incoming.offsetWidth;          
+    void incoming.offsetWidth;
     incoming.style.transition = "";
     incoming.style.opacity = 1;
 
     front = 1 - front;
   }
 
+  const names = {
+    "default": "Default BG",
+    "images/hollywoodsunset.jpg": "Sunset in the Depth of Hollywood",
+    "images/vegasnight.jpg": "The Vegas Night Shine",
+    "images/newbeginning.jpg": "Start of a New Beginning"
+  };
+
+  const toast = document.getElementById("bg-toast");
+
+  function showToast(bg) {
+    toast.textContent = names[bg] || bg;
+    toast.classList.remove("show");
+    void toast.offsetWidth;
+    toast.classList.add("show");
+  }
+
   bgBtn.addEventListener("click", () => {
     if (busy) return;
     busy = true;
 
-    const next = (current + 1) % backgrounds.length;
-    current = next;
-
-    crossfadeTo(backgrounds[next]);
-    showToast(backgrounds[next]);
+    current = (current + 1) % backgrounds.length;
+    crossfadeTo(backgrounds[current]);
+    showToast(backgrounds[current]);
     setTimeout(() => { busy = false; }, 650);
   });
-
-  const names = {
-  "default": "Default BG",
-  "images/hollywoodsunset.jpg": "Sunset in the Depth of Hollywood",
-  "images/vegasnight.jpg": "The Vegas Night Shine",
-  "images/newbeginning.jpg": "Start of a New Beginning",
-};
-
-const toast = document.getElementById("bg-toast");
-
-function showToast(bg) {
-  toast.textContent = names[bg] || bg;
-  toast.classList.remove("show");
-  void toast.offsetWidth;          
-  toast.classList.add("show");
-}
-
-  
-setTimeout(() => { busy = false; }, 650);
-
 </script>
 
 <script>
-function wavyPath(waves, amp, r) {
-  let d = "";
-  const steps = 120;
-  for (let i = 0; i <= steps; i++) {
-    const t = (i / steps) * Math.PI * 2;
-    const rad = r + amp * Math.sin(waves * t);
-    d += (i ? "L" : "M") + (rad * Math.cos(t)).toFixed(2) + " " + (rad * Math.sin(t)).toFixed(2) + " ";
+  function wavyPath(waves, amp, r) {
+    let d = "";
+    const steps = 120;
+    for (let i = 0; i <= steps; i++) {
+      const t = (i / steps) * Math.PI * 2;
+      const rad = r + amp * Math.sin(waves * t);
+      d += (i ? "L" : "M") + (rad * Math.cos(t)).toFixed(2) + " " + (rad * Math.sin(t)).toFixed(2) + " ";
+    }
+    return d + "Z";
   }
-  return d + "Z";
-}
 
-function makeWavyRing({ parent, x, y, size, delay, waves, color, blue }) {
-  const NS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", "-100 -100 200 200");
-  svg.setAttribute("class", "wave-ring" + (blue ? " blue" : ""));
-  svg.style.width = size + "px";
-  svg.style.height = size + "px";
-  svg.style.left = x - size / 2 + "px";
-  svg.style.top = y - size / 2 + "px";
-  svg.style.opacity = 0;
+  function makeWavyRing({ parent, x, y, size, delay, waves, color, blue }) {
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", "-100 -100 200 200");
+    svg.setAttribute("class", "wave-ring" + (blue ? " blue" : ""));
+    svg.style.width = size + "px";
+    svg.style.height = size + "px";
+    svg.style.left = x - size / 2 + "px";
+    svg.style.top = y - size / 2 + "px";
+    svg.style.opacity = 0;
 
-  const path = document.createElementNS(NS, "path");
-  path.setAttribute("d", wavyPath(waves, 5, 90));
-  path.setAttribute("fill", "none");
-  path.setAttribute("stroke", color);
-  path.setAttribute("stroke-width", "100");
-  path.setAttribute("vector-effect", "non-scaling-stroke");
-  svg.appendChild(path);
-  parent.appendChild(svg);
+    const path = document.createElementNS(NS, "path");
+    path.setAttribute("d", wavyPath(waves, 5, 90));
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", color);
+    path.setAttribute("stroke-width", "100");
+    path.setAttribute("vector-effect", "non-scaling-stroke");
+    svg.appendChild(path);
+    parent.appendChild(svg);
 
-  const anim = svg.animate(
-    [
-      { transform: "scale(0) rotate(0deg)",  opacity: 1 },
-      { transform: "scale(1) rotate(50deg)", opacity: 0 }
-    ],
-    { duration: 1200, delay, easing: "ease-out", fill: "forwards" }
-  );
-  anim.onfinish = () => svg.remove();
-}
+    const anim = svg.animate(
+      [
+        { transform: "scale(0) rotate(0deg)", opacity: 1 },
+        { transform: "scale(1) rotate(50deg)", opacity: 0 }
+      ],
+      { duration: 1200, delay, easing: "ease-out", fill: "forwards" }
+    );
+    anim.onfinish = () => svg.remove();
+  }
 
-document.addEventListener("pointerdown", (e) => {
-  if (e.target.closest("button")) return;
+  document.addEventListener("pointerdown", (e) => {
+    if (e.target.closest("button")) return;
 
-  [[100, 8], [100, 10], [100, 12]].forEach(([size, waves], i) => {
-    makeWavyRing({
-      parent: document.body,
-      x: e.clientX,
-      y: e.clientY,
-      size,
-      delay: i * 120,
-      waves,
-      color: "rgba(200, 160, 255, 0.9)"
+    [[100, 8], [100, 10], [100, 12]].forEach(([size, waves], i) => {
+      makeWavyRing({
+        parent: document.body,
+        x: e.clientX,
+        y: e.clientY,
+        size,
+        delay: i * 120,
+        waves,
+        color: "rgba(200, 160, 255, 0.9)"
+      });
     });
   });
-});
 
-document.addEventListener("pointerdown", (e) => {
-  const btn = e.target.closest("button");
-  if (!btn) return;
+  document.addEventListener("pointerdown", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
 
-  const rect = btn.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  const base = Math.max(rect.width, rect.height);
-  const sizes = [175, 175, 175];
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-  sizes.forEach((size, i) => {
-    const ring = document.createElement("span");
-    ring.className = "btn-ripple";
-    ring.style.left = x + "px";
-    ring.style.top = y + "px";
-    btn.appendChild(ring);
+    [175, 175, 175].forEach((size, i) => {
+      const ring = document.createElement("span");
+      ring.className = "btn-ripple";
+      ring.style.left = x + "px";
+      ring.style.top = y + "px";
+      btn.appendChild(ring);
 
-    const anim = ring.animate(
-  [
-    { width: "0px", height: "0px", opacity: 1 },
-    { width: size + "px", height: size + "px", opacity: 0 }
-  ],
-  { duration: 1200, delay: i * 120, easing: "ease-out", fill: "forwards" }
-);
-anim.onfinish = () => ring.remove();  
-});                                   
-});                 
-
-
+      const anim = ring.animate(
+        [
+          { width: "0px", height: "0px", opacity: 1 },
+          { width: size + "px", height: size + "px", opacity: 0 }
+        ],
+        { duration: 1200, delay: i * 120, easing: "ease-out", fill: "forwards" }
+      );
+      anim.onfinish = () => ring.remove();
+    });
+  });
 </script>
 
 <script>
@@ -1329,12 +1076,8 @@ anim.onfinish = () => ring.remove();
        "Europe/London", "Europe/Paris", "Asia/Tokyo", "Australia/Sydney"];
 
   function zoneInfo(z, now) {
-    const time = now.toLocaleTimeString("en-US", {
-      timeZone: z, hour: "numeric", minute: "2-digit"
-    });
-    const parts = new Intl.DateTimeFormat("en-US", {
-      timeZone: z, timeZoneName: "shortOffset"
-    }).formatToParts(now);
+    const time = now.toLocaleTimeString("en-US", { timeZone: z, hour: "numeric", minute: "2-digit" });
+    const parts = new Intl.DateTimeFormat("en-US", { timeZone: z, timeZoneName: "shortOffset" }).formatToParts(now);
     const offset = (parts.find((p) => p.type === "timeZoneName") || {}).value || "";
     return { time, offset };
   }
@@ -1350,10 +1093,7 @@ anim.onfinish = () => ring.remove();
       const [cont, ...rest] = z.split("/");
       const contLabel = (continentNames[cont] || cont).toLowerCase();
       if (raw && !z.toLowerCase().includes(q) && !contLabel.includes(raw)) return;
-      (groups[cont] = groups[cont] || []).push({
-        z,
-        city: rest.join(" / ").replace(/_/g, " ")
-      });
+      (groups[cont] = groups[cont] || []).push({ z, city: rest.join(" / ").replace(/_/g, " ") });
     });
 
     infoList.innerHTML = "";
@@ -1394,49 +1134,33 @@ anim.onfinish = () => ring.remove();
   }
 
   function openInfo() {
-    document.getElementById("tz-panel").hidden = true;  
+    document.getElementById("tz-panel").hidden = true;
     infoSearch.value = "";
     renderInfo();
     infoPanel.hidden = false;
     infoSearch.focus();
   }
 
-  function closeInfo() {
-    infoPanel.hidden = true;
-  }
+  function closeInfo() { infoPanel.hidden = true; }
 
-  infoBtn.addEventListener("click", () => {
-    infoPanel.hidden ? openInfo() : closeInfo();
-  });
-
+  infoBtn.addEventListener("click", () => { infoPanel.hidden ? openInfo() : closeInfo(); });
   infoSearch.addEventListener("input", () => renderInfo(infoSearch.value));
 
   document.addEventListener("pointerdown", (e) => {
     if (!infoPanel.hidden && !infoPanel.contains(e.target) && !infoBtn.contains(e.target)) closeInfo();
   });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeInfo();
-  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeInfo(); });
 </script>
 
 <script>
   const note = document.getElementById("note");
 
-  function closeNote() {
-    note.hidden = true;
-  }
+  function closeNote() { note.hidden = true; }
 
   document.getElementById("note-close").addEventListener("click", closeNote);
   document.getElementById("note-x").addEventListener("click", closeNote);
-
-  note.addEventListener("pointerdown", (e) => {
-    if (e.target === note) closeNote();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeNote();
-  });
+  note.addEventListener("pointerdown", (e) => { if (e.target === note) closeNote(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeNote(); });
 </script>
 
 <script>
@@ -1449,14 +1173,8 @@ anim.onfinish = () => ring.remove();
   logBtn.addEventListener("click", openLog);
   document.getElementById("log-close").addEventListener("click", closeLog);
   document.getElementById("log-x").addEventListener("click", closeLog);
-
-  logPanel.addEventListener("pointerdown", (e) => {
-    if (e.target === logPanel) closeLog();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeLog();
-  });
+  logPanel.addEventListener("pointerdown", (e) => { if (e.target === logPanel) closeLog(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLog(); });
 </script>
 
 <script>
@@ -1544,70 +1262,671 @@ anim.onfinish = () => ring.remove();
   });
 </script>
 
-<section class="proxy-container">
-  <h2>School Web Portal</h2>
-  <p>Enter a website address to open it in a new tab.</p>
-
-  <form id="searchForm">
-    <input
-      type="url"
-      id="website"
-      placeholder="https://example.com"
-      required
-    >
-    <button type="submit">Go</button>
-  </form>
-
-  <p id="portalMessage" aria-live="polite"></p>
-
-  <div class="website-links">
-    <a href="https://www.khanacademy.org/"
-       target="_blank" rel="noopener noreferrer">
-      Khan Academy
-    </a>
-
-    <a href="https://www.wikipedia.org/"
-       target="_blank" rel="noopener noreferrer">
-      Wikipedia
-    </a>
-
-    <a href="https://www.nasa.gov/"
-       target="_blank" rel="noopener noreferrer">
-      NASA
-    </a>
-  </div>
-</section>
-
 <script>
+  const portalForm = document.getElementById("searchForm");
 
-const portalForm = document.getElementById("searchForm");
+  if (portalForm) {
+    portalForm.addEventListener("submit", function (event) {
+      event.preventDefault();
 
-if (portalForm) {
-  portalForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+      const input = document.getElementById("website");
+      const msg = document.getElementById("portalMessage");
+      const address = input.value.trim();
 
-    const input = document.getElementById("website");
-    const message = document.getElementById("portalMessage");
-    const address = input.value.trim();
-
-    try {
-      const url = new URL(address);
-
-      if (url.protocol !== "https:" && url.protocol !== "http:") {
-        throw new Error("Invalid website address");
+      try {
+        const url = new URL(address);
+        if (url.protocol !== "https:" && url.protocol !== "http:") {
+          throw new Error("Invalid website address");
+        }
+        msg.textContent = "Opening " + url.hostname + "...";
+        window.open(url.href, "_blank", "noopener,noreferrer");
+      } catch {
+        msg.textContent = "Please enter a valid address, such as https://example.com";
       }
+    });
+  }
+</script>
+ 
+  <!-- Music (Spotify + YouTube) -->
+<script>
+  const musicPanel = document.getElementById("music");
+  const musicBtn = document.getElementById("music-btn");
+  const muBody = document.getElementById("mu-body");
+  const muSearch = document.getElementById("mu-search");
+  const muPlayer = document.getElementById("mu-player");
+  const muPFrame = document.getElementById("mu-pframe");
 
-      message.textContent = "Opening " + url.hostname + "...";
+  // Paste Spotify and/or YouTube links between the backticks, one per line.
+  // "cards" = big covers with arrows, "list" = small rows.
+  const musicSections = [
+    {
+      title: "Popular Songs",
+      style: "cards",
+      links: `
+      https://open.spotify.com/track/2FdzIRCqzjhdxP5W99FSvS
+https://open.spotify.com/track/4k6Uh1HXdhtusDW5y8Gbvy
+https://open.spotify.com/track/3EaJDYHA0KnX88JvDhL9oa
+https://open.spotify.com/track/2x8evxqUlF0eRabbW2JBJd
+https://open.spotify.com/track/2aaCNg42RA74s0EmHTBqS7
+https://open.spotify.com/track/71koAFCnGnugRdGIDfS7f4
+https://open.spotify.com/track/6BJHsLiE47Sk0wQkuppqhr
+https://open.spotify.com/track/3qhlB30KknSejmIvZZLjOD
+https://open.spotify.com/track/6jbYpRPTEFl1HFKHk1IC0m
+https://open.spotify.com/track/3SAga35lAPYdjj3qyfEsCF
+https://open.spotify.com/track/5F6ekGcdu623mkhTVgk64Z
+https://open.spotify.com/track/5rc7178sa2YRDlBFBHY0e8
+https://open.spotify.com/track/0hta2Lb2zKJ7kEnAEZEE3G
+https://open.spotify.com/track/6RiiSy9GzSwiyDEJDiMuKe
+https://open.spotify.com/track/6FfLg6FFqhCsrFOaHIGkg0
+https://open.spotify.com/track/1ucnuV88gFTfR3BalmznDk
+https://open.spotify.com/track/69uxyAqqPIsUyTO8txoP2M
+https://open.spotify.com/track/63Pi2NAx5yCgeLhCTOrEou
+https://open.spotify.com/track/0COqiPhxzoWICwFCS4eZcp
+https://open.spotify.com/track/5GorCbAP4aL0EJ16frG2hd
+https://open.spotify.com/track/7w87IxuO7BDcJ3YUqCyMTT
+https://open.spotify.com/track/4Hff1IjRbLGeLgFgxvHflk
+https://open.spotify.com/track/3GfOAdcoc3X5GPiiXmpBjK
+https://open.spotify.com/track/6L89mwZXSOwYl76YXfX13s
+https://open.spotify.com/track/1mea3bSkSGXuIRvnydlB5b
+https://open.spotify.com/track/0cQVqPuHQP4KEwc7ZUQmj6
+https://open.spotify.com/track/5ruzrDWcT0vuJIOMW7gMnW
+https://open.spotify.com/track/2pKi1lRvXNASy7ybeQIDTy
+https://open.spotify.com/track/1QEEqeFIZktqIpPI4jSVSF
+https://open.spotify.com/track/6otiaV2fagE3s8IvP6WkwG
+https://open.spotify.com/track/6qL5UWxRSQYml9O99ozoLv
+https://open.spotify.com/track/5L5kqujbTEmL9wYq28KUAm
+https://open.spotify.com/track/7h2nmmoWDi2UpfYKLKWLYB
+https://open.spotify.com/track/1jJci4qxiYcOHhQR247rEU
+https://open.spotify.com/track/42qNWdLKCI41S4uzfamhFM
+https://open.spotify.com/track/1xaTREM89RbIxkcjlpf4Uw
+https://open.spotify.com/track/6LUGvXEAK8WxIBYK43uoTb
+https://open.spotify.com/track/6dBUzqjtbnIa1TwYbyw5CM
+https://open.spotify.com/track/5773KSWFzg9kCc8yazjbSt
+https://open.spotify.com/track/0yOf4dgkVq8jbB2zxVK8Zj
+https://open.spotify.com/track/6K4t31amVTZDgR3sKmwUJJ
+https://open.spotify.com/track/39shmbIHICJ2Wxnk1fPSdz
+https://open.spotify.com/track/3QntMmPocNqnLoUGbVG5Jp
+https://open.spotify.com/track/27rZYxE4l21wTaovX4WTnI
+https://open.spotify.com/track/2R4AlwtrrkMaRKojcTIzmL
+https://open.spotify.com/track/0UV5zxRMz6AO4ZwUOZNIKI
+https://open.spotify.com/track/0j3mqDTK4Z6lvrLzFCUUz6
+https://open.spotify.com/track/10nyNJ6zNy2YVYLrcwLccB
+https://open.spotify.com/track/2AYEOC02WLhUiOoaig2SEH
+https://open.spotify.com/track/7H7NyZ3G075GqPx2evsfeb
+https://open.spotify.com/track/3jfZ9M23l0L7RxzYMTgBTv
+https://open.spotify.com/track/75IQVo8hqI1iwVZyvkN2VT
+https://open.spotify.com/track/3VIJBrMpvimHEw5wtPh2wB
+https://open.spotify.com/track/7EkWXAI1wn8Ii883ecd9xr
+https://open.spotify.com/track/3HlK8txWAdtKMrbsqX40pl
+https://open.spotify.com/track/3VCXx37jNGNOMns6z2OnvJ
+https://open.spotify.com/track/2fhOljbX79loRcdl47SFye
+https://open.spotify.com/track/7MlDNspYwfqnHxORufupwq
+https://open.spotify.com/track/5TxRUOsGeWeRl3xOML59Ai
+https://open.spotify.com/track/0bhwnn2xqnBUcMZDcXNuII
+https://open.spotify.com/track/3IznIgmXtrUaoPWpQTy5jB
+https://open.spotify.com/track/1KIJclzEbNhSVw8tiHPWwE
+https://open.spotify.com/track/00RLNHc2jkEjUoCUlFgPVT
+https://open.spotify.com/track/2fuYa3Lx06QQJAm0MjztKr
+https://open.spotify.com/track/2vWBUC9djv6BtiGlmKiQaH
+https://open.spotify.com/track/51Grh1RyUDcMBbpuyUIUHI
+https://open.spotify.com/track/41P6Tnd8KIHqON0QIydx6a
+https://open.spotify.com/track/2Y0iGXY6m6immVb2ktbseM
+https://open.spotify.com/track/27g0ztD0kKcDJRrIFDl8q8
+https://open.spotify.com/track/0NdTUS4UiNYCNn5FgVqKQY
+https://open.spotify.com/track/0y60itmpH0aPKsFiGxmtnh
+https://open.spotify.com/track/70LcF31zb1H0PyJoS1Sx1r
+https://open.spotify.com/track/11iIikXxC6NP0Ma8vMD27x
+https://open.spotify.com/track/6IZvVAP7VPPnsGX6bvgkqg
+https://open.spotify.com/track/0NkkbKSzQ50mAoSUbQpgLw
+https://open.spotify.com/track/0d28khcov6AiegSCpG5TuT
+https://open.spotify.com/track/0z1o5L7HJx562xZSATcIpY
+https://open.spotify.com/track/7s5VQqrjBtrBgZL4pEa46S
+https://open.spotify.com/track/7DVhr2t5x2GLwhU3yFS3p1
+https://open.spotify.com/track/4OmfWzukSVD140NiAIEjem
+https://open.spotify.com/track/6jgkEbmQ2F2onEqsEhiliL
+https://open.spotify.com/track/37l31PrCNsg8baUjarNAi9
+https://open.spotify.com/track/6GJdFTOm23lC5bqjYSMJTj
+https://open.spotify.com/track/05ajrG3EAcIe3j7NuqRV9B
+https://open.spotify.com/track/16gJmoOqRt2lKmlXtDpWgH
+https://open.spotify.com/track/06CUyVD4i6YQ8X9dXC7mI6
+https://open.spotify.com/track/0TZejo18HlJ86OrWNsXKnw
+https://open.spotify.com/track/7lOvJBqH38ZY59eLU7bioq
+https://open.spotify.com/track/0f8eRy9A0n6zXpKSHSCAEp
+https://open.spotify.com/track/180AbZduI6bYQIzwCHRwu9
+https://open.spotify.com/track/59c2xv2kMzYM6HR9oY6BIa
+https://open.spotify.com/track/3vkCueOmm7xQDoJ17W1Pm3
+https://open.spotify.com/track/0TFTAtCYhp2tQ9KcJIZb55
+      `
+    },
+    {
+      title: "Full Songs (YouTube)",
+      style: "cards",
+      links: `
 
-      window.open(url.href, "_blank", "noopener,noreferrer");
-    } catch {
-      message.textContent =
-        "Please enter a valid address, such as https://example.com";
+      `
+    },
+    {
+      title: "New Tracks",
+      style: "list",
+      links: `
+
+      `
+    },
+    {
+      title: "Hip-Hop",
+      style: "cards",
+      links: `
+
+      `
+    }
+  ];
+
+  const typeLabel = { track: "Song", album: "Album", playlist: "Playlist", artist: "Artist", episode: "Episode" };
+
+  const linkRe = /open\.spotify\.com\/(?:intl-[a-z]+\/)?(track|album|playlist|artist|episode)\/([A-Za-z0-9]+)|youtu\.be\/([\w-]{11})|youtube\.com\/(?:watch\?(?:[^\s]*?&)?v=|shorts\/|embed\/)([\w-]{11})/g;
+
+  function parseLinks(text) {
+    return [...text.matchAll(linkRe)].map((m) => {
+      if (m[1]) {
+        return {
+          type: m[1],
+          url: "https://open.spotify.com/" + m[1] + "/" + m[2],
+          embed: "https://open.spotify.com/embed/" + m[1] + "/" + m[2],
+          title: typeLabel[m[1]],
+          artist: typeLabel[m[1]],
+          thumb: null
+        };
+      }
+      const id = m[3] || m[4];
+      return {
+        type: "youtube",
+        url: "https://www.youtube.com/watch?v=" + id,
+        embed: "https://www.youtube.com/embed/" + id + "?autoplay=1&rel=0",
+        title: "Song",
+        artist: "YouTube",
+        thumb: "https://i.ytimg.com/vi/" + id + "/mqdefault.jpg"
+      };
+    });
+  }
+
+  async function fetchJson(u) {
+    const r = await fetch(u);
+    if (!r.ok) throw new Error("bad response");
+    return r.json();
+  }
+
+  // Turns a YouTube title like "Artist - Song (Official Video)" into artist + title
+  function tidyYouTube(song, rawTitle, author) {
+    let title = (rawTitle || "")
+      .replace(/\s*[\(\[][^\)\]]*(official|video|audio|lyric|visuali[sz]er|hd|4k|mv)[^\)\]]*[\)\]]/gi, "")
+      .trim();
+    let artist = (author || "").replace(/\s*-\s*Topic$/i, "").replace(/VEVO$/i, "").trim();
+    const i = title.indexOf(" - ");
+    if (i > 0) {
+      artist = title.slice(0, i).trim();
+      title = title.slice(i + 3).trim();
+    }
+    song.title = title || "Song";
+    song.artist = artist || "YouTube";
+  }
+
+  const metaCache = {};
+  async function loadMeta(song) {
+    if (!metaCache[song.url]) {
+      metaCache[song.url] = (async () => {
+        const q = encodeURIComponent(song.url);
+        try {
+          if (song.type === "youtube") {
+            let d;
+            try { d = await fetchJson("https://www.youtube.com/oembed?format=json&url=" + q); }
+            catch (e) { d = await fetchJson("https://noembed.com/embed?url=" + q); }
+            return { title: d.title, author: d.author_name };
+          }
+          const d = await fetchJson("https://open.spotify.com/oembed?url=" + q);
+          return { title: d.title, thumb: d.thumbnail_url };
+        } catch (e) {
+          return {};
+        }
+      })();
+    }
+    const meta = await metaCache[song.url];
+    if (!meta.title) return;
+    if (song.type === "youtube") tidyYouTube(song, meta.title, meta.author);
+    else {
+      song.title = meta.title;
+      if (meta.thumb) song.thumb = meta.thumb;
+    }
+  }
+
+  function playSong(song) {
+    muPFrame.src = song.embed;
+    muPFrame.style.height =
+      song.type === "youtube" ? "260px" :
+      song.type === "track" || song.type === "episode" ? "152px" : "352px";
+    muPlayer.hidden = false;
+  }
+
+    const muEmbedBox = document.getElementById("mu-embedbox");
+  const muToggle = document.getElementById("mu-toggle");
+  const muSeek = document.getElementById("mu-seek");
+  const muCur = document.getElementById("mu-cur");
+  const muDur = document.getElementById("mu-dur");
+
+  let spController = null;
+  let ytPlayer = null;
+  let ytTimer = null;
+  let spApi = null;
+  let ytApi = null;
+  let activeKind = null;
+  let dragging = false;
+  let curDuration = 0;
+  let playToken = 0;
+
+  function fmt(s) {
+    if (!isFinite(s) || s < 0) s = 0;
+    const m = Math.floor(s / 60);
+    const r = Math.floor(s % 60);
+    return m + ":" + (r < 10 ? "0" : "") + r;
+  }
+
+  function showProgress(cur, dur, paused) {
+    curDuration = dur || 0;
+    muCur.textContent = fmt(cur);
+    muDur.textContent = fmt(dur);
+    if (!dragging && dur) muSeek.value = (cur / dur) * 100;
+    muToggle.textContent = paused ? "▶" : "❚❚";
+  }
+
+  function loadSpotifyApi() {
+    if (!spApi) {
+      spApi = new Promise((resolve) => {
+        window.onSpotifyIframeApiReady = (api) => resolve(api);
+        const s = document.createElement("script");
+        s.src = "https://open.spotify.com/embed/iframe-api/v1";
+        s.async = true;
+        document.body.appendChild(s);
+      });
+    }
+    return spApi;
+  }
+
+  function loadYouTubeApi() {
+    if (!ytApi) {
+      ytApi = new Promise((resolve) => {
+        window.onYouTubeIframeAPIReady = () => resolve();
+        const s = document.createElement("script");
+        s.src = "https://www.youtube.com/iframe_api";
+        document.body.appendChild(s);
+      });
+    }
+    return ytApi;
+  }
+
+  async function playSpotify(song, token) {
+    const api = await loadSpotifyApi();
+    if (token !== playToken) return;
+    const mount = document.createElement("div");
+    muEmbedBox.appendChild(mount);
+    const id = song.url.split("/").pop();
+    const height = song.type === "track" || song.type === "episode" ? 152 : 352;
+
+    api.createController(
+      mount,
+      { uri: "spotify:" + song.type + ":" + id, width: "100%", height },
+      (c) => {
+        if (token !== playToken) { try { c.destroy(); } catch (e) {} return; }
+        spController = c;
+        c.addListener("playback_update", (e) => {
+          const d = e.data;
+          if (d) showProgress(d.position / 1000, d.duration / 1000, d.isPaused);
+        });
+        c.play();
+      }
+    );
+  }
+
+  async function playYouTube(song, token) {
+    await loadYouTubeApi();
+    if (token !== playToken) return;
+    const mount = document.createElement("div");
+    muEmbedBox.appendChild(mount);
+
+    ytPlayer = new YT.Player(mount, {
+      width: "100%",
+      height: 260,
+      videoId: song.url.split("v=")[1],
+      playerVars: { autoplay: 1, rel: 0 },
+      events: {
+        onReady: (e) => {
+          e.target.playVideo();
+          clearInterval(ytTimer);
+          ytTimer = setInterval(() => {
+            if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+            showProgress(ytPlayer.getCurrentTime(), ytPlayer.getDuration(), ytPlayer.getPlayerState() !== 1);
+          }, 500);
+        }
+      }
+    });
+  }
+
+  function stopPlayer() {
+    clearInterval(ytTimer);
+    if (spController) { try { spController.destroy(); } catch (e) {} spController = null; }
+    if (ytPlayer) { try { ytPlayer.destroy(); } catch (e) {} ytPlayer = null; }
+    muEmbedBox.innerHTML = "";
+    activeKind = null;
+    muSeek.value = 0;
+    showProgress(0, 0, true);
+  }
+
+  function playSong(song) {
+    stopPlayer();
+    const token = ++playToken;
+    muPlayer.hidden = false;
+    if (song.type === "youtube") {
+      activeKind = "youtube";
+      playYouTube(song, token);
+    } else {
+      activeKind = "spotify";
+      playSpotify(song, token);
+    }
+  }
+
+  function closeMusic() {
+    musicPanel.hidden = true;
+    playToken++;
+    stopPlayer();
+    muPlayer.hidden = true;
+  }
+
+  muToggle.addEventListener("click", () => {
+    if (activeKind === "spotify" && spController) spController.togglePlay();
+    else if (activeKind === "youtube" && ytPlayer) {
+      if (ytPlayer.getPlayerState() === 1) ytPlayer.pauseVideo();
+      else ytPlayer.playVideo();
     }
   });
-}
 
+  muSeek.addEventListener("input", () => {
+    dragging = true;
+    muCur.textContent = fmt((muSeek.value / 100) * curDuration);
+  });
+
+  muSeek.addEventListener("change", () => {
+    dragging = false;
+    const t = (muSeek.value / 100) * curDuration;
+    if (activeKind === "spotify" && spController) spController.seek(t);
+    else if (activeKind === "youtube" && ytPlayer) ytPlayer.seekTo(t, true);
+  });
+
+  function makeImg(song) {
+    const img = document.createElement("img");
+    img.alt = "";
+    img.loading = "lazy";
+    if (song.thumb) img.src = song.thumb;
+    return img;
+  }
+
+  function makeCard(song) {
+    const card = document.createElement("div");
+    card.className = "mu-card";
+    const t = document.createElement("div");
+    t.className = "t";
+    t.textContent = song.title;
+    const a = document.createElement("div");
+    a.className = "a";
+    a.textContent = song.artist;
+    card.append(makeImg(song), t, a);
+    card.addEventListener("click", () => playSong(song));
+    return card;
+  }
+
+  function makeRow(song) {
+    const li = document.createElement("div");
+    li.className = "mu-li";
+    const box = document.createElement("div");
+    const t = document.createElement("div");
+    t.className = "t";
+    t.textContent = song.title;
+    const a = document.createElement("div");
+    a.className = "a";
+    a.textContent = song.artist;
+    box.append(t, a);
+    li.append(makeImg(song), box);
+    li.addEventListener("click", () => playSong(song));
+    return li;
+  }
+
+  const sections = musicSections.map((s) => ({ ...s, songs: parseLinks(s.links) }));
+  let metaLoaded = false;
+
+  function renderMusic(filter = "") {
+    muBody.innerHTML = "";
+    const q = filter.trim().toLowerCase();
+
+    sections.forEach((sec) => {
+      const songs = sec.songs.filter((s) => !q || (s.title + " " + s.artist).toLowerCase().includes(q));
+      if (!songs.length) return;
+
+      const head = document.createElement("div");
+      head.className = "mu-head";
+      const title = document.createElement("div");
+      title.className = "mu-section-title";
+      title.textContent = sec.title;
+      head.appendChild(title);
+
+      if (sec.style === "cards") {
+        const row = document.createElement("div");
+        row.className = "mu-cards";
+        songs.forEach((s) => row.appendChild(makeCard(s)));
+
+        const arrows = document.createElement("div");
+        arrows.className = "mu-arrows";
+        [["‹", -1], ["›", 1]].forEach(([label, dir]) => {
+          const b = document.createElement("button");
+          b.className = "mu-arrow";
+          b.textContent = label;
+          b.addEventListener("click", () => row.scrollBy({ left: dir * row.clientWidth * 0.8 }));
+          arrows.appendChild(b);
+        });
+        head.appendChild(arrows);
+        muBody.append(head, row);
+      } else {
+        const grid = document.createElement("div");
+        grid.className = "mu-grid";
+        songs.forEach((s) => grid.appendChild(makeRow(s)));
+        muBody.append(head, grid);
+      }
+    });
+
+    if (!muBody.children.length) {
+      muBody.innerHTML = '<div class="mu-msg">No songs found. Paste Spotify or YouTube links into musicSections in the script.</div>';
+    }
+  }
+
+  async function openMusic() {
+    musicPanel.hidden = false;
+    muSearch.value = "";
+    if (!metaLoaded) {
+      muBody.innerHTML = '<div class="mu-msg">Loading...</div>';
+      await Promise.all(sections.flatMap((s) => s.songs).map(loadMeta));
+      metaLoaded = true;
+    }
+    renderMusic();
+  }
+
+  function closeMusic() {
+    musicPanel.hidden = true;
+    muPFrame.src = "about:blank";
+    muPlayer.hidden = true;
+  }
+
+  muSearch.addEventListener("input", () => renderMusic(muSearch.value));
+  musicBtn.addEventListener("click", openMusic);
+  document.getElementById("mu-close").addEventListener("click", closeMusic);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !musicPanel.hidden) closeMusic();
+  });
+</script>
+`
+},
+    {
+      title: "New Tracks",
+      style: "list",
+      links: `
+
+      `
+    },
+    {
+      title: "Hip-Hop",
+      style: "cards",
+      links: `
+
+      `
+    }
+  ];
+
+  const typeLabel = { track: "Song", album: "Album", playlist: "Playlist", artist: "Artist", episode: "Episode" };
+
+  function parseLinks(text) {
+    return [...text.matchAll(/open\.spotify\.com\/(?:intl-[a-z]+\/)?(track|album|playlist|artist|episode)\/([A-Za-z0-9]+)/g)]
+      .map((m) => ({
+        type: m[1],
+        url: "https://open.spotify.com/" + m[1] + "/" + m[2],
+        embed: "https://open.spotify.com/embed/" + m[1] + "/" + m[2],
+        title: typeLabel[m[1]],
+        thumb: null
+      }));
+  }
+
+  const metaCache = {};
+  async function loadMeta(song) {
+    if (!metaCache[song.url]) {
+      metaCache[song.url] = fetch("https://open.spotify.com/oembed?url=" + encodeURIComponent(song.url))
+        .then((r) => r.json())
+        .then((d) => ({ title: d.title || song.title, thumb: d.thumbnail_url || null }))
+        .catch(() => ({ title: song.title, thumb: null }));
+    }
+    const meta = await metaCache[song.url];
+    song.title = meta.title;
+    song.thumb = meta.thumb;
+  }
+
+  function playSpotify(song) {
+    muPFrame.src = song.embed;
+    muPFrame.style.height = song.type === "track" || song.type === "episode" ? "152px" : "352px";
+    muPlayer.hidden = false;
+  }
+
+  function makeImg(song) {
+    const img = document.createElement("img");
+    img.alt = "";
+    img.loading = "lazy";
+    if (song.thumb) img.src = song.thumb;
+    return img;
+  }
+
+  function makeCard(song) {
+    const card = document.createElement("div");
+    card.className = "mu-card";
+    const t = document.createElement("div");
+    t.className = "t";
+    t.textContent = song.title;
+    const a = document.createElement("div");
+    a.className = "a";
+    a.textContent = typeLabel[song.type];
+    card.append(makeImg(song), t, a);
+    card.addEventListener("click", () => playSpotify(song));
+    return card;
+  }
+
+  function makeRow(song) {
+    const li = document.createElement("div");
+    li.className = "mu-li";
+    const box = document.createElement("div");
+    const t = document.createElement("div");
+    t.className = "t";
+    t.textContent = song.title;
+    const a = document.createElement("div");
+    a.className = "a";
+    a.textContent = typeLabel[song.type];
+    box.append(t, a);
+    li.append(makeImg(song), box);
+    li.addEventListener("click", () => playSpotify(song));
+    return li;
+  }
+
+  const sections = musicSections.map((s) => ({ ...s, songs: parseLinks(s.links) }));
+  let metaLoaded = false;
+
+  function renderMusic(filter = "") {
+    muBody.innerHTML = "";
+    const q = filter.trim().toLowerCase();
+
+    sections.forEach((sec) => {
+      const songs = sec.songs.filter((s) => !q || s.title.toLowerCase().includes(q));
+      if (!songs.length) return;
+
+      const head = document.createElement("div");
+      head.className = "mu-head";
+      const title = document.createElement("div");
+      title.className = "mu-section-title";
+      title.textContent = sec.title;
+      head.appendChild(title);
+
+      if (sec.style === "cards") {
+        const row = document.createElement("div");
+        row.className = "mu-cards";
+        songs.forEach((s) => row.appendChild(makeCard(s)));
+
+        const arrows = document.createElement("div");
+        arrows.className = "mu-arrows";
+        [["‹", -1], ["›", 1]].forEach(([label, dir]) => {
+          const b = document.createElement("button");
+          b.className = "mu-arrow";
+          b.textContent = label;
+          b.addEventListener("click", () => row.scrollBy({ left: dir * row.clientWidth * 0.8 }));
+          arrows.appendChild(b);
+        });
+        head.appendChild(arrows);
+        muBody.append(head, row);
+      } else {
+        const grid = document.createElement("div");
+        grid.className = "mu-grid";
+        songs.forEach((s) => grid.appendChild(makeRow(s)));
+        muBody.append(head, grid);
+      }
+    });
+
+    if (!muBody.children.length) {
+      muBody.innerHTML = '<div class="mu-msg">No songs found. Paste Spotify links into musicSections in the script.</div>';
+    }
+  }
+
+  async function openMusic() {
+    musicPanel.hidden = false;
+    muSearch.value = "";
+    if (!metaLoaded) {
+      muBody.innerHTML = '<div class="mu-msg">Loading...</div>';
+      await Promise.all(sections.flatMap((s) => s.songs).map(loadMeta));
+      metaLoaded = true;
+    }
+    renderMusic();
+  }
+
+  function closeMusic() {
+    musicPanel.hidden = true;
+    muPFrame.src = "about:blank";
+    muPlayer.hidden = true;
+  }
+
+  muSearch.addEventListener("input", () => renderMusic(muSearch.value));
+  musicBtn.addEventListener("click", openMusic);
+  document.getElementById("mu-close").addEventListener("click", closeMusic);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !musicPanel.hidden) closeMusic();
+  });
 </script>
 
-    </body>
+</body>
 </html>
