@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>GLOSSOM</title>
-<link rel="icon" type="image/png" href="images/favicon.jpg">
+<link rel="icon" type="image/jpg" href="images/favicon.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
@@ -527,6 +527,8 @@ h2 {
 }
 .br-count .of { color: #6f6f76; margin: 0 4px; }
 @media (max-width: 600px) { .br-count { font-size: 1.1rem; } }
+
+
 </style>
 </head>
 <body>
@@ -721,7 +723,6 @@ h2 {
   </section>
 </div>
 
-<!-- Blobs that follow the mouse -->
 <script>
   const blobs = document.querySelectorAll(".blob");
 
@@ -755,7 +756,6 @@ h2 {
   animate();
 </script>
 
-<!-- Rotating messages -->
 <script>
   const messages = [
     "Don't worry, you can be free here",
@@ -888,7 +888,6 @@ h2 {
   setInterval(updateClock, 1000);
 </script>
 
-<!-- Background changer -->
 <script>
   const backgrounds = [
     "default",
@@ -963,7 +962,6 @@ h2 {
   });
 </script>
 
-<!-- Click effects -->
 <script>
   function wavyPath(waves, amp, r) {
     let d = "";
@@ -2556,6 +2554,114 @@ const games = [
   });
 })();
 </script>
+
+<script>
+  (() => {
+    const GAP = 24;
+    const HOLE = 62;
+    const OUTER = 165;
+    const PUSH = 12;
+    const GROW = 1.6;
+    const COLOR = "190,150,255";
+  
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  
+    const css = document.createElement("style");
+    css.textContent =
+      "html.dot-burst body { background-image: none !important; }" +
+      ".dot-burst .bg-layer.dots { background-image: none !important; }" +
+      "#dot-burst { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; transition: opacity 0.6s ease; }";
+    document.head.appendChild(css);
+    document.documentElement.classList.add("dot-burst");
+  
+    const canvas = document.createElement("canvas");
+    canvas.id = "dot-burst";
+    document.querySelector(".bg-stack").after(canvas);
+    const ctx = canvas.getContext("2d");
+  
+    let cols = 0, rows = 0;
+  
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.ceil(window.innerWidth * dpr);
+      canvas.height = Math.ceil(window.innerHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cols = Math.ceil(window.innerWidth / GAP);
+      rows = Math.ceil(window.innerHeight / GAP);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+  
+    let moved = false, power = 0;
+    window.addEventListener("pointermove", () => { moved = true; }, { once: true });
+  
+    const clamp01 = (v) => Math.max(0, Math.min(1, v));
+  
+    function frame() {
+      requestAnimationFrame(frame);
+  
+      const onDots = typeof current === "undefined" || current === 0;
+      canvas.style.opacity = onDots ? 1 : 0;
+      if (!onDots) return;
+  
+      power += ((moved ? 1 : 0) - power) * 0.06;
+  
+      let cx = 0, cy = 0;
+      state.forEach((b) => { cx += b.x; cy += b.y; });
+      cx /= state.length;
+      cy /= state.length;
+  
+      const hole = HOLE * power;
+      const outer = OUTER * power;
+      const push = PUSH * power;
+      const outer2 = outer * outer;
+  
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  
+      ctx.fillStyle = "rgba(255,255,255,0.18)";
+      ctx.beginPath();
+      const near = [];
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const x = GAP / 2 + i * GAP, y = GAP / 2 + j * GAP;
+          const dx = x - cx, dy = y - cy;
+          if (outer > 4 && dx * dx + dy * dy < outer2) {
+            near.push(dx, dy);
+            continue;
+          }
+          ctx.moveTo(x + 1, y);
+          ctx.arc(x, y, 1, 0, 6.2832);
+        }
+      }
+      ctx.fill();
+  
+      for (let n = 0; n < near.length; n += 2) {
+        const dx = near[n], dy = near[n + 1];
+        const d = Math.hypot(dx, dy);
+        const ux = d > 0.5 ? dx / d : 1;
+        const uy = d > 0.5 ? dy / d : 0;
+  
+        const p = d <= hole ? 1 : clamp01(1 - (d - hole) / (outer - hole));
+        const p2 = p * p;
+  
+        let f = 1;
+        if (d < hole) {
+          const t = clamp01((d / hole - 0.55) / 0.45);
+          f = t * t * (3 - 2 * t);
+        }
+        if (f < 0.02) continue;
+  
+        const dist = d + push * p2;
+        const radius = (1 + GROW * p2) * (0.4 + 0.6 * f);
+        ctx.fillStyle = "rgba(" + COLOR + "," + ((0.18 + 0.5 * p2) * f) + ")";
+        ctx.beginPath();
+        ctx.arc(cx + ux * dist, cy + uy * dist, radius, 0, 6.2832);
+        ctx.fill();
+      }
+    }
+    frame();
+  })();
+  </script>
 
 </body>
 </html>
