@@ -529,6 +529,130 @@ h2 {
 @media (max-width: 600px) { .br-count { font-size: 1.1rem; } }
 
 
+#floatingStopMusic:hover {
+  background: #7e22ce;
+}
+
+#miniMusicPlayer {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99999;
+  width: 290px;
+  padding: 12px;
+  align-items: center;
+  gap: 12px;
+  background: rgba(25, 16, 40, 0.96);
+  border: 1px solid #a855f7;
+  border-radius: 15px;
+  color: white;
+  box-shadow: 0 0 18px #a855f755;
+  backdrop-filter: blur(12px);
+}
+
+#miniMusicPlayer.visible {
+  display: flex;
+}
+
+#miniMusicArt {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 9px;
+}
+
+.mini-music-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mini-music-label {
+  color: #c084fc;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+#miniMusicTitle,
+#miniMusicArtist {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#miniMusicTitle {
+  font-size: 13px;
+}
+
+#miniMusicArtist {
+  font-size: 11px;
+  color: #c4b5fd;
+}
+
+#miniMusicToggle {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: #a855f7;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#miniMusicToggle:hover {
+  background: #c084fc;
+}
+
+.mini-music-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #7e22ce;
+  font-size: 25px;
+}
+
+.mini-music-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mini-music-label {
+  color: #c084fc;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+#miniMusicTitle {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#miniMusicToggle {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: #a855f7;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#miniMusicToggle:hover {
+  background: #c084fc;
+}
 </style>
 </head>
 <body>
@@ -715,7 +839,7 @@ h2 {
     <input id="music-seek" type="range" min="0" max="1000" value="0" aria-label="Song progress">
     <div class="music-times"><span id="music-current-time">0:00</span><span id="music-duration">0:00</span></div>
     <div class="music-controls">
-      <button id="music-back" type="button" aria-label="Back 15 seconds">−15 sec</button>
+      <button id="music-back" type="button" aria-label="Back 15 seconds">-15 sec</button>
       <button id="music-toggle" class="music-play-button" type="button">Play</button>
       <button id="music-forward" type="button" aria-label="Forward 15 seconds">+15 sec</button>
     </div>
@@ -2663,5 +2787,120 @@ const games = [
   })();
   </script>
 
+<div id="miniMusicPlayer">
+  <div class="mini-music-icon">♫</div>
+
+  <div class="mini-music-info">
+    <span class="mini-music-label">NOW PLAYING</span>
+    <span id="miniMusicTitle">No song playing</span>
+  </div>
+
+  <button id="miniMusicToggle" aria-label="Pause music">
+    <span id="miniMusicIcon">Ⅱ</span>
+  </button>
+</div>
+
+<script>
+  (() => {
+    const audio = document.getElementById("music-audio");
+    const panel = document.getElementById("music-panel");
+  
+    const mini = document.getElementById("miniMusicPlayer");
+    const miniArt = document.getElementById("miniMusicArt");
+    const miniTitle = document.getElementById("miniMusicTitle");
+    const miniArtist = document.getElementById("miniMusicArtist");
+    const miniToggle = document.getElementById("miniMusicToggle");
+  
+    const title = document.getElementById("music-song-title");
+    const artist = document.getElementById("music-song-artist");
+    const art = document.getElementById("music-detail-art");
+  
+    if (!audio || !panel || !mini || !miniToggle) {
+      console.error("GLOSSOM mini-player: An element could not be found.");
+      return;
+    }
+  
+    let hasPlayed = false;
+  
+    function updateMiniPlayer() {
+      if (title) {
+        miniTitle.textContent = title.textContent.trim() || "Unknown song";
+      }
+  
+      if (artist) {
+        miniArtist.textContent = artist.textContent.trim();
+      }
+  
+      if (art && art.src) {
+        miniArt.src = art.src;
+      }
+  
+      const shouldShow =
+        hasPlayed &&
+        panel.hidden &&
+        !audio.ended;
+  
+      mini.classList.toggle("visible", shouldShow);
+  
+      miniToggle.textContent = audio.paused ? "▶" : "Ⅱ";
+  
+      miniToggle.setAttribute(
+        "aria-label",
+        audio.paused ? "Play music" : "Pause music"
+      );
+    }
+  
+    audio.addEventListener("play", () => {
+      hasPlayed = true;
+      updateMiniPlayer();
+    });
+  
+    audio.addEventListener("pause", updateMiniPlayer);
+    audio.addEventListener("ended", updateMiniPlayer);
+    audio.addEventListener("loadedmetadata", updateMiniPlayer);
+  
+    miniToggle.addEventListener("click", async () => {
+      if (audio.paused) {
+        try {
+          await audio.play();
+        } catch (error) {
+          console.error("Could not resume music:", error);
+        }
+      } else {
+        audio.pause();
+      }
+  
+      updateMiniPlayer();
+    });
+  
+    new MutationObserver(updateMiniPlayer).observe(panel, {
+      attributes: true,
+      attributeFilter: ["hidden"]
+    });
+  
+    [title, artist, art].filter(Boolean).forEach(element => {
+      new MutationObserver(updateMiniPlayer).observe(element, {
+        attributes: true,
+        childList: true,
+        characterData: true,
+        subtree: true
+      });
+    });
+  
+    updateMiniPlayer();
+  })();
+  </script>
+
+<div id="miniMusicPlayer">
+  <img id="miniMusicArt" alt="Song artwork">
+
+  <div class="mini-music-info">
+    <span class="mini-music-label">NOW PLAYING</span>
+    <span id="miniMusicTitle">No song playing</span>
+    <span id="miniMusicArtist"></span>
+  </div>
+
+  <button id="miniMusicToggle" type="button">Ⅱ</button>
+</div>
 </body>
 </html>
