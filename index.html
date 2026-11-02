@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>GLOSSOM</title>
 <link rel="icon" type="image/jpg" href="images/favicon.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
 body {
   margin: 0;
@@ -121,10 +122,6 @@ h2 {
   100% { transform: translateX(-50%) translateY(-150%); opacity: 0; }
 }
 
-.wave-ring {
-  position: fixed; overflow: visible; pointer-events: none; z-index: 4;
-  filter: drop-shadow(0 0 5px #9e5ac9) drop-shadow(0 0 12px #3a6bff);
-}
 .btn-ripple {
   position: absolute; box-sizing: border-box;
   width: 0; height: 0; opacity: 0;
@@ -653,6 +650,102 @@ h2 {
 #miniMusicToggle:hover {
   background: #c084fc;
 }
+
+/* GLOSSOM MINI MUSIC PLAYER */
+
+#miniMusicPlayer {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99999;
+
+  width: 340px;
+  box-sizing: border-box;
+  padding: 12px;
+
+  align-items: center;
+  gap: 12px;
+
+  background: rgba(25, 16, 40, 0.96);
+  border: 1px solid #a855f7;
+  border-radius: 16px;
+
+  color: white;
+  box-shadow: 0 0 20px #a855f755;
+  backdrop-filter: blur(14px);
+}
+
+#miniMusicPlayer.visible {
+  display: flex;
+}
+
+#miniMusicArt {
+  width: 55px;
+  height: 55px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #352344;
+}
+
+.mini-music-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mini-music-label {
+  color: #c084fc;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+}
+
+#miniMusicTitle,
+#miniMusicArtist {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#miniMusicTitle {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+#miniMusicArtist {
+  font-size: 11px;
+  color: #c4b5fd;
+}
+
+.mini-music-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mini-music-controls button {
+  border: none;
+  border-radius: 8px;
+  background: #38234f;
+  color: white;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#miniMusicToggle {
+  background: #9333ea;
+  font-size: 17px;
+  min-width: 36px;
+}
+
+.mini-music-controls button:hover {
+  background: #a855f7;
+}
 </style>
 </head>
 <body>
@@ -690,16 +783,25 @@ h2 {
     </div>
 
     <section class="portal">
-      <div class="portal-title">School Web Portal</div>
+      <div class="portal-title">SEARCH WHATEVER YOU WANT...</div>
       <form id="searchForm">
         <input type="url" id="website" placeholder="https://example.com" required>
         <button type="submit">Go</button>
       </form>
       <p id="portalMessage" aria-live="polite"></p>
       <div class="portal-links">
-        <a href="https://www.khanacademy.org/" target="_blank" rel="noopener noreferrer">Khan Academy</a>
-        <a href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer">Wikipedia</a>
-        <a href="https://www.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA</a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-youtube"></i>
+          YouTube
+        </a>
+        <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-tiktok"></i>
+          TikTok
+        </a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-instagram"></i>
+          Instagram
+        </a>
       </div>
     </section>
 
@@ -774,6 +876,7 @@ h2 {
         <ul>
           <li>Be free around here.</li>
           <li>More updates coming, and more bugs... so expect those, you'll be notified we get a new update.</li>
+          <li>More backgrounds for the "Change Background" button will be added soon</li>
         </ul>
       </div>
     </div>
@@ -851,15 +954,17 @@ h2 {
   const blobs = document.querySelectorAll(".blob");
 
   const settings = [
-    { speed: 0.05, ox: -40, oy: -30 },
-    { speed: 0.03, ox:  40, oy: -30 },
-    { speed: 0.04, ox:   0, oy:  40 },
-    { speed: 0.02, ox: -50, oy:  30 },
-    { speed: 0.06, ox:  50, oy:  15 }
+    { ox: -40, oy: -30 },
+    { ox:  40, oy: -30 },
+    { ox:   0, oy:  40 },
+    { ox: -50, oy:  30 },
+    { ox:  50, oy:  15 }
   ];
 
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
+  let leaderX = mouseX;
+  let leaderY = mouseY;
 
   const state = Array.from(blobs).map((el, i) => ({ el, x: mouseX, y: mouseY, ...settings[i] }));
 
@@ -868,10 +973,28 @@ h2 {
     mouseY = e.clientY;
   });
 
+  const LEADER_SPEED = 0.06;
+  const FOLLOW_SPEED = 0.35;
+  const MAX_GAP = 14;
+
   function animate() {
+    leaderX += (mouseX - leaderX) * LEADER_SPEED;
+    leaderY += (mouseY - leaderY) * LEADER_SPEED;
+
     state.forEach((b) => {
-      b.x += (mouseX + b.ox - b.x) * b.speed;
-      b.y += (mouseY + b.oy - b.y) * b.speed;
+      const tx = leaderX + b.ox;
+      const ty = leaderY + b.oy;
+      b.x += (tx - b.x) * FOLLOW_SPEED;
+      b.y += (ty - b.y) * FOLLOW_SPEED;
+
+      const gx = b.x - tx;
+      const gy = b.y - ty;
+      const gap = Math.hypot(gx, gy);
+      if (gap > MAX_GAP) {
+        b.x = tx + (gx / gap) * MAX_GAP;
+        b.y = ty + (gy / gap) * MAX_GAP;
+      }
+
       const half = b.el.offsetWidth / 2;
       b.el.style.transform = `translate(${b.x - half}px, ${b.y - half}px)`;
     });
@@ -887,7 +1010,6 @@ h2 {
     "Fun fact: Glossom isn't even a real word, we just mixed the words 'blossom' and 'gloss'",
     "I don't think anyone even reads these, they just come for the games, that's it.",
     "Freedom lives here, so take your time",
-    "Some people might think these messages are cringe, I just put them because any other link pretty much has them too",
     "I have VS code on my chromebook, so don't be surprised if you see me making a website in the middle of class :/",
     "I'm gonna try to make 3 more links after this one, I have many more planned",
     "67 67 67 67",
@@ -2441,7 +2563,6 @@ const games = [
   });
 </script>
 
-<!-- School Web Portal form -->
 <script>
   const portalForm = document.getElementById("searchForm");
 
@@ -2467,7 +2588,6 @@ const games = [
   }
 </script>
 
-<!-- GLOSSOM Music catalog and player (Audius) -->
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -2480,6 +2600,15 @@ const games = [
   const forwardButton = $("music-forward"), seek = $("music-seek");
   const title = $("music-song-title"), artist = $("music-song-artist");
   const detailArt = $("music-detail-art"), detailGenre = $("music-song-genre");
+    const miniPlayer = $("miniMusicPlayer");
+  const miniArt = $("miniMusicArt");
+  const miniTitle = $("miniMusicTitle");
+  const miniArtist = $("miniMusicArtist");
+  const miniToggle = $("miniMusicToggle");
+  const miniBack = $("miniMusicBack");
+  const miniForward = $("miniMusicForward");
+  const miniPrevious = $("miniMusicPrevious");
+  const miniNext = $("miniMusicNext");
   const currentTime = $("music-current-time"), duration = $("music-duration");
   const status = $("music-status"), detailStatus = $("music-detail-status");
   const list = $("music-list"), listHeading = $("music-list-heading");
@@ -2503,6 +2632,22 @@ const games = [
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, " ")
       .trim();
+  }
+
+  function updateMiniPlayer() {
+    if (currentIndex !== -1) {
+      miniTitle.textContent = title.textContent;
+      miniArtist.textContent = artist.textContent;
+      miniArt.src = detailArt.src;
+      miniArt.alt = "Album artwork for " + title.textContent;
+    }
+
+    miniPlayer.classList.toggle(
+      "visible",
+      currentIndex !== -1 && panel.hidden
+    );
+
+    miniToggle.textContent = audio.paused ? "▶" : "Ⅱ";
   }
   function showBrowse() { detailView.hidden = true; browseView.hidden = false; }
   function showDetails() { browseView.hidden = true; detailView.hidden = false; }
@@ -2623,6 +2768,7 @@ const games = [
     detailArt.src = artworkFor(track);
     detailArt.alt = "Album artwork for " + (track.title || "song");
     detailArt.onerror = () => { detailArt.src = fallbackArt; };
+    updateMiniPlayer();
     currentTime.textContent = "0:00"; duration.textContent = "0:00";
     seek.value = "0"; toggleButton.textContent = "Pause";
     detailStatus.textContent = "Loading track...";
@@ -2637,12 +2783,21 @@ const games = [
 
   openButton.addEventListener("click", () => {
     panel.hidden = false; showBrowse();
+    updateMiniPlayer();
     if (!tracks.length) fetchTracks();
     searchInput.focus();
   });
-  closeButton.addEventListener("click", () => { panel.hidden = true; });
+  closeButton.addEventListener("click", () => {
+  panel.hidden = true;
+  updateMiniPlayer();
+});
   backToList.addEventListener("click", showBrowse);
-  document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) panel.hidden = true; });
+  document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && !panel.hidden) {
+    panel.hidden = true;
+    updateMiniPlayer();
+  }
+});
   discoverButton.addEventListener("click", fetchTracks);
   searchInput.addEventListener("keydown", e => { if (e.key === "Enter") fetchTracks(); });
   genreSelect.addEventListener("change", fetchTracks);
@@ -2652,6 +2807,51 @@ const games = [
       try { await audio.play(); }
       catch (e) { detailStatus.textContent = "Playback could not start. The stream may be blocked."; }
     } else audio.pause();
+  });
+
+    // Mini-player play and pause
+    miniToggle.addEventListener("click", async () => {
+    if (currentIndex === -1) return;
+
+    if (audio.paused) {
+      try {
+        await audio.play();
+      } catch (e) {
+        detailStatus.textContent = "Playback could not start.";
+      }
+    } else {
+      audio.pause();
+    }
+
+    updateMiniPlayer();
+  });
+
+  // Mini-player rewind 15 seconds
+  miniBack.addEventListener("click", () => {
+    if (Number.isFinite(audio.duration)) {
+      audio.currentTime = Math.max(0, audio.currentTime - 15);
+    }
+  });
+
+  // Mini-player fast-forward 15 seconds
+  miniForward.addEventListener("click", () => {
+    if (Number.isFinite(audio.duration)) {
+      audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
+    }
+  });
+
+  // Previous song
+  miniPrevious.addEventListener("click", () => {
+    if (currentIndex > 0) {
+      playTrack(currentIndex - 1);
+    }
+  });
+
+  // Next song
+  miniNext.addEventListener("click", () => {
+    if (currentIndex !== -1 && currentIndex + 1 < tracks.length) {
+      playTrack(currentIndex + 1);
+    }
   });
   backButton.addEventListener("click", () => {
     if (Number.isFinite(audio.duration)) audio.currentTime = Math.max(0, audio.currentTime - 15);
@@ -2667,8 +2867,16 @@ const games = [
     currentTime.textContent = formatTime(audio.currentTime);
   });
   audio.addEventListener("loadedmetadata", () => { duration.textContent = formatTime(audio.duration); });
-  audio.addEventListener("play", () => { toggleButton.textContent = "Pause"; detailStatus.textContent = "Now playing."; });
-  audio.addEventListener("pause", () => { toggleButton.textContent = "Play"; });
+  audio.addEventListener("play", () => {
+    toggleButton.textContent = "Pause";
+    detailStatus.textContent = "Now playing.";
+    updateMiniPlayer();
+  });
+
+  audio.addEventListener("pause", () => {
+    toggleButton.textContent = "Play";
+    updateMiniPlayer();
+  });  audio.addEventListener("pause", () => { toggleButton.textContent = "Play"; });
   audio.addEventListener("ended", () => {
     if (currentIndex + 1 < tracks.length) playTrack(currentIndex + 1);
     else { toggleButton.textContent = "Play"; detailStatus.textContent = "End of this list."; }
@@ -2901,6 +3109,69 @@ const games = [
   </div>
 
   <button id="miniMusicToggle" type="button">Ⅱ</button>
+</div>
+
+<script>
+  (() => {
+    const COUNT = 12;
+    const COLORS = ["#8fd3ff", "#b388ff", "#a3dcff", "#c4a1ff", "#7fa2ff", "#c58bff"];
+  
+    const wind = document.querySelector(".wind");
+    if (!wind) return;
+  
+    for (let i = 0; i < COUNT; i++) {
+      const band = document.createElement("div");
+      band.className = "band";
+  
+      const color = COLORS[i % COLORS.length];
+      const duration = 10 + Math.random() * 10;
+  
+      band.style.top = ((i + Math.random() * 0.8) / COUNT) * 92 + "%";
+      band.style.width = 50 + Math.random() * 40 + "vw";
+      band.style.height = 18 + Math.random() * 18 + "vh";
+      band.style.background = "radial-gradient(ellipse, " + color + ", transparent 70%)";
+      band.style.animationDuration = duration + "s";
+      band.style.animationDelay = "-" + Math.random() * duration + "s";
+  
+      wind.appendChild(band);
+    }
+  })();
+  </script>
+
+<div id="miniMusicPlayer">
+
+  <img id="miniMusicArt" src="" alt="Album artwork">
+
+  <div class="mini-music-info">
+    <span class="mini-music-label">NOW PLAYING</span>
+    <span id="miniMusicTitle">No song playing</span>
+    <span id="miniMusicArtist"></span>
+  </div>
+
+  <div class="mini-music-controls">
+    <button id="miniMusicBack" title="Rewind 15 seconds">-15</button>
+    <button id="miniMusicToggle" title="Play or pause">Ⅱ</button>
+    <button id="miniMusicForward" title="Forward 15 seconds">+15</button>
+  </div>
+
+</div>
+
+<div id="miniMusicPlayer" aria-label="Mini music player">
+  <img id="miniMusicArt" alt="Album artwork">
+
+  <div class="mini-music-info">
+    <span class="mini-music-label">NOW PLAYING</span>
+    <span id="miniMusicTitle">No song playing</span>
+    <span id="miniMusicArtist"></span>
+  </div>
+
+  <div class="mini-music-controls">
+    <button id="miniMusicPrevious" type="button">|◀</button>
+    <button id="miniMusicBack" type="button">−15</button>
+    <button id="miniMusicToggle" type="button">▶</button>
+    <button id="miniMusicForward" type="button">+15</button>
+    <button id="miniMusicNext" type="button">▶|</button>
+  </div>
 </div>
 </body>
 </html>
