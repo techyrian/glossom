@@ -159,8 +159,8 @@ h2 {
   animation: fadeIn 0.8s ease forwards;
   animation-delay: 0.6s;
 }
+
 .circle-btn:hover {
-  transform: scale(1.1);
   box-shadow: 0 4px 8px #fff, 0 8px 16px #9e5ac9, 0 12px 24px #9e5ac9;
 }
 .circle-btn:focus, .circle-btn:focus-visible { outline: none; }
@@ -470,15 +470,17 @@ h2 {
 
 /* ===== MUSIC (AUDIUS) ===== */
 .music-panel { position:fixed; inset:0; z-index:1000; box-sizing:border-box; width:100%; height:100%; max-height:100vh; overflow-y:auto; padding:clamp(18px,4vw,38px); background:linear-gradient(145deg,#171321,#09090d 70%); color:#fff; font-family:"Fredoka",sans-serif; }
-.music-panel[hidden], #music-detail-view[hidden], #music-browse-view[hidden] { display:none !important; }
+.music-panel[hidden], .music-panel [hidden] { display:none !important; }
 .music-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; max-width:1200px; margin:0 auto 18px; }
 .music-heading h2 { margin:0; font-size:1.7rem; opacity:1; animation:none; }
 .music-close { border:0; background:#ffffff12; color:white; border-radius:50%; width:42px; height:42px; font-size:1.6rem; cursor:pointer; }
 .music-panel section { max-width:1200px; margin:0 auto; }
 .music-subtitle { color:#bdb5c9; margin:0 0 16px; }
-.music-panel input[type="search"], .music-panel select { box-sizing:border-box; width:100%; padding:12px 14px; border:1px solid #ffffff20; border-radius:12px; background:#ffffff0d; color:white; font:inherit; }
+.music-panel input[type="search"], .music-panel input[type="text"], .music-panel select { box-sizing:border-box; width:100%; padding:12px 14px; border:1px solid #ffffff20; border-radius:12px; background:#ffffff0d; color:white; font:inherit; }
 .music-panel select option { color:#111; }
-.music-browse { display:grid; grid-template-columns:minmax(180px,1fr) 190px auto; gap:10px; }
+.music-browse { display:grid; grid-template-columns:minmax(180px,1fr) 190px auto auto; gap:10px; }
+.music-action-alt { background:#ffffff16; }
+.music-action:disabled { opacity:.5; cursor:default; filter:none; }
 .music-action, .music-controls button {
   position: relative;
   border: 1px solid #ffffff22;
@@ -512,239 +514,235 @@ h2 {
 .music-controls button { background:#ffffff17; }
 .music-controls .music-play-button { background:#a78bfa; color:#171321; font-weight:700; min-width:90px; }
 #music-detail-status { text-align:center; }
-@media(max-width:650px) { .music-browse { grid-template-columns:1fr; } .music-detail { flex-direction:column; align-items:flex-start; } .music-detail-art { width:min(75vw,320px); } .music-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } }
+
+/* ===== PLAYLISTS ===== */
+.pl-page-title { font-size:1.6rem; margin:0 0 6px; }
+.pl-create, .pl-search { display:flex; gap:10px; margin:14px 0 6px; }
+.pl-create input, .pl-search input { flex:1; min-width:0; }
+.pl-editor-head { display:flex; align-items:center; gap:clamp(16px,4vw,32px); margin-bottom:22px; }
+.pl-cover { width:min(34vw,180px); aspect-ratio:1; object-fit:cover; border-radius:16px; background:#30283b; box-shadow:0 12px 35px #0008; flex:0 0 auto; }
+.pl-editor-info { flex:1; min-width:0; }
+.pl-editor-info .music-detail-label { display:block; margin-bottom:8px; }
+.music-panel input.pl-name-input { font-size:clamp(1.3rem,3.5vw,2rem); font-weight:700; padding:8px 12px; }
+.pl-title-text { font-size:clamp(1.3rem,3.5vw,2rem); line-height:1.15; margin:0; overflow-wrap:anywhere; opacity:1; animation:none; }
+.pl-actions { display:flex; flex-wrap:wrap; gap:10px; }
+.pl-list-head { display:flex; align-items:center; flex-wrap:wrap; gap:10px; }
+.pl-list-head h3 { margin-right:4px; }
+.pl-list-head .music-action { padding:7px 13px; font-size:.9rem; }
+#pl-grid .music-track { position:relative; }
+#pl-grid .music-track.selected { border-color:#a78bfa; background:#a78bfa26; }
+.pl-check { position:absolute; top:18px; right:18px; width:28px; height:28px; border-radius:50%; border:2px solid #fff; background:#0008; color:#171321; display:flex; align-items:center; justify-content:center; font-weight:900; box-shadow:0 2px 8px #0009; }
+.selected > .pl-check { background:#a78bfa; border-color:#a78bfa; }
+.pl-select-bar { position:sticky; bottom:0; display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:18px; padding:12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); border-radius:14px; background:#1d1729f2; border:1px solid #ffffff20; box-shadow:0 -8px 24px #0008; }
+.pl-select-bar .music-action:disabled { opacity:.45; }
+#pl-edit.editing { background:#a78bfa; color:#171321; font-weight:700; }
+.pl-danger { background:#ffffff10; color:#ffb4c4; }
+.pl-danger.armed { background:#e0436b; color:white; }
+.pl-songs, .pl-results { list-style:none; margin:0 0 10px; padding:0; display:flex; flex-direction:column; gap:8px; }
+.pl-song { display:flex; align-items:center; gap:12px; padding:8px 10px; border-radius:12px; background:#ffffff0b; }
+.pl-song.playing { background:#a78bfa33; }
+.pl-song-num { width:1.6em; text-align:right; color:#8f86a0; font-size:.9rem; flex:0 0 auto; }
+.pl-song img { width:46px; height:46px; border-radius:8px; object-fit:cover; background:#30283b; flex:0 0 auto; }
+.pl-song-text { flex:1; min-width:0; }
+.pl-song-text .music-track-title, .pl-song-text .music-track-artist { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pl-song-text .music-track-artist { margin-top:2px; }
+.pl-icon-btn { flex:0 0 auto; border:0; border-radius:10px; padding:8px 11px; background:#ffffff14; color:white; font:inherit; cursor:pointer; }
+.pl-icon-btn:hover { background:#ffffff26; }
+.pl-icon-btn.add { background:#8b5cf6; }
+.pl-icon-btn:disabled { background:#ffffff0d; color:#9a92a8; cursor:default; }
+
+@media(max-width:650px) { .music-browse { grid-template-columns:1fr; } .pl-editor-head { flex-direction:column; align-items:flex-start; } .music-detail { flex-direction:column; align-items:flex-start; } .music-detail-art { width:min(75vw,320px); } .music-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } }
+
 .br-searchrow { display: flex; align-items: center; gap: 18px; margin-bottom: 16px; }
 #br-search { flex: 1; width: auto; min-width: 0; margin-bottom: 0; }
-.br-count {
-  flex: 0 0 auto;
-  white-space: nowrap;
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: #c4c4c8;
-}
+.br-count { flex: 0 0 auto; white-space: nowrap; font-weight: 700; font-size: 1.5rem; color: #c4c4c8; }
 .br-count .of { color: #6f6f76; margin: 0 4px; }
 @media (max-width: 600px) { .br-count { font-size: 1.1rem; } }
 
-
-#floatingStopMusic:hover {
-  background: #7e22ce;
-}
-
 #miniMusicPlayer {
-  display: none;
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 99999;
-  width: 290px;
-  padding: 12px;
-  align-items: center;
-  gap: 12px;
-  background: rgba(25, 16, 40, 0.96);
-  border: 1px solid #a855f7;
-  border-radius: 15px;
-  color: white;
-  box-shadow: 0 0 18px #a855f755;
-  backdrop-filter: blur(12px);
-}
-
-#miniMusicPlayer.visible {
-  display: flex;
-}
-
-#miniMusicArt {
-  width: 45px;
-  height: 45px;
-  object-fit: cover;
-  border-radius: 9px;
-}
-
-.mini-music-info {
-  flex: 1;
-  min-width: 0;
+  width: 320px;
+  box-sizing: border-box;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-}
-
-.mini-music-label {
-  color: #c084fc;
-  font-size: 10px;
-  letter-spacing: 1px;
-}
-
-#miniMusicTitle,
-#miniMusicArtist {
+  gap: 10px;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  font-family: "Fredoka", sans-serif;
+  color: white;
+  background: linear-gradient(145deg, rgba(36, 20, 60, 0.96), rgba(12, 8, 22, 0.96));
+  border: 1px solid rgba(168, 85, 247, 0.7);
+  border-radius: 20px;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.35), 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(120%) scale(0.96);
+  transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.25, 1.1), opacity 0.3s ease, visibility 0s linear 0.45s;
 }
-
-#miniMusicTitle {
-  font-size: 13px;
+#miniMusicPlayer.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.25, 1.1), opacity 0.3s ease, visibility 0s;
 }
-
-#miniMusicArtist {
-  font-size: 11px;
-  color: #c4b5fd;
+#miniMusicPlayer.playing { animation: miniGlow 2.4s ease-in-out infinite; }
+#miniMusicPlayer::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c084fc, #7fa2ff, transparent);
+  background-size: 200% 100%;
+  opacity: 0;
+  pointer-events: none;
 }
+#miniMusicPlayer.playing::before { opacity: 1; animation: miniShine 2.6s linear infinite; }
 
-#miniMusicToggle {
-  width: 40px;
-  height: 40px;
+@keyframes miniGlow {
+  0%, 100% { box-shadow: 0 0 14px rgba(168, 85, 247, 0.3), 0 10px 30px rgba(0, 0, 0, 0.5); }
+  50%      { box-shadow: 0 0 32px rgba(168, 85, 247, 0.7), 0 10px 30px rgba(0, 0, 0, 0.5); }
+}
+@keyframes miniShine { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@keyframes miniBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@keyframes miniEq { 0%, 100% { height: 3px; } 50% { height: 12px; } }
+
+.mini-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
   border: none;
   border-radius: 50%;
-  background: #a855f7;
+  background: transparent;
   color: white;
-  font-size: 18px;
+  font-size: 13px;
   cursor: pointer;
+  opacity: 0.55;
+  overflow: hidden;
 }
+.mini-close:hover { opacity: 1; background: rgba(255, 255, 255, 0.12); }
 
-#miniMusicToggle:hover {
-  background: #c084fc;
+.mini-top { display: flex; align-items: center; gap: 12px; padding-right: 18px; }
+.mini-art-wrap {
+  position: relative;
+  flex: 0 0 66px;
+  width: 66px;
+  height: 66px;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3a6bff, #9e5ac9);
+  box-shadow: 0 6px 16px rgba(158, 90, 201, 0.55);
+  transition: transform 0.25s ease;
 }
-
-.mini-music-icon {
-  width: 42px;
-  height: 42px;
+.mini-art-wrap:hover { transform: scale(1.07) rotate(-2deg); }
+.mini-art-wrap::after {
+  content: "↗";
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  background: #7e22ce;
-  font-size: 25px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.2s;
 }
+.mini-art-wrap:hover::after { opacity: 1; }
+#miniMusicArt { display: block; width: 100%; height: 100%; object-fit: cover; }
+#miniMusicPlayer.playing #miniMusicArt { animation: miniBeat 1.8s ease-in-out infinite; }
 
-.mini-music-info {
+.mini-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.mini-label { display: flex; align-items: center; color: #c084fc; font-size: 10px; letter-spacing: 1.5px; }
+.mini-eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; margin-right: 6px; }
+.mini-eq i { display: block; width: 3px; height: 3px; border-radius: 2px; background: #c084fc; }
+#miniMusicPlayer.playing .mini-eq i { animation: miniEq 0.9s ease-in-out infinite; }
+.mini-eq i:nth-child(2) { animation-delay: -0.3s; }
+.mini-eq i:nth-child(3) { animation-delay: -0.6s; }
+.mini-eq i:nth-child(4) { animation-delay: -0.15s; }
+.mini-title, .mini-artist { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.mini-title { font-size: 15px; font-weight: 700; }
+.mini-artist { font-size: 12px; color: #c4b5fd; }
+
+.mini-progress { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #c4b5fd; }
+#miniMusicSeek {
   flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 99px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #c084fc var(--p, 0%), rgba(255, 255, 255, 0.2) var(--p, 0%));
+}
+#miniMusicSeek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px #a855f7;
+}
+#miniMusicSeek::-moz-range-track { background: transparent; }
+#miniMusicSeek::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px #a855f7;
 }
 
-.mini-music-label {
-  color: #c084fc;
-  font-size: 10px;
-  letter-spacing: 1px;
-}
-
-#miniMusicTitle {
-  font-size: 13px;
-  white-space: nowrap;
+.mini-controls { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.mini-skip {
+  position: relative;
   overflow: hidden;
-  text-overflow: ellipsis;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  font-family: "Fredoka", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
 }
-
+.mini-skip:hover { background: rgba(168, 85, 247, 0.5); transform: translateY(-2px); }
+.mini-skip:active { transform: scale(0.95); }
 #miniMusicToggle {
-  width: 38px;
-  height: 38px;
+  position: relative;
+  overflow: hidden;
+  width: 48px;
+  height: 48px;
   border: none;
   border-radius: 50%;
-  background: #a855f7;
+  background: linear-gradient(135deg, #a855f7, #7e22ce);
   color: white;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-#miniMusicToggle:hover {
-  background: #c084fc;
-}
-
-/* GLOSSOM MINI MUSIC PLAYER */
-
-#miniMusicPlayer {
-  display: none;
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 99999;
-
-  width: 340px;
-  box-sizing: border-box;
-  padding: 12px;
-
-  align-items: center;
-  gap: 12px;
-
-  background: rgba(25, 16, 40, 0.96);
-  border: 1px solid #a855f7;
-  border-radius: 16px;
-
-  color: white;
-  box-shadow: 0 0 20px #a855f755;
-  backdrop-filter: blur(14px);
-}
-
-#miniMusicPlayer.visible {
-  display: flex;
-}
-
-#miniMusicArt {
-  width: 55px;
-  height: 55px;
-  flex-shrink: 0;
-  object-fit: cover;
-  border-radius: 10px;
-  background: #352344;
-}
-
-.mini-music-info {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.mini-music-label {
-  color: #c084fc;
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  font-weight: bold;
-}
-
-#miniMusicTitle,
-#miniMusicArtist {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-#miniMusicTitle {
-  font-size: 13px;
-  font-weight: bold;
-}
-
-#miniMusicArtist {
-  font-size: 11px;
-  color: #c4b5fd;
-}
-
-.mini-music-controls {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.mini-music-controls button {
-  border: none;
-  border-radius: 8px;
-  background: #38234f;
-  color: white;
-  padding: 8px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-#miniMusicToggle {
-  background: #9333ea;
   font-size: 17px;
-  min-width: 36px;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.7);
+  transition: transform 0.15s, box-shadow 0.2s;
 }
+#miniMusicToggle:hover { transform: scale(1.08); box-shadow: 0 0 22px rgba(192, 132, 252, 0.9); }
+#miniMusicToggle:active { transform: scale(0.94); }
 
-.mini-music-controls button:hover {
-  background: #a855f7;
+@media (max-width: 480px) {
+  #miniMusicPlayer { width: calc(100vw - 24px); top: 12px; right: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #miniMusicPlayer, #miniMusicPlayer * { animation: none !important; }
 }
 </style>
 </head>
@@ -783,7 +781,7 @@ h2 {
     </div>
 
     <section class="portal">
-      <div class="portal-title">SEARCH WHATEVER YOU WANT...</div>
+      <div class="portal-title">School Web Portal</div>
       <form id="searchForm">
         <input type="url" id="website" placeholder="https://example.com" required>
         <button type="submit">Go</button>
@@ -921,6 +919,7 @@ h2 {
         <option value="Techno">Techno</option><option value="Other">Other</option>
       </select>
       <button id="music-discover" class="music-action" type="button">Discover music</button>
+      <button id="music-playlists-btn" class="music-action music-action-alt" type="button">Create a playlist</button>
     </div>
     <p id="music-status" class="music-status" aria-live="polite">Loading the music catalog...</p>
     <h3 id="music-list-heading">Popular on Audius</h3>
@@ -942,11 +941,66 @@ h2 {
     <input id="music-seek" type="range" min="0" max="1000" value="0" aria-label="Song progress">
     <div class="music-times"><span id="music-current-time">0:00</span><span id="music-duration">0:00</span></div>
     <div class="music-controls">
-      <button id="music-back" type="button" aria-label="Back 15 seconds">-15 sec</button>
+      <button id="music-back" type="button" aria-label="Back 15 seconds">−15 sec</button>
       <button id="music-toggle" class="music-play-button" type="button">Play</button>
       <button id="music-forward" type="button" aria-label="Forward 15 seconds">+15 sec</button>
     </div>
     <p id="music-detail-status" class="music-status" aria-live="polite">Select a song to play.</p>
+  </section>
+
+  <section id="music-playlist-view" hidden>
+    <div id="pl-home">
+      <button id="pl-home-back" class="music-action music-back-link" type="button">← Back to songs</button>
+      <h3 class="pl-page-title">Create a playlist</h3>
+      <p class="music-subtitle">Give it a name, then add as many songs as you want. Your playlists are saved in this browser.</p>
+      <form id="pl-create-form" class="pl-create">
+        <input id="pl-new-name" type="text" maxlength="60" placeholder="Name your playlist..." autocomplete="off" aria-label="New playlist name">
+        <button class="music-action" type="submit">Create playlist</button>
+      </form>
+      <div class="pl-search">
+        <input id="pl-filter" type="search" placeholder="Search your playlists..." autocomplete="off" aria-label="Search your playlists">
+      </div>
+      <div class="pl-list-head">
+        <h3>Your playlists</h3>
+        <button id="pl-select" class="music-action music-action-alt" type="button">Select</button>
+        <button id="pl-select-cancel" class="music-action music-action-alt" type="button" hidden>Cancel</button>
+      </div>
+      <div id="pl-grid" class="music-grid"></div>
+      <div id="pl-select-bar" class="pl-select-bar" hidden>
+        <span id="pl-select-count">0 selected</span>
+        <button id="pl-bulk-delete" class="music-action pl-danger" type="button">🗑️ Delete selected</button>
+      </div>
+    </div>
+
+    <div id="pl-editor" hidden>
+      <button id="pl-editor-back" class="music-action music-back-link" type="button">← All playlists</button>
+      <div class="pl-editor-head">
+        <img id="pl-cover" class="pl-cover" alt="Playlist cover">
+        <div class="pl-editor-info">
+          <label id="pl-name-label" class="music-detail-label" for="pl-name">PLAYLIST</label>
+          <h2 id="pl-title-text" class="pl-title-text"></h2>
+          <input id="pl-name" class="pl-name-input" type="text" maxlength="60" autocomplete="off" hidden>
+          <p id="pl-count" class="music-status"></p>
+          <div class="pl-actions">
+            <button id="pl-play" class="music-action" type="button">▶ Play playlist</button>
+            <button id="pl-edit" class="music-action music-action-alt" type="button">✏️ Edit playlist</button>
+            <button id="pl-delete" class="music-action pl-danger" type="button">🗑️ Delete playlist</button>
+          </div>
+        </div>
+      </div>
+
+      <h3>Songs in this playlist</h3>
+      <ol id="pl-songs" class="pl-songs"></ol>
+
+      <div id="pl-add-section" hidden>
+        <h3>Add songs</h3>
+        <div class="pl-search">
+          <input id="pl-search" type="search" placeholder="Start typing a song or artist to add..." autocomplete="off" aria-label="Search songs to add">
+        </div>
+        <p id="pl-search-status" class="music-status" aria-live="polite"></p>
+        <ul id="pl-results" class="pl-results"></ul>
+      </div>
+    </div>
   </section>
 </div>
 
@@ -1003,6 +1057,7 @@ h2 {
   animate();
 </script>
 
+<!-- Rotating messages -->
 <script>
   const messages = [
     "Don't worry, you can be free here",
@@ -1010,6 +1065,7 @@ h2 {
     "Fun fact: Glossom isn't even a real word, we just mixed the words 'blossom' and 'gloss'",
     "I don't think anyone even reads these, they just come for the games, that's it.",
     "Freedom lives here, so take your time",
+    "Some people might think these messages are cringe, I just put them because any other link pretty much has them too",
     "I have VS code on my chromebook, so don't be surprised if you see me making a website in the middle of class :/",
     "I'm gonna try to make 3 more links after this one, I have many more planned",
     "67 67 67 67",
@@ -1134,6 +1190,7 @@ h2 {
   setInterval(updateClock, 1000);
 </script>
 
+<!-- Background changer -->
 <script>
   const backgrounds = [
     "default",
@@ -1208,6 +1265,7 @@ h2 {
   });
 </script>
 
+<!-- Click effects -->
 <script>
   function wavyPath(waves, amp, r) {
     let d = "";
@@ -1395,7 +1453,8 @@ h2 {
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeInfo(); });
 </script>
 
-=<script>
+<!-- Welcome note -->
+<script>
   const note = document.getElementById("note");
 
   function closeNote() { note.hidden = true; }
@@ -1406,6 +1465,7 @@ h2 {
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeNote(); });
 </script>
 
+<!-- Update log -->
 <script>
   const logPanel = document.getElementById("log");
   const logBtn = document.getElementById("log-btn");
@@ -1420,8 +1480,9 @@ h2 {
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLog(); });
 </script>
 
+<!-- Games browser -->
 <script>
-const games = [
+  const games = [
     { name: "Geometry Dash", url: "games/mygame1/index.html", img: "games-icon/geometrydash.jpg" },
     { name: "Geometry Dash (Scratch Version)", url: "games/mygame2/index.html", img: "games-icon/geometrydashscratch.jpg" },
     { name: "Geometry Dash Lite", url: "games/mygame2/index.html", img: "games-icon/geometrydashlite.jpg" },
@@ -2508,7 +2569,6 @@ const games = [
     if (!gridEl.children.length) gridEl.textContent = "No games found";
   }
 
-
   function renderTabs() {
     tabsEl.innerHTML = "";
     tabs.forEach((t) => {
@@ -2563,6 +2623,7 @@ const games = [
   });
 </script>
 
+<!-- School Web Portal form -->
 <script>
   const portalForm = document.getElementById("searchForm");
 
@@ -2588,6 +2649,7 @@ const games = [
   }
 </script>
 
+<!-- GLOSSOM Music catalog and player (Audius) -->
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -2600,21 +2662,15 @@ const games = [
   const forwardButton = $("music-forward"), seek = $("music-seek");
   const title = $("music-song-title"), artist = $("music-song-artist");
   const detailArt = $("music-detail-art"), detailGenre = $("music-song-genre");
-    const miniPlayer = $("miniMusicPlayer");
-  const miniArt = $("miniMusicArt");
-  const miniTitle = $("miniMusicTitle");
-  const miniArtist = $("miniMusicArtist");
-  const miniToggle = $("miniMusicToggle");
-  const miniBack = $("miniMusicBack");
-  const miniForward = $("miniMusicForward");
-  const miniPrevious = $("miniMusicPrevious");
-  const miniNext = $("miniMusicNext");
   const currentTime = $("music-current-time"), duration = $("music-duration");
   const status = $("music-status"), detailStatus = $("music-detail-status");
   const list = $("music-list"), listHeading = $("music-list-heading");
   const API = "https://api.audius.co/v1", APP_NAME = "GLOSSOM";
   const fallbackArt = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#38245a"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs><rect width="400" height="400" fill="url(#g)"/><text x="200" y="225" text-anchor="middle" font-size="100" fill="white">G</text></svg>');
-  let tracks = [], currentIndex = -1, requestNumber = 0;
+  const playlistView = $("music-playlist-view");
+  // tracks = songs shown on the browse page; queue = the list that is actually playing
+  let tracks = [], queue = [], currentIndex = -1, requestNumber = 0;
+  let backTarget = "browse";
 
   function formatTime(s) {
     if (!Number.isFinite(s) || s < 0) return "0:00";
@@ -2633,24 +2689,36 @@ const games = [
       .replace(/[^a-z0-9]+/g, " ")
       .trim();
   }
-
-  function updateMiniPlayer() {
-    if (currentIndex !== -1) {
-      miniTitle.textContent = title.textContent;
-      miniArtist.textContent = artist.textContent;
-      miniArt.src = detailArt.src;
-      miniArt.alt = "Album artwork for " + title.textContent;
-    }
-
-    miniPlayer.classList.toggle(
-      "visible",
-      currentIndex !== -1 && panel.hidden
-    );
-
-    miniToggle.textContent = audio.paused ? "▶" : "Ⅱ";
+  function showView(name) {
+    browseView.hidden = name !== "browse";
+    detailView.hidden = name !== "detail";
+    playlistView.hidden = name !== "playlists";
+    panel.scrollTop = 0;
   }
-  function showBrowse() { detailView.hidden = true; browseView.hidden = false; }
-  function showDetails() { browseView.hidden = true; detailView.hidden = false; }
+  function showBrowse() { showView("browse"); }
+  function showDetails() { showView("detail"); }
+
+  function rankMatches(catalogTracks, query) {
+    const words = normalizeSearchText(query)
+      .split(/\s+/)
+      .filter(Boolean)
+      .filter(word => !["by", "song", "songs", "music"].includes(word));
+
+    return catalogTracks
+      .map(track => {
+        const cleanTitle = normalizeSearchText(track.title);
+        const cleanArtist = normalizeSearchText(trackArtist(track));
+        const combined = cleanTitle + " " + cleanArtist;
+        const matches = words.length > 0 && words.every(word => combined.includes(word));
+        const score =
+          words.filter(word => cleanTitle.includes(word)).length * 3 +
+          words.filter(word => cleanArtist.includes(word)).length;
+        return { track, matches, score };
+      })
+      .filter(item => item.matches)
+      .sort((a, b) => b.score - a.score)
+      .map(item => item.track);
+  }
 
   function renderTracks() {
     list.replaceChildren();
@@ -2664,7 +2732,7 @@ const games = [
     tracks.forEach((track, index) => {
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "music-track" + (index === currentIndex ? " active" : "");
+      button.className = "music-track" + (queue === tracks && index === currentIndex ? " active" : "");
       const art = document.createElement("img");
       art.className = "music-track-art"; art.src = artworkFor(track);
       art.alt = "Album artwork for " + (track.title || "song");
@@ -2676,7 +2744,7 @@ const games = [
       songArtist.className = "music-track-artist";
       songArtist.textContent = trackArtist(track);
       button.append(art, songTitle, songArtist);
-      button.addEventListener("click", () => playTrack(index));
+      button.addEventListener("click", () => playList(tracks, index, "browse"));
       list.appendChild(button);
     });
   }
@@ -2686,10 +2754,13 @@ const games = [
     const query = searchInput.value.trim(), genre = genreSelect.value;
     status.textContent = "Searching the music catalog...";
     discoverButton.disabled = true;
-    list.replaceChildren();
-    const loading = document.createElement("div");
-    loading.className = "music-empty"; loading.textContent = "Finding songs...";
-    list.appendChild(loading);
+    // Keep the old results on screen while typing so the page doesn't flicker
+    if (!tracks.length) {
+      list.replaceChildren();
+      const loading = document.createElement("div");
+      loading.className = "music-empty"; loading.textContent = "Finding songs...";
+      list.appendChild(loading);
+    }
     try {
       let url;
       if (query) {
@@ -2710,31 +2781,8 @@ const games = [
         t => t && t.id && t.title && t.is_streamable !== false
       );
 
-      if (query) {
-        const words = normalizeSearchText(query)
-          .split(/\s+/)
-          .filter(Boolean)
-          .filter(word => !["by", "song", "songs", "music"].includes(word));
+      tracks = query ? rankMatches(catalogTracks, query) : catalogTracks;
 
-        tracks = catalogTracks
-          .map(track => {
-            const cleanTitle = normalizeSearchText(track.title);
-            const cleanArtist = normalizeSearchText(trackArtist(track));
-            const combined = cleanTitle + " " + cleanArtist;
-            const matches = words.length > 0 && words.every(word => combined.includes(word));
-            const score =
-              words.filter(word => cleanTitle.includes(word)).length * 3 +
-              words.filter(word => cleanArtist.includes(word)).length;
-            return { track, matches, score };
-          })
-          .filter(item => item.matches)
-          .sort((a, b) => b.score - a.score)
-          .map(item => item.track);
-      } else {
-        tracks = catalogTracks;
-      }
-
-      currentIndex = -1;
       listHeading.textContent = query
         ? "Matching songs"
         : (genre === "all" ? "Popular on Audius" : genre + " music");
@@ -2758,21 +2806,27 @@ const games = [
     }
   }
 
+  function playList(list, index, from) {
+    queue = list;
+    backTarget = from;
+    backToList.textContent = from === "playlist" ? "← Back to playlist" : "← Back to songs";
+    playTrack(index);
+  }
+
   async function playTrack(index) {
-    if (index < 0 || index >= tracks.length) return;
+    if (index < 0 || index >= queue.length) return;
     currentIndex = index;
-    const track = tracks[index];
+    const track = queue[index];
     title.textContent = track.title || "Unknown song";
     artist.textContent = trackArtist(track);
     detailGenre.textContent = track.genre || "";
     detailArt.src = artworkFor(track);
     detailArt.alt = "Album artwork for " + (track.title || "song");
     detailArt.onerror = () => { detailArt.src = fallbackArt; };
-    updateMiniPlayer();
     currentTime.textContent = "0:00"; duration.textContent = "0:00";
     seek.value = "0"; toggleButton.textContent = "Pause";
     detailStatus.textContent = "Loading track...";
-    showDetails(); renderTracks();
+    showDetails(); renderTracks(); renderEditor();
     audio.src = API + "/tracks/" + encodeURIComponent(track.id) + "/stream?app_name=" + encodeURIComponent(APP_NAME);
     try { await audio.play(); detailStatus.textContent = "Now playing."; }
     catch (e) {
@@ -2783,23 +2837,23 @@ const games = [
 
   openButton.addEventListener("click", () => {
     panel.hidden = false; showBrowse();
-    updateMiniPlayer();
     if (!tracks.length) fetchTracks();
     searchInput.focus();
   });
-  closeButton.addEventListener("click", () => {
-  panel.hidden = true;
-  updateMiniPlayer();
-});
-  backToList.addEventListener("click", showBrowse);
-  document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && !panel.hidden) {
-    panel.hidden = true;
-    updateMiniPlayer();
-  }
-});
+  closeButton.addEventListener("click", () => { panel.hidden = true; });
+  backToList.addEventListener("click", () => {
+    if (backTarget === "playlist" && currentPlaylist()) openEditor(editingId, plEditing);
+    else showBrowse();
+  });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) panel.hidden = true; });
   discoverButton.addEventListener("click", fetchTracks);
-  searchInput.addEventListener("keydown", e => { if (e.key === "Enter") fetchTracks(); });
+  // Search as you type: wait until the user pauses for a moment, then search
+  function debounce(fn, ms) {
+    let timer;
+    return () => { clearTimeout(timer); timer = setTimeout(fn, ms); };
+  }
+  const SEARCH_DELAY = 350;
+  searchInput.addEventListener("input", debounce(fetchTracks, SEARCH_DELAY));
   genreSelect.addEventListener("change", fetchTracks);
   toggleButton.addEventListener("click", async () => {
     if (currentIndex === -1) return;
@@ -2807,51 +2861,6 @@ const games = [
       try { await audio.play(); }
       catch (e) { detailStatus.textContent = "Playback could not start. The stream may be blocked."; }
     } else audio.pause();
-  });
-
-    // Mini-player play and pause
-    miniToggle.addEventListener("click", async () => {
-    if (currentIndex === -1) return;
-
-    if (audio.paused) {
-      try {
-        await audio.play();
-      } catch (e) {
-        detailStatus.textContent = "Playback could not start.";
-      }
-    } else {
-      audio.pause();
-    }
-
-    updateMiniPlayer();
-  });
-
-  // Mini-player rewind 15 seconds
-  miniBack.addEventListener("click", () => {
-    if (Number.isFinite(audio.duration)) {
-      audio.currentTime = Math.max(0, audio.currentTime - 15);
-    }
-  });
-
-  // Mini-player fast-forward 15 seconds
-  miniForward.addEventListener("click", () => {
-    if (Number.isFinite(audio.duration)) {
-      audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
-    }
-  });
-
-  // Previous song
-  miniPrevious.addEventListener("click", () => {
-    if (currentIndex > 0) {
-      playTrack(currentIndex - 1);
-    }
-  });
-
-  // Next song
-  miniNext.addEventListener("click", () => {
-    if (currentIndex !== -1 && currentIndex + 1 < tracks.length) {
-      playTrack(currentIndex + 1);
-    }
   });
   backButton.addEventListener("click", () => {
     if (Number.isFinite(audio.duration)) audio.currentTime = Math.max(0, audio.currentTime - 15);
@@ -2867,311 +2876,665 @@ const games = [
     currentTime.textContent = formatTime(audio.currentTime);
   });
   audio.addEventListener("loadedmetadata", () => { duration.textContent = formatTime(audio.duration); });
-  audio.addEventListener("play", () => {
-    toggleButton.textContent = "Pause";
-    detailStatus.textContent = "Now playing.";
-    updateMiniPlayer();
-  });
-
-  audio.addEventListener("pause", () => {
-    toggleButton.textContent = "Play";
-    updateMiniPlayer();
-  });  audio.addEventListener("pause", () => { toggleButton.textContent = "Play"; });
+  audio.addEventListener("play", () => { toggleButton.textContent = "Pause"; detailStatus.textContent = "Now playing."; });
+  audio.addEventListener("pause", () => { toggleButton.textContent = "Play"; });
   audio.addEventListener("ended", () => {
-    if (currentIndex + 1 < tracks.length) playTrack(currentIndex + 1);
+    if (currentIndex + 1 < queue.length) playTrack(currentIndex + 1);
     else { toggleButton.textContent = "Play"; detailStatus.textContent = "End of this list."; }
   });
   audio.addEventListener("error", () => {
     if (currentIndex !== -1) detailStatus.textContent = "This stream could not be played. Try another track.";
   });
+
+  /* ===== PLAYLISTS ===== */
+  const PL_KEY = "glossom-playlists";
+  const plHome = $("pl-home"), plEditor = $("pl-editor"), plGrid = $("pl-grid");
+  const plCreateForm = $("pl-create-form"), plNewName = $("pl-new-name");
+  const plName = $("pl-name"), plCover = $("pl-cover"), plCount = $("pl-count");
+  const plPlay = $("pl-play"), plDelete = $("pl-delete"), plSongs = $("pl-songs");
+  const plSearch = $("pl-search");
+  const plSearchStatus = $("pl-search-status"), plResults = $("pl-results");
+  const plEdit = $("pl-edit"), plTitleText = $("pl-title-text"), plFilter = $("pl-filter");
+  const plNameLabel = $("pl-name-label"), plAddSection = $("pl-add-section");
+  // editingId = the playlist that is open; plEditing = whether edit mode is on
+  let playlists = loadPlaylists(), editingId = null, plEditing = false;
+  let results = [], plRequest = 0, deleteTimer = null;
+  // Multi-select on the "Your playlists" grid
+  const plSelectBtn = $("pl-select"), plSelectCancel = $("pl-select-cancel");
+  const plSelectBar = $("pl-select-bar"), plSelectCount = $("pl-select-count");
+  const plBulkDelete = $("pl-bulk-delete");
+  let selecting = false, selected = new Set(), bulkTimer = null;
+
+  function loadPlaylists() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(PL_KEY));
+      return Array.isArray(saved) ? saved.filter(p => p && p.id && Array.isArray(p.songs)) : [];
+    } catch (e) { return []; }
+  }
+  function savePlaylists() {
+    try { localStorage.setItem(PL_KEY, JSON.stringify(playlists)); }
+    catch (e) { plSearchStatus.textContent = "Your browser would not save this playlist (storage may be full or blocked)."; }
+  }
+  function currentPlaylist() { return playlists.find(p => p.id === editingId); }
+  function songCount(n) { return n + (n === 1 ? " song" : " songs"); }
+  // Only keep what the player needs, so saved playlists stay small
+  function slimTrack(t) {
+    const a = t.artwork || {};
+    return {
+      id: t.id, title: t.title || "Untitled track", genre: t.genre || "",
+      user: { name: trackArtist(t) },
+      artwork: { "480x480": a["480x480"] || a["150x150"] || a["1000x1000"] || "" }
+    };
+  }
+  function songRow(track, number) {
+    const row = document.createElement("li");
+    row.className = "pl-song";
+    if (number != null) {
+      const num = document.createElement("span");
+      num.className = "pl-song-num"; num.textContent = number;
+      row.appendChild(num);
+    }
+    const art = document.createElement("img");
+    art.src = artworkFor(track); art.alt = ""; art.loading = "lazy";
+    art.onerror = () => { art.src = fallbackArt; };
+    const text = document.createElement("div");
+    text.className = "pl-song-text";
+    const songTitle = document.createElement("span");
+    songTitle.className = "music-track-title"; songTitle.textContent = track.title || "Untitled track";
+    const songArtist = document.createElement("span");
+    songArtist.className = "music-track-artist"; songArtist.textContent = trackArtist(track);
+    text.append(songTitle, songArtist);
+    row.append(art, text);
+    return row;
+  }
+  function iconButton(label, ariaLabel, onClick, extraClass) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "pl-icon-btn" + (extraClass ? " " + extraClass : "");
+    b.textContent = label; b.setAttribute("aria-label", ariaLabel);
+    b.addEventListener("click", onClick);
+    return b;
+  }
+
+  function showPlaylistHome() {
+    editingId = null;
+    exitSelect();
+    showView("playlists");
+    plHome.hidden = false; plEditor.hidden = true;
+    renderPlaylistGrid();
+  }
+  function exitSelect() {
+    selecting = false;
+    selected.clear();
+    resetBulkDelete();
+  }
+  function resetBulkDelete() {
+    clearTimeout(bulkTimer);
+    plBulkDelete.classList.remove("armed");
+    plBulkDelete.textContent = "🗑️ Delete selected";
+  }
+  // Only show playlists whose name contains what's typed in the search box
+  function shownPlaylists() {
+    const filter = normalizeSearchText(plFilter.value);
+    return playlists.filter(p => normalizeSearchText(p.name).includes(filter));
+  }
+  function updateSelectUI(shown) {
+    if (!playlists.length) selecting = false;
+    plSelectBtn.hidden = !playlists.length;
+    const allSelected = shown.length > 0 && shown.every(p => selected.has(p.id));
+    plSelectBtn.textContent = !selecting ? "Select" : (allSelected ? "Deselect All" : "Select All?");
+    plSelectCancel.hidden = !selecting;
+    plSelectBar.hidden = !selecting;
+    plSelectCount.textContent = selected.size + " selected";
+    plBulkDelete.disabled = selected.size === 0;
+  }
+  function renderPlaylistGrid() {
+    plGrid.replaceChildren();
+    const shown = shownPlaylists();
+    // Never keep a playlist selected that the search box is hiding
+    selected.forEach(id => { if (!shown.some(p => p.id === id)) selected.delete(id); });
+    updateSelectUI(shown);
+    if (!playlists.length) {
+      const empty = document.createElement("div");
+      empty.className = "music-empty";
+      empty.textContent = "No playlists yet. Name one above to get started.";
+      plGrid.appendChild(empty);
+      return;
+    }
+    if (!shown.length) {
+      const empty = document.createElement("div");
+      empty.className = "music-empty";
+      empty.textContent = 'No playlists match "' + plFilter.value.trim() + '".';
+      plGrid.appendChild(empty);
+      return;
+    }
+    shown.forEach(p => {
+      const card = document.createElement("button");
+      card.type = "button"; card.className = "music-track";
+      const isSelected = selecting && selected.has(p.id);
+      card.classList.toggle("selected", isSelected);
+      if (selecting) {
+        card.setAttribute("aria-pressed", String(isSelected));
+        const check = document.createElement("span");
+        check.className = "pl-check"; check.textContent = isSelected ? "✓" : "";
+        card.appendChild(check);
+      }
+      const art = document.createElement("img");
+      art.className = "music-track-art"; art.alt = "";
+      art.src = p.songs.length ? artworkFor(p.songs[0]) : fallbackArt;
+      art.onerror = () => { art.src = fallbackArt; };
+      const name = document.createElement("span");
+      name.className = "music-track-title"; name.textContent = p.name || "Untitled playlist";
+      const count = document.createElement("span");
+      count.className = "music-track-artist"; count.textContent = songCount(p.songs.length);
+      card.append(art, name, count);
+      card.addEventListener("click", () => {
+        if (!selecting) { openEditor(p.id); return; }
+        if (selected.has(p.id)) selected.delete(p.id); else selected.add(p.id);
+        resetBulkDelete();
+        renderPlaylistGrid();
+      });
+      plGrid.appendChild(card);
+    });
+  }
+
+  function openEditor(id, editMode = false) {
+    editingId = id;
+    const p = currentPlaylist();
+    if (!p) { showPlaylistHome(); return; }
+    showView("playlists");
+    plHome.hidden = true; plEditor.hidden = false;
+    resetDelete();
+    setEditMode(editMode);
+  }
+  function setEditMode(on) {
+    const p = currentPlaylist();
+    if (!p) return;
+    plEditing = on;
+    if (!on && !p.name.trim()) { p.name = "Untitled playlist"; savePlaylists(); }
+    plName.value = p.name;
+    plTitleText.textContent = p.name;
+    plName.hidden = !on;
+    plTitleText.hidden = on;
+    plNameLabel.textContent = on ? "PLAYLIST NAME" : "PLAYLIST";
+    plAddSection.hidden = !on;
+    plEdit.classList.toggle("editing", on);
+    plEdit.textContent = on ? "✓ Done editing" : "✏️ Edit playlist";
+    renderEditor();
+  }
+  function renderEditor() {
+    const p = currentPlaylist();
+    if (!p || plEditor.hidden) return;
+    plCover.src = p.songs.length ? artworkFor(p.songs[0]) : fallbackArt;
+    plCover.onerror = () => { plCover.src = fallbackArt; };
+    plCount.textContent = songCount(p.songs.length);
+    plPlay.disabled = !p.songs.length;
+
+    const playingId = queue[currentIndex] && queue[currentIndex].id;
+    plSongs.replaceChildren();
+    if (!p.songs.length) {
+      const empty = document.createElement("li");
+      empty.className = "music-empty";
+      empty.textContent = plEditing
+        ? "No songs yet. Search below to add some."
+        : "No songs yet. Click \"Edit playlist\" to add some.";
+      plSongs.appendChild(empty);
+    }
+    p.songs.forEach((song, i) => {
+      const row = songRow(song, i + 1);
+      if (backTarget === "playlist" && song.id === playingId && !audio.paused) row.classList.add("playing");
+      row.append(iconButton("▶", "Play " + song.title, () => playList(p.songs.slice(), i, "playlist")));
+      if (plEditing) {
+        row.append(iconButton("✕", "Remove " + song.title + " from playlist", () => {
+          p.songs.splice(i, 1);
+          savePlaylists(); renderEditor();
+        }));
+      }
+      plSongs.appendChild(row);
+    });
+    renderResults();
+  }
+  function renderResults() {
+    const p = currentPlaylist();
+    plResults.replaceChildren();
+    if (!p) return;
+    results.forEach(track => {
+      const row = songRow(track);
+      const added = p.songs.some(s => s.id === track.id);
+      const btn = iconButton(added ? "Added ✓" : "+ Add", "Add " + track.title + " to playlist", () => {
+        p.songs.push(slimTrack(track));
+        savePlaylists(); renderEditor();
+      }, "add");
+      btn.disabled = added;
+      row.appendChild(btn);
+      plResults.appendChild(row);
+    });
+  }
+
+  async function searchForPlaylist() {
+    const query = plSearch.value.trim();
+    const thisRequest = ++plRequest;
+    if (!query) { results = []; renderResults(); plSearchStatus.textContent = ""; return; }
+    plSearchStatus.textContent = "Searching...";
+    try {
+      const url = new URL(API + "/tracks/search");
+      url.searchParams.set("query", query);
+      url.searchParams.set("limit", "30");
+      url.searchParams.set("app_name", APP_NAME);
+      const response = await fetch(url.toString());
+      if (!response.ok) throw new Error("Search failed");
+      const json = await response.json();
+      if (thisRequest !== plRequest) return;
+      const found = (json.data || []).filter(t => t && t.id && t.title && t.is_streamable !== false);
+      const ranked = rankMatches(found, query);
+      results = ranked.length ? ranked : found;
+      plSearchStatus.textContent = results.length
+        ? results.length + " songs found. Click \"+ Add\" to put one in your playlist."
+        : 'No songs found for "' + query + '". Try the exact song title or artist name.';
+      renderResults();
+    } catch (e) {
+      if (thisRequest !== plRequest) return;
+      results = []; renderResults();
+      plSearchStatus.textContent = "Search could not load. Check your internet connection or whether your school network blocks Audius.";
+    }
+  }
+
+  function resetDelete() {
+    clearTimeout(deleteTimer);
+    plDelete.classList.remove("armed");
+    plDelete.textContent = "🗑️ Delete playlist";
+  }
+
+  $("music-playlists-btn").addEventListener("click", () => { showPlaylistHome(); plNewName.focus(); });
+  $("pl-home-back").addEventListener("click", showBrowse);
+  $("pl-editor-back").addEventListener("click", showPlaylistHome);
+
+  plCreateForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const p = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      name: plNewName.value.trim() || "My playlist " + (playlists.length + 1),
+      songs: []
+    };
+    playlists.push(p);
+    savePlaylists();
+    plNewName.value = "";
+    results = []; plSearch.value = ""; plSearchStatus.textContent = "";
+    openEditor(p.id, true); // a brand-new playlist opens ready to add songs
+    plSearch.focus();
+  });
+
+  plEdit.addEventListener("click", () => {
+    setEditMode(!plEditing);
+    if (plEditing) plName.focus();
+  });
+
+  plName.addEventListener("input", () => {
+    const p = currentPlaylist();
+    if (p) { p.name = plName.value; savePlaylists(); }
+  });
+  plName.addEventListener("change", () => {
+    const p = currentPlaylist();
+    if (p && !p.name.trim()) { p.name = plName.value = "Untitled playlist"; savePlaylists(); }
+  });
+
+  plPlay.addEventListener("click", () => {
+    const p = currentPlaylist();
+    if (p && p.songs.length) playList(p.songs.slice(), 0, "playlist");
+  });
+
+  // Click once to arm, click again within 3 seconds to really delete
+  plDelete.addEventListener("click", () => {
+    if (!plDelete.classList.contains("armed")) {
+      plDelete.classList.add("armed");
+      plDelete.textContent = "🗑️ Confirm to delete";
+      deleteTimer = setTimeout(resetDelete, 3000);
+      return;
+    }
+    resetDelete();
+    playlists = playlists.filter(p => p.id !== editingId);
+    savePlaylists();
+    showPlaylistHome();
+  });
+
+  plSearch.addEventListener("input", debounce(searchForPlaylist, SEARCH_DELAY));
+  plFilter.addEventListener("input", renderPlaylistGrid);
+
+  // 1st click: turn on selecting. After that: "Select All?" / "Deselect All"
+  plSelectBtn.addEventListener("click", () => {
+    if (!selecting) {
+      selecting = true;
+    } else {
+      const shown = shownPlaylists();
+      const allSelected = shown.every(p => selected.has(p.id));
+      shown.forEach(p => allSelected ? selected.delete(p.id) : selected.add(p.id));
+    }
+    resetBulkDelete();
+    renderPlaylistGrid();
+  });
+  plSelectCancel.addEventListener("click", () => { exitSelect(); renderPlaylistGrid(); });
+
+  // Click once to arm, click again within 3 seconds to delete every selected playlist
+  plBulkDelete.addEventListener("click", () => {
+    if (!selected.size) return;
+    if (!plBulkDelete.classList.contains("armed")) {
+      plBulkDelete.classList.add("armed");
+      plBulkDelete.textContent = "🗑️ Confirm to delete" + selected.size;
+      bulkTimer = setTimeout(resetBulkDelete, 3000);
+      return;
+    }
+    playlists = playlists.filter(p => !selected.has(p.id));
+    savePlaylists();
+    exitSelect();
+    renderPlaylistGrid();
+  });
+  audio.addEventListener("play", renderEditor);
+  audio.addEventListener("pause", renderEditor);
+})();
+</script>
+
+<script>
+(() => {
+  const GAP = 24;
+  const HOLE = 62;
+  const OUTER = 165;
+  const PUSH = 12;
+  const GROW = 1.6;
+  const COLOR = "190,150,255";
+
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const css = document.createElement("style");
+  css.textContent =
+    "html.dot-burst body { background-image: none !important; }" +
+    ".dot-burst .bg-layer.dots { background-image: none !important; }" +
+    "#dot-burst { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; transition: opacity 0.6s ease; }";
+  document.head.appendChild(css);
+  document.documentElement.classList.add("dot-burst");
+
+  const canvas = document.createElement("canvas");
+  canvas.id = "dot-burst";
+  document.querySelector(".bg-stack").after(canvas);
+  const ctx = canvas.getContext("2d");
+
+  let cols = 0, rows = 0;
+
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.ceil(window.innerWidth * dpr);
+    canvas.height = Math.ceil(window.innerHeight * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(window.innerWidth / GAP);
+    rows = Math.ceil(window.innerHeight / GAP);
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  let moved = false, power = 0;
+  window.addEventListener("pointermove", () => { moved = true; }, { once: true });
+
+  const clamp01 = (v) => Math.max(0, Math.min(1, v));
+
+  function frame() {
+    requestAnimationFrame(frame);
+
+    const onDots = typeof current === "undefined" || current === 0;
+    canvas.style.opacity = onDots ? 1 : 0;
+    if (!onDots) return;
+
+    power += ((moved ? 1 : 0) - power) * 0.06;
+
+    let cx = 0, cy = 0;
+    state.forEach((b) => { cx += b.x; cy += b.y; });
+    cx /= state.length;
+    cy /= state.length;
+
+    const hole = HOLE * power;
+    const outer = OUTER * power;
+    const push = PUSH * power;
+    const outer2 = outer * outer;
+
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+    ctx.fillStyle = "rgba(255,255,255,0.18)";
+    ctx.beginPath();
+    const near = [];
+    for (let j = 0; j < rows; j++) {
+      for (let i = 0; i < cols; i++) {
+        const x = GAP / 2 + i * GAP, y = GAP / 2 + j * GAP;
+        const dx = x - cx, dy = y - cy;
+        if (outer > 4 && dx * dx + dy * dy < outer2) {
+          near.push(dx, dy);
+          continue;
+        }
+        ctx.moveTo(x + 1, y);
+        ctx.arc(x, y, 1, 0, 6.2832);
+      }
+    }
+    ctx.fill();
+
+    for (let n = 0; n < near.length; n += 2) {
+      const dx = near[n], dy = near[n + 1];
+      const d = Math.hypot(dx, dy);
+      const ux = d > 0.5 ? dx / d : 1;
+      const uy = d > 0.5 ? dy / d : 0;
+
+      const p = d <= hole ? 1 : clamp01(1 - (d - hole) / (outer - hole));
+      const p2 = p * p;
+
+      let f = 1;
+      if (d < hole) {
+        const t = clamp01((d / hole - 0.55) / 0.45);
+        f = t * t * (3 - 2 * t);
+      }
+      if (f < 0.02) continue;
+
+      const dist = d + push * p2;
+      const radius = (1 + GROW * p2) * (0.4 + 0.6 * f);
+      ctx.fillStyle = "rgba(" + COLOR + "," + ((0.18 + 0.5 * p2) * f) + ")";
+      ctx.beginPath();
+      ctx.arc(cx + ux * dist, cy + uy * dist, radius, 0, 6.2832);
+      ctx.fill();
+    }
+  }
+  frame();
+})();
+</script>
+
+<div id="miniMusicPlayer" role="region" aria-label="Music player">
+  <button id="miniMusicClose" class="mini-close" type="button" aria-label="Close player">✕</button>
+
+  <div class="mini-top">
+    <button id="miniMusicOpen" class="mini-art-wrap" type="button" aria-label="Open the music page">
+      <img id="miniMusicArt" alt="Album cover">
+    </button>
+    <div class="mini-info">
+      <div class="mini-label">
+        <span class="mini-eq"><i></i><i></i><i></i><i></i></span>
+        <span id="miniMusicState">NOW PLAYING</span>
+      </div>
+      <div id="miniMusicTitle" class="mini-title">No song playing</div>
+      <div id="miniMusicArtist" class="mini-artist"></div>
+    </div>
+  </div>
+
+  <div class="mini-progress">
+    <span id="miniMusicCur">0:00</span>
+    <input id="miniMusicSeek" type="range" min="0" max="1000" value="0" aria-label="Song progress">
+    <span id="miniMusicDur">0:00</span>
+  </div>
+
+  <div class="mini-controls">
+    <button id="miniMusicBack" class="mini-skip" type="button" aria-label="Rewind 15 seconds">↺ 15s</button>
+    <button id="miniMusicToggle" type="button" aria-label="Play music">▶</button>
+    <button id="miniMusicForward" class="mini-skip" type="button" aria-label="Skip forward 15 seconds">15s ↻</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+
+  const audio = $("music-audio");
+  const panel = $("music-panel");
+  const mini = $("miniMusicPlayer");
+  const miniArt = $("miniMusicArt");
+  const miniTitle = $("miniMusicTitle");
+  const miniArtist = $("miniMusicArtist");
+  const miniState = $("miniMusicState");
+  const miniCur = $("miniMusicCur");
+  const miniDur = $("miniMusicDur");
+  const miniSeek = $("miniMusicSeek");
+  const miniBack = $("miniMusicBack");
+  const miniForward = $("miniMusicForward");
+  const miniToggle = $("miniMusicToggle");
+  const miniClose = $("miniMusicClose");
+  const miniOpen = $("miniMusicOpen");
+
+  const srcTitle = $("music-song-title");
+  const srcArtist = $("music-song-artist");
+  const srcArt = $("music-detail-art");
+
+  if (!audio || !panel || !mini) {
+    console.error("GLOSSOM mini player: an element could not be found.");
+    return;
+  }
+
+  let hasPlayed = false;
+  let dismissed = false;
+  let dragging = false;
+
+  function fmt(s) {
+    if (!Number.isFinite(s) || s < 0) return "0:00";
+    return Math.floor(s / 60) + ":" + Math.floor(s % 60).toString().padStart(2, "0");
+  }
+
+  function setFill() {
+    miniSeek.style.setProperty("--p", miniSeek.value / 10 + "%");
+  }
+
+  function syncInfo() {
+    const t = srcTitle ? srcTitle.textContent.trim() : "";
+    const a = srcArtist ? srcArtist.textContent.trim() : "";
+    miniTitle.textContent = t || "Unknown song";
+    miniTitle.title = t;
+    miniArtist.textContent = a;
+    if (srcArt && srcArt.src && miniArt.src !== srcArt.src) miniArt.src = srcArt.src;
+  }
+
+  function syncState() {
+    const playing = !audio.paused && !audio.ended;
+    const show = hasPlayed && !dismissed && panel.hidden;
+    mini.classList.toggle("visible", show);
+    mini.classList.toggle("playing", playing);
+    miniState.textContent = playing ? "NOW PLAYING" : "PAUSED";
+    miniToggle.textContent = playing ? "❚❚" : "▶";
+    miniToggle.setAttribute("aria-label", playing ? "Pause music" : "Play music");
+  }
+
+  function syncProgress() {
+    const d = audio.duration;
+    const ok = Number.isFinite(d) && d > 0;
+    miniCur.textContent = fmt(audio.currentTime);
+    miniDur.textContent = fmt(ok ? d : 0);
+    if (!dragging) miniSeek.value = ok ? Math.round((audio.currentTime / d) * 1000) : 0;
+    setFill();
+  }
+
+  function syncAll() {
+    syncInfo();
+    syncState();
+    syncProgress();
+  }
+
+  audio.addEventListener("play", () => { hasPlayed = true; dismissed = false; syncAll(); });
+  audio.addEventListener("pause", syncAll);
+  audio.addEventListener("ended", syncAll);
+  audio.addEventListener("loadedmetadata", syncAll);
+  audio.addEventListener("durationchange", syncAll);
+  audio.addEventListener("timeupdate", syncProgress);
+
+  miniSeek.addEventListener("input", () => {
+    dragging = true;
+    const d = audio.duration;
+    if (Number.isFinite(d) && d > 0) {
+      audio.currentTime = (miniSeek.value / 1000) * d;
+      miniCur.textContent = fmt(audio.currentTime);
+    }
+    setFill();
+  });
+  miniSeek.addEventListener("change", () => { dragging = false; });
+
+  miniBack.addEventListener("click", () => {
+    if (Number.isFinite(audio.duration)) audio.currentTime = Math.max(0, audio.currentTime - 15);
+  });
+  miniForward.addEventListener("click", () => {
+    if (Number.isFinite(audio.duration)) audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
+  });
+
+  miniToggle.addEventListener("click", async () => {
+    if (audio.paused) {
+      try { await audio.play(); }
+      catch (error) { console.error("Could not resume music:", error); }
+    } else {
+      audio.pause();
+    }
+    syncState();
+  });
+
+  miniClose.addEventListener("click", () => {
+    audio.pause();
+    dismissed = true;
+    syncState();
+  });
+
+  miniOpen.addEventListener("click", () => {
+    const browse = $("music-browse-view");
+    const detail = $("music-detail-view");
+    const playlistsView = $("music-playlist-view");
+    if (browse) browse.hidden = true;
+    if (playlistsView) playlistsView.hidden = true;
+    if (detail) detail.hidden = false;
+    panel.hidden = false;
+  });
+
+  new MutationObserver(syncState).observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+
+  [srcTitle, srcArtist, srcArt].filter(Boolean).forEach((element) => {
+    new MutationObserver(syncInfo).observe(element, {
+      attributes: true, childList: true, characterData: true, subtree: true
+    });
+  });
+
+  syncAll();
 })();
 </script>
 
 <script>
   (() => {
-    const GAP = 24;
-    const HOLE = 62;
-    const OUTER = 165;
-    const PUSH = 12;
-    const GROW = 1.6;
-    const COLOR = "190,150,255";
-  
-    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  
-    const css = document.createElement("style");
-    css.textContent =
-      "html.dot-burst body { background-image: none !important; }" +
-      ".dot-burst .bg-layer.dots { background-image: none !important; }" +
-      "#dot-burst { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; transition: opacity 0.6s ease; }";
-    document.head.appendChild(css);
-    document.documentElement.classList.add("dot-burst");
-  
-    const canvas = document.createElement("canvas");
-    canvas.id = "dot-burst";
-    document.querySelector(".bg-stack").after(canvas);
-    const ctx = canvas.getContext("2d");
-  
-    let cols = 0, rows = 0;
-  
-    function resize() {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.ceil(window.innerWidth * dpr);
-      canvas.height = Math.ceil(window.innerHeight * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cols = Math.ceil(window.innerWidth / GAP);
-      rows = Math.ceil(window.innerHeight / GAP);
-    }
-    window.addEventListener("resize", resize);
-    resize();
-  
-    let moved = false, power = 0;
-    window.addEventListener("pointermove", () => { moved = true; }, { once: true });
-  
-    const clamp01 = (v) => Math.max(0, Math.min(1, v));
-  
-    function frame() {
-      requestAnimationFrame(frame);
-  
-      const onDots = typeof current === "undefined" || current === 0;
-      canvas.style.opacity = onDots ? 1 : 0;
-      if (!onDots) return;
-  
-      power += ((moved ? 1 : 0) - power) * 0.06;
-  
-      let cx = 0, cy = 0;
-      state.forEach((b) => { cx += b.x; cy += b.y; });
-      cx /= state.length;
-      cy /= state.length;
-  
-      const hole = HOLE * power;
-      const outer = OUTER * power;
-      const push = PUSH * power;
-      const outer2 = outer * outer;
-  
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-  
-      ctx.fillStyle = "rgba(255,255,255,0.18)";
-      ctx.beginPath();
-      const near = [];
-      for (let j = 0; j < rows; j++) {
-        for (let i = 0; i < cols; i++) {
-          const x = GAP / 2 + i * GAP, y = GAP / 2 + j * GAP;
-          const dx = x - cx, dy = y - cy;
-          if (outer > 4 && dx * dx + dy * dy < outer2) {
-            near.push(dx, dy);
-            continue;
-          }
-          ctx.moveTo(x + 1, y);
-          ctx.arc(x, y, 1, 0, 6.2832);
-        }
-      }
-      ctx.fill();
-  
-      for (let n = 0; n < near.length; n += 2) {
-        const dx = near[n], dy = near[n + 1];
-        const d = Math.hypot(dx, dy);
-        const ux = d > 0.5 ? dx / d : 1;
-        const uy = d > 0.5 ? dy / d : 0;
-  
-        const p = d <= hole ? 1 : clamp01(1 - (d - hole) / (outer - hole));
-        const p2 = p * p;
-  
-        let f = 1;
-        if (d < hole) {
-          const t = clamp01((d / hole - 0.55) / 0.45);
-          f = t * t * (3 - 2 * t);
-        }
-        if (f < 0.02) continue;
-  
-        const dist = d + push * p2;
-        const radius = (1 + GROW * p2) * (0.4 + 0.6 * f);
-        ctx.fillStyle = "rgba(" + COLOR + "," + ((0.18 + 0.5 * p2) * f) + ")";
-        ctx.beginPath();
-        ctx.arc(cx + ux * dist, cy + uy * dist, radius, 0, 6.2832);
-        ctx.fill();
-      }
-    }
-    frame();
-  })();
-  </script>
-
-<div id="miniMusicPlayer">
-  <div class="mini-music-icon">♫</div>
-
-  <div class="mini-music-info">
-    <span class="mini-music-label">NOW PLAYING</span>
-    <span id="miniMusicTitle">No song playing</span>
-  </div>
-
-  <button id="miniMusicToggle" aria-label="Pause music">
-    <span id="miniMusicIcon">Ⅱ</span>
-  </button>
-</div>
-
-<script>
-  (() => {
-    const audio = document.getElementById("music-audio");
-    const panel = document.getElementById("music-panel");
-  
-    const mini = document.getElementById("miniMusicPlayer");
-    const miniArt = document.getElementById("miniMusicArt");
-    const miniTitle = document.getElementById("miniMusicTitle");
-    const miniArtist = document.getElementById("miniMusicArtist");
-    const miniToggle = document.getElementById("miniMusicToggle");
-  
-    const title = document.getElementById("music-song-title");
-    const artist = document.getElementById("music-song-artist");
-    const art = document.getElementById("music-detail-art");
-  
-    if (!audio || !panel || !mini || !miniToggle) {
-      console.error("GLOSSOM mini-player: An element could not be found.");
-      return;
-    }
-  
-    let hasPlayed = false;
-  
-    function updateMiniPlayer() {
-      if (title) {
-        miniTitle.textContent = title.textContent.trim() || "Unknown song";
-      }
-  
-      if (artist) {
-        miniArtist.textContent = artist.textContent.trim();
-      }
-  
-      if (art && art.src) {
-        miniArt.src = art.src;
-      }
-  
-      const shouldShow =
-        hasPlayed &&
-        panel.hidden &&
-        !audio.ended;
-  
-      mini.classList.toggle("visible", shouldShow);
-  
-      miniToggle.textContent = audio.paused ? "▶" : "Ⅱ";
-  
-      miniToggle.setAttribute(
-        "aria-label",
-        audio.paused ? "Play music" : "Pause music"
-      );
-    }
-  
-    audio.addEventListener("play", () => {
-      hasPlayed = true;
-      updateMiniPlayer();
-    });
-  
-    audio.addEventListener("pause", updateMiniPlayer);
-    audio.addEventListener("ended", updateMiniPlayer);
-    audio.addEventListener("loadedmetadata", updateMiniPlayer);
-  
-    miniToggle.addEventListener("click", async () => {
-      if (audio.paused) {
-        try {
-          await audio.play();
-        } catch (error) {
-          console.error("Could not resume music:", error);
-        }
-      } else {
-        audio.pause();
-      }
-  
-      updateMiniPlayer();
-    });
-  
-    new MutationObserver(updateMiniPlayer).observe(panel, {
-      attributes: true,
-      attributeFilter: ["hidden"]
-    });
-  
-    [title, artist, art].filter(Boolean).forEach(element => {
-      new MutationObserver(updateMiniPlayer).observe(element, {
-        attributes: true,
-        childList: true,
-        characterData: true,
-        subtree: true
-      });
-    });
-  
-    updateMiniPlayer();
-  })();
-  </script>
-
-<div id="miniMusicPlayer">
-  <img id="miniMusicArt" alt="Song artwork">
-
-  <div class="mini-music-info">
-    <span class="mini-music-label">NOW PLAYING</span>
-    <span id="miniMusicTitle">No song playing</span>
-    <span id="miniMusicArtist"></span>
-  </div>
-
-  <button id="miniMusicToggle" type="button">Ⅱ</button>
-</div>
-
-<script>
-  (() => {
     const COUNT = 12;
     const COLORS = ["#8fd3ff", "#b388ff", "#a3dcff", "#c4a1ff", "#7fa2ff", "#c58bff"];
-  
+
     const wind = document.querySelector(".wind");
     if (!wind) return;
-  
+
     for (let i = 0; i < COUNT; i++) {
       const band = document.createElement("div");
       band.className = "band";
-  
+
       const color = COLORS[i % COLORS.length];
       const duration = 10 + Math.random() * 10;
-  
+
       band.style.top = ((i + Math.random() * 0.8) / COUNT) * 92 + "%";
       band.style.width = 50 + Math.random() * 40 + "vw";
       band.style.height = 18 + Math.random() * 18 + "vh";
       band.style.background = "radial-gradient(ellipse, " + color + ", transparent 70%)";
       band.style.animationDuration = duration + "s";
       band.style.animationDelay = "-" + Math.random() * duration + "s";
-  
+
       wind.appendChild(band);
     }
   })();
-  </script>
+</script>
 
-<div id="miniMusicPlayer">
-
-  <img id="miniMusicArt" src="" alt="Album artwork">
-
-  <div class="mini-music-info">
-    <span class="mini-music-label">NOW PLAYING</span>
-    <span id="miniMusicTitle">No song playing</span>
-    <span id="miniMusicArtist"></span>
-  </div>
-
-  <div class="mini-music-controls">
-    <button id="miniMusicBack" title="Rewind 15 seconds">-15</button>
-    <button id="miniMusicToggle" title="Play or pause">Ⅱ</button>
-    <button id="miniMusicForward" title="Forward 15 seconds">+15</button>
-  </div>
-
-</div>
-
-<div id="miniMusicPlayer" aria-label="Mini music player">
-  <img id="miniMusicArt" alt="Album artwork">
-
-  <div class="mini-music-info">
-    <span class="mini-music-label">NOW PLAYING</span>
-    <span id="miniMusicTitle">No song playing</span>
-    <span id="miniMusicArtist"></span>
-  </div>
-
-  <div class="mini-music-controls">
-    <button id="miniMusicPrevious" type="button">|◀</button>
-    <button id="miniMusicBack" type="button">−15</button>
-    <button id="miniMusicToggle" type="button">▶</button>
-    <button id="miniMusicForward" type="button">+15</button>
-    <button id="miniMusicNext" type="button">▶|</button>
-  </div>
-</div>
 </body>
 </html>
