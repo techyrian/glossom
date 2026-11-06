@@ -5,10 +5,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>GLOSSOM</title>
-<link rel="icon" type="image/jpg" href="images/favicon.jpg">
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<link rel="alternate icon" type="image/png" href="images/favicon.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Pacifico&display=swap" rel="stylesheet">
 <style>
 body {
   margin: 0;
@@ -20,7 +21,7 @@ body {
 }
 
 h1 {
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   color: white;
   text-align: center;
   text-shadow: 0 0 5px #fff, 0 20px 10px #9e5ac9, 0 20px 15px #9e5ac9;
@@ -29,7 +30,7 @@ h1 {
 }
 
 h2 {
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   color: white;
   text-align: center;
   text-shadow: 0 0 5px #fff, 0 20px 10px #9e5ac9, 0 20px 15px #9e5ac9;
@@ -104,7 +105,7 @@ h2 {
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(15, 15, 15, 0.9);
   color: white;
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
   white-space: nowrap;
@@ -144,7 +145,7 @@ h2 {
   align-items: center; justify-content: center;
   gap: 8px;
   color: white;
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-size: 1.5rem;
   font-weight: 900;
   padding: 10px;
@@ -168,7 +169,7 @@ h2 {
 /* ===== CLOCK ===== */
 .clock {
   text-align: center;
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-weight: 900;
   color: white;
   text-shadow: 0 4px 5px #fff, 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
@@ -200,7 +201,7 @@ h2 {
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(15, 15, 15, 0.95);
   color: white;
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
 }
 .tz-panel[hidden] { display: none; }
@@ -211,7 +212,7 @@ h2 {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.06);
   color: white;
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-size: 1rem;
   outline: none;
 }
@@ -246,7 +247,7 @@ h2 {
   background: rgba(15, 15, 15, 0.95);
   color: white;
   text-align: center;
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
 }
 .note-card h1 {
@@ -279,7 +280,7 @@ h2 {
   position: fixed; inset: 0; z-index: 9;
   display: flex; flex-direction: column;
   background: rgba(8, 8, 12, 0.97);
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   color: white;
 }
 .browser[hidden] { display: none; }
@@ -307,7 +308,7 @@ h2 {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.05);
   color: white;
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-size: 1.05rem;
   outline: none;
 }
@@ -325,110 +326,164 @@ h2 {
 .br-card:hover { transform: scale(1.05); }
 
 /* ===== PAGE LAYOUT ===== */
+/* ===== APP SHELL (sidebar + main) ===== */
 .page {
   position: relative; z-index: 1;
   min-height: 100vh; min-height: 100dvh;
   box-sizing: border-box;
-  padding: 16px 20px 24px;
-  display: flex; flex-direction: column;
-  justify-content: space-between;
+  display: flex; align-items: stretch;
+  font-family: "Inter", system-ui, sans-serif;
 }
 
-.top-row { display: grid; grid-template-columns: 1fr minmax(0, 520px) 1fr; align-items: start; gap: 16px; }
-.top-left { justify-self: start; }
-.top-left .corner-btn {
-  width: clamp(90px, 14vh, 140px);
-  height: clamp(90px, 14vh, 140px);
-  font-size: clamp(0.8rem, 1.8vh, 1.15rem);
+/* ----- Sidebar ----- */
+.sidebar {
+  flex: 0 0 248px;
+  box-sizing: border-box;
+  padding: 18px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; gap: 10px;
+  background: rgba(10, 10, 14, 0.82);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
-.top-left .corner-btn .icon { font-size: clamp(1.6rem, 4vh, 2.6rem); }
+.sidebar-toggle {
+  display: flex; align-items: center; gap: 8px;
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 8px 12px;
+  border: 0; border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06); color: #cfc6dd;
+  font-family: "Inter", system-ui, sans-serif; font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; transition: background 0.18s;
+}
+.sidebar-toggle:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
+.sidebar-toggle-icon { font-size: 1rem; line-height: 1; transition: transform 0.2s; }
 
-.portal {
-  padding: 12px 16px;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(15, 15, 15, 0.85);
-  color: white;
-  text-align: center;
-  font-family: "Fredoka", sans-serif;
-  box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
-}
-.portal-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; text-shadow: 0 0 6px #9e5ac9; }
-.portal form { display: flex; gap: 8px; }
-.portal input {
-  flex: 1; min-width: 0;
-  padding: 9px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.06);
-  color: white;
-  font-family: "Fredoka", sans-serif;
-  font-size: 0.95rem;
-  outline: none;
-}
-.portal input::placeholder { color: rgba(255, 255, 255, 0.5); }
-.portal input:focus { border-color: #9e5ac9; }
-.portal button {
-  position: relative; overflow: hidden;
-  padding: 9px 18px;
-  border: none; border-radius: 8px;
-  background: #9e5ac9; color: white;
-  font-family: "Fredoka", sans-serif; font-weight: bold;
-  cursor: pointer;
-}
-.portal button:hover { background: #b07dff; }
-.portal p { margin: 6px 0 0; color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; }
-.portal p:empty { display: none; }
-.portal-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
-.portal-links a {
-  display: inline-block;
-  padding: 8px 18px;
+.quick-icons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.quick-icon {
+  display: flex; align-items: center; justify-content: center;
+  aspect-ratio: 1;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(15, 15, 15, 0.85);
-  color: white;
-  font-family: "Fredoka", sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
-  text-decoration: none;
-  text-shadow: 0 0 6px #9e5ac9;
-  box-shadow: 0 2px 3px rgba(255, 255, 255, 0.5), 0 4px 6px #9e5ac9, 0 6px 10px #9e5ac9;
-  transition: transform 0.2s, box-shadow 0.2s;
+  background: #1b1b22;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: #fff; font-size: 1.5rem; text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
 }
-.portal-links a:hover {
-  transform: scale(1.08);
-  box-shadow: 0 2px 6px #fff, 0 4px 10px #9e5ac9, 0 8px 16px #9e5ac9;
-}
+.quick-icon:hover { background: #2a2a34; transform: translateY(-2px); }
+.quick-icon .fa-youtube { color: #ff3d3d; }
+.quick-icon .fa-tiktok { color: #ffffff; }
+.quick-icon .fa-instagram { color: #e1497f; }
 
-.hero { text-align: center; }
-.main-row { display: flex; justify-content: center; align-items: center; gap: clamp(10px, 2vw, 28px); }
-.main-row h1 { margin: 0; font-size: clamp(2.5rem, 8vw, 7rem); line-height: 1; white-space: nowrap; }
-.main-row .circle-btn {
-  flex: 0 0 auto;
-  width: clamp(70px, 9vw, 120px);
-  height: clamp(70px, 9vw, 120px);
-  font-size: clamp(0.85rem, 1.7vw, 1.5rem);
-  gap: 4px;
+.side-label { color: #b9b0c9; font-size: 0.72rem; letter-spacing: 0.14em; font-weight: 800; margin: 12px 6px 2px; }
+.side-nav { display: flex; flex-direction: column; gap: 3px; }
+.nav-item {
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; gap: 13px;
+  width: 100%;
+  padding: 11px 13px;
+  border: 0; border-radius: 11px;
+  background: none; color: #ffffff;
+  font-family: "Inter", system-ui, sans-serif; font-size: 1rem; font-weight: 700;
+  text-align: left; cursor: pointer;
+  transition: background 0.18s, color 0.18s;
 }
-.main-row .circle-btn .icon { font-size: clamp(1.4rem, 3vw, 2.6rem); line-height: 1; }
-.hero h2 { margin: 28px auto 0; max-width: 900px; min-height: 2.4em; font-size: clamp(1rem, 2.2vw, 2rem); }
+.nav-item:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.nav-item .icon { font-size: 1.2rem; width: 1.4em; text-align: center; flex: 0 0 auto; }
 
-.bottom { text-align: center; }
-.bottom .clock { margin: 0; font-size: clamp(2rem, 8vh, 4rem); }
-.bottom .clock-icon {
-  width: clamp(2.5rem, 8vh, 5rem);
-  height: clamp(2.5rem, 8vh, 5rem);
-  flex: 0 0 clamp(2.5rem, 8vh, 5rem);
-  font-size: clamp(1.8rem, 6vh, 3.5rem);
+/* ----- Collapsed sidebar (icon-only rail) ----- */
+.sidebar.collapsed { flex-basis: 76px; padding-left: 12px; padding-right: 12px; }
+.sidebar.collapsed .sidebar-toggle { align-self: center; }
+.sidebar.collapsed .sidebar-toggle-text { display: none; }
+.sidebar.collapsed .sidebar-toggle-icon { transform: rotate(180deg); }
+.sidebar.collapsed .quick-icons { grid-template-columns: 1fr; }
+.sidebar.collapsed .side-label { display: none; }
+.sidebar.collapsed .nav-item { justify-content: center; padding-left: 0; padding-right: 0; }
+.sidebar.collapsed .nav-item span:not(.icon) { display: none; }
+.sidebar.collapsed .nav-item .icon { width: auto; }
+
+/* ----- Main area ----- */
+.main {
+  flex: 1; min-width: 0;
+  box-sizing: border-box;
+  display: flex; flex-direction: column;
+  padding: 0;
 }
-#clock-zone { font-size: 0.6em; }
-.bottom .tz-row { margin: 12px auto 0; }
+.topbar {
+  display: flex; align-items: center; justify-content: center;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 24px 14px;
+}
+.topbar-search { flex: 1; display: flex; gap: 8px; max-width: 620px; margin: 0 auto 0 0; }
+.topbar-search input {
+  flex: 1; min-width: 0;
+  padding: 10px 16px;
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #16161c; color: #fff;
+  font-family: "Inter", system-ui, sans-serif; font-size: 0.95rem; outline: none;
+}
+.topbar-search input::placeholder { color: rgba(255, 255, 255, 0.45); }
+.topbar-search input:focus { border-color: #9e5ac9; }
+.topbar-search button {
+  position: relative; overflow: hidden;
+  padding: 10px 20px; border: 0; border-radius: 40px;
+  background: #9e5ac9; color: #fff;
+  font-family: "Inter", system-ui, sans-serif; font-weight: 700; cursor: pointer;
+}
+.topbar-search button:hover { background: #b07dff; }
+#portalMessage { margin: 2px 0 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; }
+#portalMessage:empty { display: none; }
+.topbar-clock { margin: 0; font-size: 2.8rem; white-space: nowrap; color: #ffffff; font-weight: 700; text-align: center; }
+.topbar-clock .clock-row { gap: 10px; justify-content: center; }
+.topbar-clock .clock-icon { width: 1.3em; height: 1.3em; flex: 0 0 auto; font-size: 1.05em; }
+.topbar-clock #clock-zone { font-size: 0.6em; opacity: 0.8; }
 
-@media (max-width: 700px) {
-  .top-row { grid-template-columns: auto 1fr; }
-  .top-right { display: none; }
-  .main-row { flex-wrap: wrap; }
-  .main-row h1 { order: -1; flex-basis: 100%; text-align: center; }
+.home {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 26px; padding: 30px 24px 60px; text-align: center;
+}
+.wordmark {
+  margin: 0;
+  font-family: "Pacifico", cursive;
+  font-weight: 400; font-style: normal;
+  font-size: clamp(3rem, 10vw, 6.5rem); line-height: 1.3; color: #fff;
+  padding-bottom: 0.12em;
+  text-shadow: 0 0 14px rgba(216,180,254,0.9), 0 0 36px rgba(192,132,252,0.7), 0 0 60px rgba(168,85,247,0.5);
+}
+.home-search { position: relative; width: min(680px, 92%); }
+.home-search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); opacity: 0.6; font-size: 1.05rem; pointer-events: none; }
+.home-search input {
+  width: 100%; box-sizing: border-box;
+  padding: 16px 20px 16px 50px;
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(22, 22, 28, 0.9); color: #fff;
+  font-family: "Inter", system-ui, sans-serif; font-size: 1.05rem; outline: none;
+}
+.home-search input::placeholder { color: rgba(255, 255, 255, 0.45); }
+.home-search input:focus { border-color: #9e5ac9; box-shadow: 0 0 0 4px rgba(158,90,201,0.18); }
+.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.chip {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 40px;
+  background: rgba(22, 22, 28, 0.8); color: #ffffff;
+  font-family: "Inter", system-ui, sans-serif; font-size: 0.98rem; font-weight: 700; cursor: pointer;
+  transition: background 0.18s, transform 0.15s;
+}
+.chip:hover { background: rgba(255, 255, 255, 0.12); transform: translateY(-2px); }
+#message { margin: 6px auto 0; max-width: 820px; min-height: 1.4em; font-size: clamp(0.95rem, 1.8vw, 1.4rem); color: #ffffff; font-weight: 700; }
+
+@media (max-width: 760px) {
+  .page { flex-direction: column; }
+  .sidebar {
+    flex: 0 0 auto; flex-direction: column;
+    border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .side-nav { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .topbar { flex-wrap: wrap; }
+  .topbar-clock { display: none; }
+  #portalMessage { position: static; margin-top: 8px; }
 }
 
 /* ===== GAMES GRID (COVER ART) ===== */
@@ -469,7 +524,7 @@ h2 {
 .br-card:hover { transform: none; box-shadow: 0 6px 16px rgba(158, 90, 201, 0.6); }
 
 /* ===== MUSIC (AUDIUS) ===== */
-.music-panel { position:fixed; inset:0; z-index:1000; box-sizing:border-box; width:100%; height:100%; max-height:100vh; overflow-y:auto; padding:clamp(18px,4vw,38px); background:linear-gradient(145deg,#171321,#09090d 70%); color:#fff; font-family:"Fredoka",sans-serif; }
+.music-panel { position:fixed; inset:0; z-index:1000; box-sizing:border-box; width:100%; height:100%; max-height:100vh; overflow-y:auto; padding:clamp(18px,4vw,38px); background:linear-gradient(145deg,#171321,#09090d 70%); color:#fff; font-family:"Inter", system-ui, sans-serif; }
 .music-panel[hidden], .music-panel [hidden] { display:none !important; }
 .music-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; max-width:1200px; margin:0 auto 18px; }
 .music-heading h2 { margin:0; font-size:1.7rem; opacity:1; animation:none; }
@@ -502,7 +557,21 @@ h2 {
 .music-track-artist { display:block; color:#b8b0c2; font-size:.88rem; margin-top:5px; overflow-wrap:anywhere; }
 .music-empty { color:#b8b0c2; padding:16px 2px; grid-column:1/-1; }
 .music-back-link { background:#ffffff16; margin:0 0 22px; }
-.music-detail { display:flex; align-items:center; gap:clamp(20px,5vw,48px); margin:10px auto 25px; max-width:850px; }
+.music-stage { display:flex; align-items:stretch; gap:clamp(18px,3vw,34px); margin-top:10px; }
+.music-player-col { flex:1 1 55%; min-width:0; }
+.music-lyrics { flex:1 1 45%; min-width:0; display:flex; flex-direction:column; border:1px solid #ffffff1a; border-radius:18px; background:#ffffff08; padding:18px 20px; max-height:65vh; }
+.music-lyrics-head { margin:0 0 10px; font-size:1.1rem; letter-spacing:.04em; }
+.music-lyrics-body { position:relative; overflow-y:auto; overflow-wrap:anywhere; line-height:1.6; color:#cfc6dd; font-size:1.2rem; font-weight:700; scroll-behavior:smooth; }
+.music-lyrics-body .music-status { font-size:.95rem; font-weight:400; }
+.lyric-plain { white-space:pre-wrap; }
+.lyric-line { margin:2px 0; padding:6px 10px; border-radius:10px; cursor:pointer; color:#9b92ad; font-size:1.7em; transition:color .2s, background .2s, transform .2s; transform-origin:left center; }
+.lyric-line:hover { color:#fff; background:#ffffff10; }
+.lyric-line.active { color:#fff; font-weight:900; transform:translateX(10px); text-shadow:0 0 10px rgba(255,255,255,0.65), 0 0 24px rgba(167,139,250,0.9), 0 0 42px rgba(167,139,250,0.65); animation:lyricGlow 1.6s ease-in-out infinite; }
+@keyframes lyricGlow {
+  0%, 100% { text-shadow:0 0 10px rgba(255,255,255,0.6), 0 0 22px rgba(167,139,250,0.8), 0 0 38px rgba(167,139,250,0.55); }
+  50%      { text-shadow:0 0 16px rgba(255,255,255,0.85), 0 0 34px rgba(167,139,250,1), 0 0 60px rgba(167,139,250,0.8); }
+}
+.music-detail { display:flex; align-items:center; gap:clamp(20px,5vw,48px); margin:0 0 25px; }
 .music-detail-art { width:min(42vw,340px); aspect-ratio:1; object-fit:cover; border-radius:18px; background:#30283b; box-shadow:0 15px 45px #0008; }
 .music-detail-copy { min-width:0; }
 .music-detail-label { color:#c4a5ff; letter-spacing:.15em; font-size:.8rem; font-weight:700; }
@@ -514,6 +583,28 @@ h2 {
 .music-controls button { background:#ffffff17; }
 .music-controls .music-play-button { background:#a78bfa; color:#171321; font-weight:700; min-width:90px; }
 #music-detail-status { text-align:center; }
+
+/* ===== IN-SITE WEBSITE VIEWER ===== */
+.site-panel { position:fixed; inset:0; z-index:1000; display:flex; flex-direction:column; background:#09090d; }
+.site-panel[hidden] { display:none !important; }
+.site-bar { display:flex; align-items:center; gap:10px; padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px; background:#171321; border-bottom:1px solid #ffffff14; }
+.site-host { flex:1; min-width:0; color:#cfc6dd; font-family:"Inter", system-ui, sans-serif; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.site-btn { flex:0 0 auto; border:0; border-radius:10px; padding:9px 13px; background:#ffffff14; color:#fff; font:inherit; font-family:"Inter", system-ui, sans-serif; text-decoration:none; cursor:pointer; }
+.site-btn:hover { background:#ffffff26; }
+.site-body { flex:1; position:relative; background:#fff; }
+#site-frame { position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+/* ===== YOUTUBE ===== */
+.yt-search { display:flex; gap:10px; margin:6px 0 10px; max-width:700px; }
+.yt-search input { flex:1; min-width:0; }
+.yt-stage { position:relative; width:100%; max-width:1000px; margin:10px auto 0; aspect-ratio:16/9; background:#000; border-radius:16px; overflow:hidden; box-shadow:0 15px 45px #0009; }
+#yt-frame { position:absolute; inset:0; width:100%; height:100%; border:0; }
+/* TikTok is vertical */
+.tt-stage { position:relative; width:100%; max-width:325px; margin:10px auto 0; aspect-ratio:9/16; background:#000; border-radius:16px; overflow:hidden; box-shadow:0 15px 45px #0009; }
+#tt-frame { position:absolute; inset:0; width:100%; height:100%; border:0; }
+/* Instagram embed card has its own height */
+.ig-stage { width:100%; max-width:400px; margin:10px auto 0; }
+#ig-frame { display:block; width:100%; height:min(80vh,720px); border:0; background:#fff; border-radius:14px; box-shadow:0 15px 45px #0009; }
 
 /* ===== PLAYLISTS ===== */
 .pl-page-title { font-size:1.6rem; margin:0 0 6px; }
@@ -551,6 +642,7 @@ h2 {
 .pl-icon-btn.add { background:#8b5cf6; }
 .pl-icon-btn:disabled { background:#ffffff0d; color:#9a92a8; cursor:default; }
 
+@media(max-width:900px) { .music-stage { flex-direction:column; } .music-lyrics { max-height:none; } }
 @media(max-width:650px) { .music-browse { grid-template-columns:1fr; } .pl-editor-head { flex-direction:column; align-items:flex-start; } .music-detail { flex-direction:column; align-items:flex-start; } .music-detail-art { width:min(75vw,320px); } .music-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } }
 
 .br-searchrow { display: flex; align-items: center; gap: 18px; margin-bottom: 16px; }
@@ -571,7 +663,7 @@ h2 {
   flex-direction: column;
   gap: 10px;
   overflow: hidden;
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   color: white;
   background: linear-gradient(145deg, rgba(36, 20, 60, 0.96), rgba(12, 8, 22, 0.96));
   border: 1px solid rgba(168, 85, 247, 0.7);
@@ -713,7 +805,7 @@ h2 {
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.08);
   color: white;
-  font-family: "Fredoka", sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -772,72 +864,57 @@ h2 {
 
 <div class="page">
 
-  <div class="top-row">
-    <div class="top-left">
-      <button id="bg-btn" class="circle-btn corner-btn">
-        <span class="icon">🖼️</span>
-        <span>Change Background</span>
-      </button>
+  <aside class="sidebar">
+    <div class="quick-icons">
+      <a id="youtube-link" class="quick-icon" href="https://www.youtube.com/" rel="noopener noreferrer" title="YouTube" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      <a id="tiktok-link" class="quick-icon" href="https://www.tiktok.com/" rel="noopener noreferrer" title="TikTok" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      <a id="instagram-link" class="quick-icon" href="https://www.instagram.com/" rel="noopener noreferrer" title="Instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
     </div>
 
-    <section class="portal">
-      <div class="portal-title">School Web Portal</div>
-      <form id="searchForm">
-        <input type="url" id="website" placeholder="https://example.com" required>
-        <button type="submit">Go</button>
+    <div class="side-label">MENU</div>
+    <nav class="side-nav">
+      <button id="games-btn" class="nav-item"><span class="icon">🎮</span><span>Games</span></button>
+      <button id="music-btn" class="nav-item"><span class="icon">🎵</span><span>Music</span></button>
+      <button id="ai-btn" class="nav-item"><span class="icon">🤖</span><span>AI</span></button>
+      <button id="log-btn" class="nav-item"><span class="icon">📜</span><span>Update Log</span></button>
+      <button id="tz-btn" class="nav-item"><span class="icon">🕒</span><span>Time Zone</span></button>
+      <button id="tz-info-btn" class="nav-item"><span class="icon">🌍</span><span>Check Time Zones</span></button>
+      <button id="bg-btn" class="nav-item"><span class="icon">🖼️</span><span>Change Background</span></button>
+    </nav>
+    <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Collapse menu" title="Collapse menu">
+      <span class="sidebar-toggle-icon">⟨</span>
+      <span class="sidebar-toggle-text">Collapse</span>
+    </button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div id="clock" class="clock topbar-clock">
+        <div class="clock-row">
+          <span class="clock-icon" id="icon-left"></span>
+          <div id="clock-time"></div>
+          <span class="clock-icon" id="icon-right"></span>
+        </div>
+        <div id="clock-zone"></div>
+      </div>
+    </header>
+
+    <div class="home">
+      <h1 class="wordmark">GLOSSOM</h1>
+      <form id="homeSearchForm" class="home-search">
+        <span class="home-search-icon">🔍</span>
+        <input type="text" id="homeSearch" placeholder="Search anything..." autocomplete="off">
       </form>
       <p id="portalMessage" aria-live="polite"></p>
-      <div class="portal-links">
-        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-youtube"></i>
-          YouTube
-        </a>
-        <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-tiktok"></i>
-          TikTok
-        </a>
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-instagram"></i>
-          Instagram
-        </a>
+      <div class="chips">
+        <button class="chip" type="button" data-target="games-btn"><span>🎮</span> Games</button>
+        <button class="chip" type="button" data-target="music-btn"><span>🎵</span> Music</button>
+        <button class="chip" type="button" data-target="ai-btn"><span>🤖</span> AI</button>
+        <button class="chip" type="button" data-target="log-btn"><span>📜</span> Update Log</button>
       </div>
-    </section>
-
-    <div class="top-right"></div>
-  </div>
-
-  <div class="hero">
-    <div class="main-row">
-      <button id="log-btn" class="circle-btn"><span class="icon">📜</span><span>Update Log</span></button>
-      <button id="games-btn" class="circle-btn"><span class="icon">🎮</span><span>Games</span></button>
-      <h1>GLOSSOM</h1>
-      <button id="music-btn" class="circle-btn"><span class="icon">🎵</span><span>Music</span></button>
-      <button class="circle-btn"><span class="icon">🤖</span><span>AI</span></button>
+      <h2 id="message"></h2>
     </div>
-    <h2 id="message"></h2>
-  </div>
-
-  <div class="bottom">
-    <div id="clock" class="clock">
-      <div class="clock-row">
-        <span class="clock-icon" id="icon-left"></span>
-        <div id="clock-time"></div>
-        <span class="clock-icon" id="icon-right"></span>
-      </div>
-      <div id="clock-zone"></div>
-    </div>
-
-    <div class="tz-row">
-      <button id="tz-btn" class="circle-btn tz-btn">
-        <span class="icon">🕒</span>
-        <span>Time Zone</span>
-      </button>
-      <button id="tz-info-btn" class="circle-btn tz-btn">
-        <span class="icon">🌍</span>
-        <span>Check Time Zones</span>
-      </button>
-    </div>
-  </div>
+  </main>
 
 </div>
 
@@ -858,7 +935,7 @@ h2 {
   <div class="note-card">
     <button id="note-x" class="note-x" aria-label="Close note">✕</button>
     <h1 id="note-title">Welcome to GLOSSOM</h1>
-    <p>After the long await, it's finally here. This will be rolled out for more people too, many people can share this link, but don't let anyone ruin this, because you never know that it could even get blocked today.</p>
+    <p>I'm a noob ahh coder so i couldn't make it where people can doomscroll or open up tiktok or youtube on the site itself. you can only paste links :(</p>
     <button id="note-close" class="circle-btn note-close"><span>Got it</span></button>
   </div>
 </div>
@@ -898,6 +975,71 @@ h2 {
   </div>
 </div>
 
+<div id="yt-panel" class="music-panel" role="dialog" aria-modal="true" aria-labelledby="yt-title" hidden>
+  <div class="music-heading">
+    <h2 id="yt-title">YouTube</h2>
+    <button id="yt-close" class="music-close" type="button" aria-label="Close YouTube">×</button>
+  </div>
+  <section>
+    <p class="music-subtitle">Search a video or paste a YouTube link, then watch it right here without leaving the site.</p>
+    <form id="yt-form" class="yt-search">
+      <input id="yt-input" type="search" placeholder="Search YouTube or paste a link..." autocomplete="off" aria-label="Search YouTube or paste a link">
+      <button class="music-action" type="submit">Watch</button>
+    </form>
+    <p id="yt-status" class="music-status" aria-live="polite"></p>
+    <div class="yt-stage">
+      <iframe id="yt-frame" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+  </section>
+</div>
+
+<div id="tt-panel" class="music-panel" role="dialog" aria-modal="true" aria-labelledby="tt-title" hidden>
+  <div class="music-heading">
+    <h2 id="tt-title">TikTok</h2>
+    <button id="tt-close" class="music-close" type="button" aria-label="Close TikTok">×</button>
+  </div>
+  <section>
+    <p class="music-subtitle">Paste a TikTok video link, then watch it right here without leaving the site.</p>
+    <form id="tt-form" class="yt-search">
+      <input id="tt-input" type="search" placeholder="Paste a TikTok video link..." autocomplete="off" aria-label="Paste a TikTok link">
+      <button class="music-action" type="submit">Watch</button>
+    </form>
+    <p id="tt-status" class="music-status" aria-live="polite"></p>
+    <div class="tt-stage">
+      <iframe id="tt-frame" title="TikTok video player" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+  </section>
+</div>
+
+<div id="ig-panel" class="music-panel" role="dialog" aria-modal="true" aria-labelledby="ig-title" hidden>
+  <div class="music-heading">
+    <h2 id="ig-title">Instagram</h2>
+    <button id="ig-close" class="music-close" type="button" aria-label="Close Instagram">×</button>
+  </div>
+  <section>
+    <p class="music-subtitle">Paste an Instagram post or reel link, then view it right here without leaving the site.</p>
+    <form id="ig-form" class="yt-search">
+      <input id="ig-input" type="search" placeholder="Paste an Instagram post or reel link..." autocomplete="off" aria-label="Paste an Instagram link">
+      <button class="music-action" type="submit">Watch</button>
+    </form>
+    <p id="ig-status" class="music-status" aria-live="polite"></p>
+    <div class="ig-stage">
+      <iframe id="ig-frame" title="Instagram post" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" scrolling="no"></iframe>
+    </div>
+  </section>
+</div>
+
+<div id="site-panel" class="site-panel" role="dialog" aria-modal="true" aria-label="Website viewer" hidden>
+  <div class="site-bar">
+    <span id="site-host" class="site-host"></span>
+    <a id="site-newtab" class="site-btn" href="#" target="_blank" rel="noopener noreferrer">Open in new tab ↗</a>
+    <button id="site-close" class="site-btn" type="button" aria-label="Close website">✕</button>
+  </div>
+  <div class="site-body">
+    <iframe id="site-frame" title="Website viewer" referrerpolicy="no-referrer"></iframe>
+  </div>
+</div>
+
 <div id="music-panel" class="music-panel" role="dialog" aria-modal="true" aria-labelledby="music-title" hidden>
   <div class="music-heading">
     <h2 id="music-title">GLOSSOM Music</h2>
@@ -906,7 +1048,10 @@ h2 {
 
   <section id="music-browse-view">
     <p class="music-subtitle">NOTE: If you have a specific song you wanna search up, type it with capitalization and be specific with the song title or else it might not come up.</p>
+        <p class="music-subtitle">Lyrics on most of the songs may not be provided.</p>
     <p class="music-subtitle">Music is provided by Audius and its artists. Popular commercial releases may not be available.</p>
+        <p class="music-subtitle">Make sure when searching up a song, search up the song AND the artist, or it probably won't show up what you're looking for.</p>
+
     <div class="music-browse">
       <input id="music-search" type="search" placeholder="Search songs or artists..." autocomplete="off" aria-label="Search songs or artists">
       <select id="music-genre" aria-label="Choose a genre">
@@ -928,24 +1073,34 @@ h2 {
 
   <section id="music-detail-view" hidden>
     <button id="music-back-to-list" class="music-action music-back-link" type="button">← Back to songs</button>
-    <div class="music-detail">
-      <img id="music-detail-art" class="music-detail-art" alt="Album artwork">
-      <div class="music-detail-copy">
-        <p class="music-detail-label">NOW PLAYING</p>
-        <h2 id="music-song-title">Choose a song</h2>
-        <p id="music-song-artist" class="music-artist">Artist</p>
-        <p id="music-song-genre" class="music-status"></p>
+    <div class="music-stage">
+      <div class="music-player-col">
+        <div class="music-detail">
+          <img id="music-detail-art" class="music-detail-art" alt="Album artwork">
+          <div class="music-detail-copy">
+            <p class="music-detail-label">NOW PLAYING</p>
+            <h2 id="music-song-title">Choose a song</h2>
+            <p id="music-song-artist" class="music-artist">Artist</p>
+            <p id="music-song-genre" class="music-status"></p>
+          </div>
+        </div>
+        <audio id="music-audio" preload="none"></audio>
+        <input id="music-seek" type="range" min="0" max="1000" value="0" aria-label="Song progress">
+        <div class="music-times"><span id="music-current-time">0:00</span><span id="music-duration">0:00</span></div>
+        <div class="music-controls">
+          <button id="music-back" type="button" aria-label="Back 15 seconds">−15 sec</button>
+          <button id="music-toggle" class="music-play-button" type="button">Play</button>
+          <button id="music-forward" type="button" aria-label="Forward 15 seconds">+15 sec</button>
+        </div>
+        <p id="music-detail-status" class="music-status" aria-live="polite">Select a song to play.</p>
       </div>
+      <aside class="music-lyrics" aria-label="Lyrics">
+        <h3 class="music-lyrics-head">Lyrics</h3>
+        <div id="music-lyrics-body" class="music-lyrics-body">
+          <p class="music-status">Select a song to see its lyrics.</p>
+        </div>
+      </aside>
     </div>
-    <audio id="music-audio" preload="none"></audio>
-    <input id="music-seek" type="range" min="0" max="1000" value="0" aria-label="Song progress">
-    <div class="music-times"><span id="music-current-time">0:00</span><span id="music-duration">0:00</span></div>
-    <div class="music-controls">
-      <button id="music-back" type="button" aria-label="Back 15 seconds">−15 sec</button>
-      <button id="music-toggle" class="music-play-button" type="button">Play</button>
-      <button id="music-forward" type="button" aria-label="Forward 15 seconds">+15 sec</button>
-    </div>
-    <p id="music-detail-status" class="music-status" aria-live="polite">Select a song to play.</p>
   </section>
 
   <section id="music-playlist-view" hidden>
@@ -1068,13 +1223,13 @@ h2 {
     "Some people might think these messages are cringe, I just put them because any other link pretty much has them too",
     "I have VS code on my chromebook, so don't be surprised if you see me making a website in the middle of class :/",
     "I'm gonna try to make 3 more links after this one, I have many more planned",
-    "67 67 67 67",
     "I've ran out of messages to put here",
     "You're not just here for the games, right?",
     "Please read these so I feel like I actually have a reason to make messages",
     "Be free",
     "PLEASE DON'T GET THIS LINK BLOCKED BRU IM GONNA CRASH IF IT DOES",
-    "Do the 67 form"
+    "Do the 67 form",
+    "67 67 67 67 67"
   ];
 
   const message = document.getElementById("message");
@@ -1267,63 +1422,6 @@ h2 {
 
 <!-- Click effects -->
 <script>
-  function wavyPath(waves, amp, r) {
-    let d = "";
-    const steps = 120;
-    for (let i = 0; i <= steps; i++) {
-      const t = (i / steps) * Math.PI * 2;
-      const rad = r + amp * Math.sin(waves * t);
-      d += (i ? "L" : "M") + (rad * Math.cos(t)).toFixed(2) + " " + (rad * Math.sin(t)).toFixed(2) + " ";
-    }
-    return d + "Z";
-  }
-
-  function makeWavyRing({ parent, x, y, size, delay, waves, color, blue }) {
-    const NS = "http://www.w3.org/2000/svg";
-    const svg = document.createElementNS(NS, "svg");
-    svg.setAttribute("viewBox", "-100 -100 200 200");
-    svg.setAttribute("class", "wave-ring" + (blue ? " blue" : ""));
-    svg.style.width = size + "px";
-    svg.style.height = size + "px";
-    svg.style.left = x - size / 2 + "px";
-    svg.style.top = y - size / 2 + "px";
-    svg.style.opacity = 0;
-
-    const path = document.createElementNS(NS, "path");
-    path.setAttribute("d", wavyPath(waves, 5, 90));
-    path.setAttribute("fill", "none");
-    path.setAttribute("stroke", color);
-    path.setAttribute("stroke-width", "100");
-    path.setAttribute("vector-effect", "non-scaling-stroke");
-    svg.appendChild(path);
-    parent.appendChild(svg);
-
-    const anim = svg.animate(
-      [
-        { transform: "scale(0) rotate(0deg)", opacity: 1 },
-        { transform: "scale(1) rotate(50deg)", opacity: 0 }
-      ],
-      { duration: 1200, delay, easing: "ease-out", fill: "forwards" }
-    );
-    anim.onfinish = () => svg.remove();
-  }
-
-  document.addEventListener("pointerdown", (e) => {
-    if (e.target.closest("button")) return;
-
-    [[100, 8], [100, 10], [100, 12]].forEach(([size, waves], i) => {
-      makeWavyRing({
-        parent: document.body,
-        x: e.clientX,
-        y: e.clientY,
-        size,
-        delay: i * 120,
-        waves,
-        color: "rgba(200, 160, 255, 0.9)"
-      });
-    });
-  });
-
   document.addEventListener("pointerdown", (e) => {
     const btn = e.target.closest("button");
     if (!btn) return;
@@ -1331,6 +1429,10 @@ h2 {
     const rect = btn.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
+
+    // The ripple is absolutely positioned, so the button must be a
+    // positioning context or the ripple anchors to an ancestor (corner).
+    if (getComputedStyle(btn).position === "static") btn.style.position = "relative";
 
     [175, 175, 175].forEach((size, i) => {
       const ring = document.createElement("span");
@@ -2625,28 +2727,186 @@ h2 {
 
 <!-- School Web Portal form -->
 <script>
-  const portalForm = document.getElementById("searchForm");
+  {
+    const msg = document.getElementById("portalMessage");
+    const panel = document.getElementById("site-panel");
+    const frame = document.getElementById("site-frame");
+    const host = document.getElementById("site-host");
+    const newTab = document.getElementById("site-newtab");
+    const closeBtn = document.getElementById("site-close");
 
-  if (portalForm) {
-    portalForm.addEventListener("submit", function (event) {
-      event.preventDefault();
+    // Accept "example.com" as well as a full https:// address
+    function normalize(address) {
+      let url;
+      try { url = new URL(address); }
+      catch { try { url = new URL("https://" + address); } catch { return null; } }
+      return (url.protocol === "http:" || url.protocol === "https:") ? url : null;
+    }
+    function openSite(url) {
+      host.textContent = url.hostname;
+      newTab.href = url.href;
+      frame.src = url.href;
+      panel.hidden = false;
+      if (msg) msg.textContent = "";
+    }
+    function closeSite() { panel.hidden = true; frame.src = "about:blank"; }
 
-      const input = document.getElementById("website");
-      const msg = document.getElementById("portalMessage");
-      const address = input.value.trim();
+    function submitAddress(value) {
+      const url = normalize(value.trim());
+      if (!url) { if (msg) msg.textContent = "Please enter a valid address, such as example.com"; return; }
+      openSite(url);
+    }
+    closeBtn.addEventListener("click", closeSite);
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) closeSite(); });
 
-      try {
-        const url = new URL(address);
-        if (url.protocol !== "https:" && url.protocol !== "http:") {
-          throw new Error("Invalid website address");
-        }
-        msg.textContent = "Opening " + url.hostname + "...";
-        window.open(url.href, "_blank", "noopener,noreferrer");
-      } catch {
-        msg.textContent = "Please enter a valid address, such as https://example.com";
-      }
+    // The big centered "Search anything..." box opens sites the same way
+    const homeForm = document.getElementById("homeSearchForm");
+    const homeInput = document.getElementById("homeSearch");
+    if (homeForm) {
+      homeForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        submitAddress(homeInput.value);
+      });
+    }
+
+    // Center quick-access chips forward their click to the real menu buttons
+    document.querySelectorAll(".chip[data-target]").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const target = document.getElementById(chip.dataset.target);
+        if (target) target.click();
+      });
     });
   }
+
+  // Collapse / expand the sidebar, remembering the choice
+  (() => {
+    const sidebar = document.querySelector(".sidebar");
+    const toggle = document.getElementById("sidebar-toggle");
+    if (!sidebar || !toggle) return;
+    const STORE = "glossom-sidebar-collapsed";
+    function apply(collapsed) {
+      sidebar.classList.toggle("collapsed", collapsed);
+      toggle.setAttribute("aria-label", collapsed ? "Expand menu" : "Collapse menu");
+      toggle.title = collapsed ? "Expand menu" : "Collapse menu";
+    }
+    let saved = false;
+    try { saved = localStorage.getItem(STORE) === "1"; } catch (e) {}
+    apply(saved);
+    toggle.addEventListener("click", () => {
+      const collapsed = !sidebar.classList.contains("collapsed");
+      apply(collapsed);
+      try { localStorage.setItem(STORE, collapsed ? "1" : "0"); } catch (e) {}
+    });
+  })();
+</script>
+
+<!-- In-site YouTube (embed player) -->
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const link = $("youtube-link"), panel = $("yt-panel"), closeBtn = $("yt-close");
+  const form = $("yt-form"), input = $("yt-input"), frame = $("yt-frame"), status = $("yt-status");
+  const EMBED = "https://www.youtube-nocookie.com/embed/";
+
+  // Pull an 11-char video id out of any common YouTube URL form, else null
+  function videoId(text) {
+    const s = text.trim();
+    if (/^[\w-]{11}$/.test(s)) return s;
+    let m;
+    if ((m = s.match(/[?&]v=([\w-]{11})/))) return m[1];
+    if ((m = s.match(/youtu\.be\/([\w-]{11})/))) return m[1];
+    if ((m = s.match(/\/(?:embed|shorts|live)\/([\w-]{11})/))) return m[1];
+    return null;
+  }
+  function playVideo(id) {
+    frame.src = EMBED + encodeURIComponent(id) + "?autoplay=1&rel=0";
+    status.textContent = "Now playing. Paste another link or search again to change it.";
+  }
+  function playSearch(query) {
+    // Legacy search embed: plays videos matching the query
+    frame.src = "https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(query) + "&autoplay=1&rel=0";
+    status.textContent = 'Showing results for "' + query + '". If it does not play, paste a video link instead.';
+  }
+  function open() {
+    panel.hidden = false;
+    if (!frame.src) status.textContent = "Search a video or paste a YouTube link to start.";
+    input.focus();
+  }
+  function close() { panel.hidden = true; frame.src = ""; } // stop playback
+
+  link.addEventListener("click", e => { e.preventDefault(); open(); });
+  closeBtn.addEventListener("click", close);
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) close(); });
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) { status.textContent = "Type something to search, or paste a YouTube link."; return; }
+    const id = videoId(text);
+    if (id) playVideo(id); else playSearch(text);
+  });
+})();
+</script>
+
+<!-- In-site TikTok & Instagram (embed players) -->
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+
+  // One helper drives both panels: a link opens it, a form embeds the pasted post
+  function setupEmbed({ linkId, panelId, closeId, formId, inputId, frameId, statusId, toEmbed, label }) {
+    const link = $(linkId), panel = $(panelId), closeBtn = $(closeId);
+    const form = $(formId), input = $(inputId), frame = $(frameId), status = $(statusId);
+    if (!link || !panel) return;
+
+    const open = () => {
+      panel.hidden = false;
+      if (!frame.src) status.textContent = "Paste a " + label + " link above to view it here.";
+      input.focus();
+    };
+    const close = () => { panel.hidden = true; frame.src = ""; }; // stop playback
+
+    link.addEventListener("click", e => { e.preventDefault(); open(); });
+    closeBtn.addEventListener("click", close);
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) close(); });
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) { status.textContent = "Paste a " + label + " link first."; return; }
+      const src = toEmbed(text);
+      if (!src) {
+        status.textContent = "That doesn't look like a " + label + " link. Copy the full link to a specific " +
+          (label === "TikTok" ? "video" : "post or reel") + ".";
+        return;
+      }
+      frame.src = src;
+      status.textContent = "Loaded. Paste another link to change it.";
+    });
+  }
+
+  setupEmbed({
+    linkId: "tiktok-link", panelId: "tt-panel", closeId: "tt-close",
+    formId: "tt-form", inputId: "tt-input", frameId: "tt-frame", statusId: "tt-status",
+    label: "TikTok",
+    toEmbed(text) {
+      let m;
+      if ((m = text.match(/\/video\/(\d{6,})/)) || (m = text.match(/\/player\/v1\/(\d{6,})/)) || (m = text.match(/^(\d{6,})$/))) {
+        return "https://www.tiktok.com/player/v1/" + m[1] + "?rel=0";
+      }
+      return null; // short vm.tiktok.com links can't be resolved in the browser
+    }
+  });
+
+  setupEmbed({
+    linkId: "instagram-link", panelId: "ig-panel", closeId: "ig-close",
+    formId: "ig-form", inputId: "ig-input", frameId: "ig-frame", statusId: "ig-status",
+    label: "Instagram",
+    toEmbed(text) {
+      const m = text.match(/instagram\.com\/(?:[^/]+\/)?(?:p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i);
+      if (m) return "https://www.instagram.com/p/" + m[1] + "/embed/";
+      return null;
+    }
+  });
+})();
 </script>
 
 <!-- GLOSSOM Music catalog and player (Audius) -->
@@ -2664,6 +2924,160 @@ h2 {
   const detailArt = $("music-detail-art"), detailGenre = $("music-song-genre");
   const currentTime = $("music-current-time"), duration = $("music-duration");
   const status = $("music-status"), detailStatus = $("music-detail-status");
+  const lyricsBody = $("music-lyrics-body");
+  let lyricsRequest = 0;
+  let lyricLines = [];   // [{ time, el }] for synced lyrics
+  let activeLyric = -1;
+
+  // Strip "(feat. ...)", "- Remastered", etc. so the lyrics lookup matches better
+  function cleanForLyrics(text) {
+    return String(text || "")
+      .replace(/\s*[\(\[].*?[\)\]]\s*/g, " ")
+      .replace(/\s*[-–]\s*(remaster|remastered|live|radio edit|edit|version|remix).*$/i, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+  function setLyricsMessage(text) {
+    lyricLines = []; activeLyric = -1;
+    lyricsBody.replaceChildren();
+    const p = document.createElement("p");
+    p.className = "music-status";
+    p.textContent = text;
+    lyricsBody.appendChild(p);
+  }
+  // Turn "[01:02.34] words" lines into {time, text}, sorted by time
+  function parseSynced(synced) {
+    const out = [];
+    String(synced || "").split(/\r?\n/).forEach(line => {
+      const stamps = [...line.matchAll(/\[(\d+):(\d+(?:\.\d+)?)\]/g)];
+      if (!stamps.length) return;
+      const text = line.replace(/\[(\d+):(\d+(?:\.\d+)?)\]/g, "").trim();
+      stamps.forEach(m => out.push({ time: Number(m[1]) * 60 + Number(m[2]), text }));
+    });
+    return out.sort((a, b) => a.time - b.time);
+  }
+  function renderSyncedLyrics(synced) {
+    const parsed = parseSynced(synced);
+    if (!parsed.length) return false;
+    lyricsBody.replaceChildren();
+    lyricLines = parsed.map(line => {
+      const el = document.createElement("div");
+      el.className = "lyric-line";
+      el.textContent = line.text || "♪";
+      el.addEventListener("click", () => {
+        audio.currentTime = line.time;
+        if (audio.paused) audio.play().catch(() => {});
+      });
+      lyricsBody.appendChild(el);
+      return { time: line.time, el };
+    });
+    activeLyric = -1;
+    updateLyricHighlight();
+    return true;
+  }
+  function renderPlainLyrics(text) {
+    lyricLines = []; activeLyric = -1;
+    lyricsBody.replaceChildren();
+    const div = document.createElement("div");
+    div.className = "lyric-plain";
+    div.textContent = text;
+    lyricsBody.appendChild(div);
+  }
+  function updateLyricHighlight() {
+    if (!lyricLines.length) return;
+    const t = audio.currentTime + 0.2; // tiny lead so the line flips as it's sung
+    let idx = -1;
+    for (let i = 0; i < lyricLines.length; i++) {
+      if (lyricLines[i].time <= t) idx = i; else break;
+    }
+    if (idx === activeLyric) return;
+    if (activeLyric >= 0) lyricLines[activeLyric].el.classList.remove("active");
+    activeLyric = idx;
+    if (idx < 0) return;
+    const el = lyricLines[idx].el;
+    el.classList.add("active");
+    // Keep the active line centered in the panel without scrolling the whole page
+    const target = el.offsetTop - lyricsBody.clientHeight / 2 + el.clientHeight / 2;
+    lyricsBody.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
+  }
+  // Pull plain words out of an lrclib record (plain, or synced with the [mm:ss] tags stripped)
+  function plainLyricsOf(data) {
+    if (!data) return "";
+    return (data.plainLyrics || "").trim()
+      || (data.syncedLyrics || "").replace(/\[\d+:\d+(?:\.\d+)?\]/g, "").trim();
+  }
+  async function fetchJSON(url) {
+    const response = await fetch(url);
+    if (response.status === 404) return null;
+    if (!response.ok) throw new Error("Request failed");
+    return response.json();
+  }
+  // Backup source (plain lyrics only, no timing) for songs lrclib doesn't have
+  async function fetchOvhLyrics(artist, title) {
+    try {
+      const url = "https://api.lyrics.ovh/v1/" + encodeURIComponent(artist) + "/" + encodeURIComponent(title);
+      const response = await fetch(url);
+      if (!response.ok) return "";
+      const data = await response.json();
+      return (data && data.lyrics || "").trim();
+    } catch (e) { return ""; }
+  }
+  async function loadLyrics(track) {
+    const thisRequest = ++lyricsRequest;
+    setLyricsMessage("Loading lyrics...");
+    const artistName = cleanForLyrics(trackArtist(track));
+    const trackName = cleanForLyrics(track.title);
+    // Prefer a record that has synced (timestamped) lyrics; fall back to any with words
+    const pickBest = records => {
+      if (!Array.isArray(records)) return null;
+      return records.find(r => (r.syncedLyrics || "").trim())
+        || records.find(r => plainLyricsOf(r)) || null;
+    };
+    try {
+      // 1) Exact match — fastest and most accurate when it hits
+      const getUrl = new URL("https://lrclib.net/api/get");
+      getUrl.searchParams.set("artist_name", artistName);
+      getUrl.searchParams.set("track_name", trackName);
+      let record = await fetchJSON(getUrl.toString());
+      if (thisRequest !== lyricsRequest) return;
+      if (record && !(record.syncedLyrics || "").trim() && !plainLyricsOf(record)) record = null;
+
+      // 2) Fuzzy search on title + artist (most Audius songs land here)
+      if (!record) {
+        const s = new URL("https://lrclib.net/api/search");
+        s.searchParams.set("track_name", trackName);
+        s.searchParams.set("artist_name", artistName);
+        record = pickBest(await fetchJSON(s.toString()));
+        if (thisRequest !== lyricsRequest) return;
+      }
+
+      // 3) Last resort: search by title alone
+      if (!record) {
+        const s = new URL("https://lrclib.net/api/search");
+        s.searchParams.set("q", trackName);
+        record = pickBest(await fetchJSON(s.toString()));
+        if (thisRequest !== lyricsRequest) return;
+      }
+
+      if (thisRequest !== lyricsRequest) return;
+      if (record && (record.syncedLyrics || "").trim() && renderSyncedLyrics(record.syncedLyrics)) {
+        return; // synced lyrics rendered (bold + moving + click to seek)
+      }
+      let plain = plainLyricsOf(record);
+
+      // 4) Backup source when lrclib has nothing (plain lyrics, no sync)
+      if (!plain) {
+        plain = await fetchOvhLyrics(artistName, trackName);
+        if (thisRequest !== lyricsRequest) return;
+      }
+
+      if (plain) renderPlainLyrics(plain);
+      else setLyricsMessage("No lyrics found for this song. Independent tracks often aren't in any lyrics database.");
+    } catch (e) {
+      if (thisRequest !== lyricsRequest) return;
+      setLyricsMessage("Lyrics could not load. Your internet or school network may be blocking the lyrics service.");
+    }
+  }
   const list = $("music-list"), listHeading = $("music-list-heading");
   const API = "https://api.audius.co/v1", APP_NAME = "GLOSSOM";
   const fallbackArt = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#38245a"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs><rect width="400" height="400" fill="url(#g)"/><text x="200" y="225" text-anchor="middle" font-size="100" fill="white">G</text></svg>');
@@ -2826,7 +3240,7 @@ h2 {
     currentTime.textContent = "0:00"; duration.textContent = "0:00";
     seek.value = "0"; toggleButton.textContent = "Pause";
     detailStatus.textContent = "Loading track...";
-    showDetails(); renderTracks(); renderEditor();
+    showDetails(); renderTracks(); renderEditor(); loadLyrics(track);
     audio.src = API + "/tracks/" + encodeURIComponent(track.id) + "/stream?app_name=" + encodeURIComponent(APP_NAME);
     try { await audio.play(); detailStatus.textContent = "Now playing."; }
     catch (e) {
@@ -2874,7 +3288,9 @@ h2 {
   audio.addEventListener("timeupdate", () => {
     if (Number.isFinite(audio.duration) && audio.duration > 0) seek.value = String(Math.round(audio.currentTime / audio.duration * 1000));
     currentTime.textContent = formatTime(audio.currentTime);
+    updateLyricHighlight();
   });
+  audio.addEventListener("seeked", updateLyricHighlight);
   audio.addEventListener("loadedmetadata", () => { duration.textContent = formatTime(audio.duration); });
   audio.addEventListener("play", () => { toggleButton.textContent = "Pause"; detailStatus.textContent = "Now playing."; });
   audio.addEventListener("pause", () => { toggleButton.textContent = "Play"; });
