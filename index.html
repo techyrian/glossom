@@ -4,24 +4,38 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>GLOSSOM</title>
-<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-<link rel="alternate icon" type="image/png" href="images/favicon.jpg">
+<title>glossom</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,300..800;1,300..800&family=Pacifico&display=swap" rel="stylesheet">
 <style>
+
+[hidden] { display: none !important; }
+
 body {
   margin: 0;
-  background-color: black;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-attachment: fixed;
+  background-color: #0b1020;
   color: white;
 }
 
+#scene { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.svg-defs { position: absolute; width: 0; height: 0; }
+.photo, .photo-water { position: absolute; inset: 0; background: url("images/scene.jpg") center center / cover no-repeat; }
+.photo-water {
+  filter: url(#water);
+  -webkit-mask: linear-gradient(to bottom, transparent 58%, #000 66%);
+          mask: linear-gradient(to bottom, transparent 58%, #000 66%);
+}
+.scene-dim { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, transparent 55%, rgba(8,10,18,0.3) 100%); }
+
+#rain { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 9; pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-water { filter: none; }
+}
+
 h1 {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
   color: white;
   text-align: center;
   text-shadow: 0 0 5px #fff, 0 20px 10px #9e5ac9, 0 20px 15px #9e5ac9;
@@ -30,7 +44,7 @@ h1 {
 }
 
 h2 {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
   color: white;
   text-align: center;
   text-shadow: 0 0 5px #fff, 0 20px 10px #9e5ac9, 0 20px 15px #9e5ac9;
@@ -40,7 +54,6 @@ h2 {
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* ===== BACKGROUND EFFECTS ===== */
 .aurora { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 .blob {
   position: absolute; top: 0; left: 0;
@@ -105,7 +118,7 @@ h2 {
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(15, 15, 15, 0.9);
   color: white;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
   font-size: 1.2rem;
   font-weight: 700;
   white-space: nowrap;
@@ -134,7 +147,6 @@ h2 {
   filter: drop-shadow(0 0 5px #8fd3ff) drop-shadow(0 0 10px #3a6bff);
 }
 
-/* ===== BUTTONS ===== */
 .circle-btn {
   position: relative;
   width: 120px; height: 120px;
@@ -145,7 +157,7 @@ h2 {
   align-items: center; justify-content: center;
   gap: 8px;
   color: white;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
   font-size: 1.5rem;
   font-weight: 900;
   padding: 10px;
@@ -166,15 +178,29 @@ h2 {
 }
 .circle-btn:focus, .circle-btn:focus-visible { outline: none; }
 
-/* ===== CLOCK ===== */
 .clock {
   text-align: center;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
   font-weight: 900;
   color: white;
   text-shadow: 0 4px 5px #fff, 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
   position: relative; z-index: 1;
 }
+.home-clock {
+  margin: 0 0 4px;
+  font-size: clamp(1.9rem, 5vw, 3.4rem);
+  line-height: 1.05;
+  color: #fff;
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.95),
+    0 0 22px rgba(216,180,254,1),
+    0 0 44px rgba(192,132,252,0.95),
+    0 0 72px rgba(168,85,247,0.75),
+    0 0 110px rgba(147,51,234,0.55);
+}
+.home-clock .clock-row { gap: 12px; }
+.home-clock .clock-icon { display: none; }
+.home-clock #clock-zone { display: none; }
 .clock-row { display: flex; justify-content: center; align-items: center; gap: 20px; }
 .clock-icon {
   display: flex; align-items: center; justify-content: center;
@@ -187,7 +213,6 @@ h2 {
 .tz-btn .icon { font-size: 1.6rem; }
 .tz-row { display: flex; justify-content: center; gap: 20px; position: relative; z-index: 1; }
 
-/* ===== PANELS ===== */
 .tz-panel {
   position: fixed; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
@@ -201,7 +226,7 @@ h2 {
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(15, 15, 15, 0.95);
   color: white;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
   box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
 }
 .tz-panel[hidden] { display: none; }
@@ -212,7 +237,7 @@ h2 {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.06);
   color: white;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
   font-size: 1rem;
   outline: none;
 }
@@ -230,39 +255,39 @@ h2 {
 .info-time { white-space: nowrap; opacity: 0.85; }
 
 .note {
-  position: fixed; inset: 0; z-index: 8;
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.55);
-  animation: noteFade 0.5s ease both;
+  position: fixed; z-index: 8;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  left: calc(16px + env(safe-area-inset-left, 0px));
+  max-width: min(84vw, 320px);
+  animation: noteSlide 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.1) both;
 }
 .note[hidden] { display: none; }
-@keyframes noteFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes noteSlide { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
 .note-card {
   position: relative;
-  width: min(92vw, 420px);
-  padding: 28px 24px 24px;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(15, 15, 15, 0.95);
+  padding: 14px 36px 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(15, 15, 15, 0.9);
+  backdrop-filter: blur(10px);
   color: white;
-  text-align: center;
-  font-family: "Inter", system-ui, sans-serif;
-  box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
+  text-align: left;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 .note-card h1 {
-  font-size: 2rem;
-  margin: 0 0 12px;
+  font-size: 1.05rem;
+  margin: 0 0 4px;
   opacity: 1;
   animation: none;
-  text-shadow: 0 4px 5px #fff, 0 8px 10px #9e5ac9;
+  text-shadow: none;
 }
-.note-card p { margin: 0 0 20px; font-size: 1.1rem; font-weight: 600; line-height: 1.4; }
-.note-close { width: 120px; height: 56px; padding: 0; margin: 0 auto; font-size: 1.1rem; }
+.note-card p { margin: 0; font-size: 0.86rem; font-weight: 500; line-height: 1.35; color: rgba(255,255,255,0.8); }
+.note-close { display: none; }
 .note-x {
-  position: absolute; top: 10px; right: 14px;
+  position: absolute; top: 8px; right: 10px;
   background: none; border: none; color: white;
-  font-size: 1.2rem; cursor: pointer; opacity: 0.7;
+  font-size: 1rem; cursor: pointer; opacity: 0.6;
 }
 .note-x:hover { opacity: 1; }
 
@@ -275,12 +300,11 @@ h2 {
 .log-tag.change { background: rgba(143, 211, 255, 0.35); }
 .log-entry ul { margin: 4px 0 0; padding-left: 22px; font-weight: 600; line-height: 1.5; }
 
-/* ===== GAMES BROWSER ===== */
 .browser {
   position: fixed; inset: 0; z-index: 9;
   display: flex; flex-direction: column;
   background: rgba(8, 8, 12, 0.97);
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
   color: white;
 }
 .browser[hidden] { display: none; }
@@ -308,7 +332,7 @@ h2 {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.05);
   color: white;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
   font-size: 1.05rem;
   outline: none;
 }
@@ -325,17 +349,48 @@ h2 {
 }
 .br-card:hover { transform: scale(1.05); }
 
-/* ===== PAGE LAYOUT ===== */
-/* ===== APP SHELL (sidebar + main) ===== */
 .page {
   position: relative; z-index: 1;
   min-height: 100vh; min-height: 100dvh;
   box-sizing: border-box;
-  display: flex; align-items: stretch;
-  font-family: "Inter", system-ui, sans-serif;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
 }
 
-/* ----- Sidebar ----- */
+.orbit { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.orbit-btn {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)));
+  pointer-events: auto;
+  box-sizing: border-box;
+  width: 96px; min-height: 96px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 20px;
+  background: rgba(20, 18, 30, 0.72); backdrop-filter: blur(8px);
+  color: #fff; text-decoration: none; cursor: pointer;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  font-size: 0.82rem; font-weight: 700; line-height: 1.1; text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
+}
+.orbit-btn:hover {
+  transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.09);
+  background: rgba(40, 34, 58, 0.9);
+  box-shadow: 0 0 22px rgba(168,85,247,0.55);
+}
+.orbit-btn .icon { font-size: 1.7rem; line-height: 1; }
+.orbit-icon { font-size: 1.9rem; }
+.orbit-icon .fa-youtube { color: #ff3d3d; }
+.orbit-icon .fa-instagram { color: #e1497f; }
+
+@media (max-width: 900px), (max-height: 640px) {
+  .orbit { position: static; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; pointer-events: auto; }
+  .orbit-btn { position: static; transform: none; width: 88px; min-height: 84px; }
+  .orbit-btn:hover { transform: scale(1.06); }
+  .page { flex-direction: column; padding: 24px 16px; }
+}
+
 .sidebar {
   flex: 0 0 248px;
   box-sizing: border-box;
@@ -352,7 +407,7 @@ h2 {
   padding: 8px 12px;
   border: 0; border-radius: 10px;
   background: rgba(255, 255, 255, 0.06); color: #cfc6dd;
-  font-family: "Inter", system-ui, sans-serif; font-size: 0.9rem; font-weight: 600;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-size: 0.9rem; font-weight: 600;
   cursor: pointer; transition: background 0.18s;
 }
 .sidebar-toggle:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
@@ -382,14 +437,13 @@ h2 {
   padding: 11px 13px;
   border: 0; border-radius: 11px;
   background: none; color: #ffffff;
-  font-family: "Inter", system-ui, sans-serif; font-size: 1rem; font-weight: 700;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-size: 1rem; font-weight: 700;
   text-align: left; cursor: pointer;
   transition: background 0.18s, color 0.18s;
 }
 .nav-item:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
 .nav-item .icon { font-size: 1.2rem; width: 1.4em; text-align: center; flex: 0 0 auto; }
 
-/* ----- Collapsed sidebar (icon-only rail) ----- */
 .sidebar.collapsed { flex-basis: 76px; padding-left: 12px; padding-right: 12px; }
 .sidebar.collapsed .sidebar-toggle { align-self: center; }
 .sidebar.collapsed .sidebar-toggle-text { display: none; }
@@ -400,7 +454,6 @@ h2 {
 .sidebar.collapsed .nav-item span:not(.icon) { display: none; }
 .sidebar.collapsed .nav-item .icon { width: auto; }
 
-/* ----- Main area ----- */
 .main {
   flex: 1; min-width: 0;
   box-sizing: border-box;
@@ -418,7 +471,7 @@ h2 {
   border-radius: 40px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: #16161c; color: #fff;
-  font-family: "Inter", system-ui, sans-serif; font-size: 0.95rem; outline: none;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-size: 0.95rem; outline: none;
 }
 .topbar-search input::placeholder { color: rgba(255, 255, 255, 0.45); }
 .topbar-search input:focus { border-color: #9e5ac9; }
@@ -426,7 +479,7 @@ h2 {
   position: relative; overflow: hidden;
   padding: 10px 20px; border: 0; border-radius: 40px;
   background: #9e5ac9; color: #fff;
-  font-family: "Inter", system-ui, sans-serif; font-weight: 700; cursor: pointer;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-weight: 700; cursor: pointer;
 }
 .topbar-search button:hover { background: #b07dff; }
 #portalMessage { margin: 2px 0 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; }
@@ -437,30 +490,60 @@ h2 {
 .topbar-clock #clock-zone { font-size: 0.6em; opacity: 0.8; }
 
 .home {
-  flex: 1;
+  position: relative; z-index: 2;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 26px; padding: 30px 24px 60px; text-align: center;
+  gap: 48px; padding: 30px 24px; text-align: center;
 }
 .wordmark {
   margin: 0;
   font-family: "Pacifico", cursive;
   font-weight: 400; font-style: normal;
-  font-size: clamp(3rem, 10vw, 6.5rem); line-height: 1.3; color: #fff;
-  padding-bottom: 0.12em;
+  font-size: clamp(4rem, 14vw, 9.5rem); line-height: 1.2; color: #fff;
+  text-transform: lowercase;
+  padding-bottom: 0.14em;
   text-shadow: 0 0 14px rgba(216,180,254,0.9), 0 0 36px rgba(192,132,252,0.7), 0 0 60px rgba(168,85,247,0.5);
 }
-.home-search { position: relative; width: min(680px, 92%); }
-.home-search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); opacity: 0.6; font-size: 1.05rem; pointer-events: none; }
-.home-search input {
-  width: 100%; box-sizing: border-box;
-  padding: 16px 20px 16px 50px;
-  border-radius: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(22, 22, 28, 0.9); color: #fff;
-  font-family: "Inter", system-ui, sans-serif; font-size: 1.05rem; outline: none;
+
+.wm-letter { opacity: 0; }
+.wordmark.animate .wm-letter { animation: wmLetterIn 0.35s ease forwards; }
+.wordmark.animate .wm-letter:nth-child(1) { animation-delay: 0.08s; }
+.wordmark.animate .wm-letter:nth-child(2) { animation-delay: 0.22s; }
+.wordmark.animate .wm-letter:nth-child(3) { animation-delay: 0.36s; }
+.wordmark.animate .wm-letter:nth-child(4) { animation-delay: 0.50s; }
+.wordmark.animate .wm-letter:nth-child(5) { animation-delay: 0.64s; }
+.wordmark.animate .wm-letter:nth-child(6) { animation-delay: 0.78s; }
+.wordmark.animate .wm-letter:nth-child(7) { animation-delay: 0.92s; }
+@keyframes wmLetterIn { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .wm-letter { opacity: 1; animation: none; }
 }
-.home-search input::placeholder { color: rgba(255, 255, 255, 0.45); }
-.home-search input:focus { border-color: #9e5ac9; box-shadow: 0 0 0 4px rgba(158,90,201,0.18); }
+.home-search {
+  display: flex; align-items: center; gap: 10px;
+  width: min(760px, 92%);
+  padding: 7px 7px 7px 24px;
+  border-radius: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+.home-search-icon { opacity: 0.85; font-size: 1.1rem; pointer-events: none; }
+.home-search input {
+  flex: 1; min-width: 0; box-sizing: border-box;
+  padding: 14px 6px;
+  border: 0; background: transparent; color: #fff;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-size: 1.15rem; font-weight: 600; outline: none;
+}
+.home-search input::placeholder { color: rgba(255, 255, 255, 0.9); }
+.home-search-go {
+  flex: 0 0 auto;
+  width: 50px; height: 50px; border-radius: 50%;
+  border: 0; background: #ec5fa4; color: #fff;
+  font-size: 1.3rem; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+}
+.home-search-go:hover { background: #f178b5; transform: scale(1.06); }
 .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 .chip {
   position: relative; overflow: hidden;
@@ -468,7 +551,7 @@ h2 {
   padding: 11px 20px;
   border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 40px;
   background: rgba(22, 22, 28, 0.8); color: #ffffff;
-  font-family: "Inter", system-ui, sans-serif; font-size: 0.98rem; font-weight: 700; cursor: pointer;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-size: 0.98rem; font-weight: 700; cursor: pointer;
   transition: background 0.18s, transform 0.15s;
 }
 .chip:hover { background: rgba(255, 255, 255, 0.12); transform: translateY(-2px); }
@@ -486,7 +569,6 @@ h2 {
   #portalMessage { position: static; margin-top: 8px; }
 }
 
-/* ===== GAMES GRID (COVER ART) ===== */
 .br-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 18px; }
 .br-card {
   position: relative;
@@ -523,8 +605,7 @@ h2 {
 .br-card:hover img, .br-card:hover .ph { filter: blur(6px) brightness(0.65); transform: scale(1.1); }
 .br-card:hover { transform: none; box-shadow: 0 6px 16px rgba(158, 90, 201, 0.6); }
 
-/* ===== MUSIC (AUDIUS) ===== */
-.music-panel { position:fixed; inset:0; z-index:1000; box-sizing:border-box; width:100%; height:100%; max-height:100vh; overflow-y:auto; padding:clamp(18px,4vw,38px); background:linear-gradient(145deg,#171321,#09090d 70%); color:#fff; font-family:"Inter", system-ui, sans-serif; }
+.music-panel { position:fixed; inset:0; z-index:1000; box-sizing:border-box; width:100%; height:100%; max-height:100vh; overflow-y:auto; padding:clamp(18px,4vw,38px); background:linear-gradient(145deg,#171321,#09090d 70%); color:#fff; font-family:"Shantell Sans", "Segoe UI", system-ui, cursive; }
 .music-panel[hidden], .music-panel [hidden] { display:none !important; }
 .music-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; max-width:1200px; margin:0 auto 18px; }
 .music-heading h2 { margin:0; font-size:1.7rem; opacity:1; animation:none; }
@@ -584,29 +665,26 @@ h2 {
 .music-controls .music-play-button { background:#a78bfa; color:#171321; font-weight:700; min-width:90px; }
 #music-detail-status { text-align:center; }
 
-/* ===== IN-SITE WEBSITE VIEWER ===== */
 .site-panel { position:fixed; inset:0; z-index:1000; display:flex; flex-direction:column; background:#09090d; }
 .site-panel[hidden] { display:none !important; }
 .site-bar { display:flex; align-items:center; gap:10px; padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px; background:#171321; border-bottom:1px solid #ffffff14; }
-.site-host { flex:1; min-width:0; color:#cfc6dd; font-family:"Inter", system-ui, sans-serif; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.site-btn { flex:0 0 auto; border:0; border-radius:10px; padding:9px 13px; background:#ffffff14; color:#fff; font:inherit; font-family:"Inter", system-ui, sans-serif; text-decoration:none; cursor:pointer; }
+.site-host { flex:1; min-width:0; color:#cfc6dd; font-family:"Shantell Sans", "Segoe UI", system-ui, cursive; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.site-btn { flex:0 0 auto; border:0; border-radius:10px; padding:9px 13px; background:#ffffff14; color:#fff; font:inherit; font-family:"Shantell Sans", "Segoe UI", system-ui, cursive; text-decoration:none; cursor:pointer; }
 .site-btn:hover { background:#ffffff26; }
 .site-body { flex:1; position:relative; background:#fff; }
 #site-frame { position:absolute; inset:0; width:100%; height:100%; border:0; }
 
-/* ===== YOUTUBE ===== */
 .yt-search { display:flex; gap:10px; margin:6px 0 10px; max-width:700px; }
 .yt-search input { flex:1; min-width:0; }
 .yt-stage { position:relative; width:100%; max-width:1000px; margin:10px auto 0; aspect-ratio:16/9; background:#000; border-radius:16px; overflow:hidden; box-shadow:0 15px 45px #0009; }
 #yt-frame { position:absolute; inset:0; width:100%; height:100%; border:0; }
-/* TikTok is vertical */
+
 .tt-stage { position:relative; width:100%; max-width:325px; margin:10px auto 0; aspect-ratio:9/16; background:#000; border-radius:16px; overflow:hidden; box-shadow:0 15px 45px #0009; }
 #tt-frame { position:absolute; inset:0; width:100%; height:100%; border:0; }
-/* Instagram embed card has its own height */
+
 .ig-stage { width:100%; max-width:400px; margin:10px auto 0; }
 #ig-frame { display:block; width:100%; height:min(80vh,720px); border:0; background:#fff; border-radius:14px; box-shadow:0 15px 45px #0009; }
 
-/* ===== PLAYLISTS ===== */
 .pl-page-title { font-size:1.6rem; margin:0 0 6px; }
 .pl-create, .pl-search { display:flex; gap:10px; margin:14px 0 6px; }
 .pl-create input, .pl-search input { flex:1; min-width:0; }
@@ -663,7 +741,7 @@ h2 {
   flex-direction: column;
   gap: 10px;
   overflow: hidden;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
   color: white;
   background: linear-gradient(145deg, rgba(36, 20, 60, 0.96), rgba(12, 8, 22, 0.96));
   border: 1px solid rgba(168, 85, 247, 0.7);
@@ -805,7 +883,7 @@ h2 {
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.08);
   color: white;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -840,81 +918,51 @@ h2 {
 </head>
 <body>
 
-<div id="bg-toast" class="bg-toast"></div>
-
-<div class="bg-stack">
-  <div id="bg-a" class="bg-layer"></div>
-  <div id="bg-b" class="bg-layer"></div>
+<div id="scene" aria-hidden="true">
+  <div class="photo"></div>
+  <div class="photo-water"></div>
+  <div class="scene-dim"></div>
+  <svg class="svg-defs" width="0" height="0" aria-hidden="true">
+    <filter id="water" x="-12%" y="-12%" width="124%" height="124%">
+      <feTurbulence type="turbulence" baseFrequency="0.012 0.026" numOctaves="2" seed="7" result="n">
+        <animate attributeName="baseFrequency" dur="11s" values="0.012 0.02;0.012 0.034;0.012 0.02" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
 </div>
 
-<div class="wind">
-  <div class="band band1"></div>
-  <div class="band band2"></div>
-  <div class="band band3"></div>
-  <div class="band band4"></div>
-</div>
-
-<div class="aurora">
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
-  <div class="blob blob3"></div>
-  <div class="blob blob4"></div>
-  <div class="blob blob5"></div>
-</div>
+<canvas id="rain" aria-hidden="true"></canvas>
 
 <div class="page">
 
-  <aside class="sidebar">
-    <div class="quick-icons">
-      <a id="youtube-link" class="quick-icon" href="https://www.youtube.com/" rel="noopener noreferrer" title="YouTube" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-      <a id="tiktok-link" class="quick-icon" href="https://www.tiktok.com/" rel="noopener noreferrer" title="TikTok" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-      <a id="instagram-link" class="quick-icon" href="https://www.instagram.com/" rel="noopener noreferrer" title="Instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-    </div>
-
-    <div class="side-label">MENU</div>
-    <nav class="side-nav">
-      <button id="games-btn" class="nav-item"><span class="icon">🎮</span><span>Games</span></button>
-      <button id="music-btn" class="nav-item"><span class="icon">🎵</span><span>Music</span></button>
-      <button id="ai-btn" class="nav-item"><span class="icon">🤖</span><span>AI</span></button>
-      <button id="log-btn" class="nav-item"><span class="icon">📜</span><span>Update Log</span></button>
-      <button id="tz-btn" class="nav-item"><span class="icon">🕒</span><span>Time Zone</span></button>
-      <button id="tz-info-btn" class="nav-item"><span class="icon">🌍</span><span>Check Time Zones</span></button>
-      <button id="bg-btn" class="nav-item"><span class="icon">🖼️</span><span>Change Background</span></button>
-    </nav>
-    <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Collapse menu" title="Collapse menu">
-      <span class="sidebar-toggle-icon">⟨</span>
-      <span class="sidebar-toggle-text">Collapse</span>
-    </button>
-  </aside>
-
-  <main class="main">
-    <header class="topbar">
-      <div id="clock" class="clock topbar-clock">
-        <div class="clock-row">
-          <span class="clock-icon" id="icon-left"></span>
-          <div id="clock-time"></div>
-          <span class="clock-icon" id="icon-right"></span>
-        </div>
-        <div id="clock-zone"></div>
+  <div class="home">
+    <div id="clock" class="clock home-clock">
+      <div class="clock-row">
+        <span class="clock-icon" id="icon-left"></span>
+        <div id="clock-time"></div>
+        <span class="clock-icon" id="icon-right"></span>
       </div>
-    </header>
-
-    <div class="home">
-      <h1 class="wordmark">GLOSSOM</h1>
-      <form id="homeSearchForm" class="home-search">
-        <span class="home-search-icon">🔍</span>
-        <input type="text" id="homeSearch" placeholder="Search anything..." autocomplete="off">
-      </form>
-      <p id="portalMessage" aria-live="polite"></p>
-      <div class="chips">
-        <button class="chip" type="button" data-target="games-btn"><span>🎮</span> Games</button>
-        <button class="chip" type="button" data-target="music-btn"><span>🎵</span> Music</button>
-        <button class="chip" type="button" data-target="ai-btn"><span>🤖</span> AI</button>
-        <button class="chip" type="button" data-target="log-btn"><span>📜</span> Update Log</button>
-      </div>
-      <h2 id="message"></h2>
+      <div id="clock-zone"></div>
     </div>
-  </main>
+    <h1 class="wordmark" aria-label="GLOSSOM"><span class="wm-letter">G</span><span class="wm-letter">L</span><span class="wm-letter">O</span><span class="wm-letter">S</span><span class="wm-letter">S</span><span class="wm-letter">O</span><span class="wm-letter">M</span></h1>
+    <form id="homeSearchForm" class="home-search">
+      <span class="home-search-icon">🔍</span>
+      <input type="text" id="homeSearch" placeholder="Search the web or enter a URL" autocomplete="off">
+      <button type="submit" class="home-search-go" aria-label="Go">→</button>
+    </form>
+    <p id="portalMessage" aria-live="polite"></p>
+  </div>
+
+  <div class="orbit">
+    <button id="games-btn" class="orbit-btn" style="--x:0px;--y:-300px"><span class="icon">🎮</span></button>
+    <button id="music-btn" class="orbit-btn" style="--x:367px;--y:-187px"><span class="icon">🎵</span></button>
+    <button id="ai-btn" class="orbit-btn" style="--x:458px;--y:67px"><span class="icon">🤖</span></button>
+    <button id="log-btn" class="orbit-btn" style="--x:204px;--y:270px"><span class="icon">📜</span></button>
+    <a id="instagram-link" class="orbit-btn orbit-icon" href="https://www.instagram.com/" rel="noopener noreferrer" aria-label="Instagram" style="--x:-204px;--y:270px"><i class="fa-brands fa-instagram"></i></a>
+    <a id="tiktok-link" class="orbit-btn orbit-icon" href="https://www.tiktok.com/" rel="noopener noreferrer" aria-label="TikTok" style="--x:-458px;--y:67px"><i class="fa-brands fa-tiktok"></i></a>
+    <a id="youtube-link" class="orbit-btn orbit-icon" href="https://www.youtube.com/" rel="noopener noreferrer" aria-label="YouTube" style="--x:-367px;--y:-187px"><i class="fa-brands fa-youtube"></i></a>
+  </div>
 
 </div>
 
@@ -931,7 +979,7 @@ h2 {
   <div id="info-list"></div>
 </div>
 
-<div id="note" class="note" role="dialog" aria-labelledby="note-title">
+<div id="note" class="note" role="dialog" aria-labelledby="note-title" hidden>
   <div class="note-card">
     <button id="note-x" class="note-x" aria-label="Close note">✕</button>
     <h1 id="note-title">Welcome to GLOSSOM</h1>
@@ -1212,47 +1260,7 @@ h2 {
   animate();
 </script>
 
-<!-- Rotating messages -->
-<script>
-  const messages = [
-    "Don't worry, you can be free here",
-    "Infinite possibilities start here",
-    "Fun fact: Glossom isn't even a real word, we just mixed the words 'blossom' and 'gloss'",
-    "I don't think anyone even reads these, they just come for the games, that's it.",
-    "Freedom lives here, so take your time",
-    "Some people might think these messages are cringe, I just put them because any other link pretty much has them too",
-    "I have VS code on my chromebook, so don't be surprised if you see me making a website in the middle of class :/",
-    "I'm gonna try to make 3 more links after this one, I have many more planned",
-    "I've ran out of messages to put here",
-    "You're not just here for the games, right?",
-    "Please read these so I feel like I actually have a reason to make messages",
-    "Be free",
-    "PLEASE DON'T GET THIS LINK BLOCKED BRU IM GONNA CRASH IF IT DOES",
-    "Do the 67 form",
-    "67 67 67 67 67"
-  ];
 
-  const message = document.getElementById("message");
-  let last = Math.floor(Math.random() * messages.length);
-  message.textContent = messages[last];
-
-  function changeMessage() {
-    let i;
-    do {
-      i = Math.floor(Math.random() * messages.length);
-    } while (i === last && messages.length > 1);
-    last = i;
-
-    const out = message.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, fill: "forwards" });
-    out.onfinish = () => {
-      message.textContent = messages[i];
-      message.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 800, easing: "ease", fill: "forwards" });
-    };
-  }
-  setInterval(changeMessage, 4000);
-</script>
-
-<!-- Clock and time zone picker -->
 <script>
   const timeEl = document.getElementById("clock-time");
   const zoneEl = document.getElementById("clock-zone");
@@ -1269,10 +1277,7 @@ h2 {
     : ["America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles",
        "Europe/London", "Europe/Paris", "Asia/Tokyo", "Australia/Sydney"];
 
-  let tz = "";
-  try { tz = localStorage.getItem("tz") || ""; } catch (e) {}
-  if (!tz) tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "America/Chicago";
-  try { new Intl.DateTimeFormat("en-US", { timeZone: tz }); } catch (e) { tz = "America/Chicago"; }
+  let tz = "America/Chicago";
 
   let currentIcon = "";
 
@@ -1333,11 +1338,11 @@ h2 {
 
   function closePanel() { tzPanel.hidden = true; }
 
-  tzBtn.addEventListener("click", () => { tzPanel.hidden ? openPanel() : closePanel(); });
+  if (tzBtn) tzBtn.addEventListener("click", () => { tzPanel.hidden ? openPanel() : closePanel(); });
   tzSearch.addEventListener("input", () => renderList(tzSearch.value));
 
   document.addEventListener("pointerdown", (e) => {
-    if (!tzPanel.hidden && !tzPanel.contains(e.target) && !tzBtn.contains(e.target)) closePanel();
+    if (!tzPanel.hidden && !tzPanel.contains(e.target) && (!tzBtn || !tzBtn.contains(e.target))) closePanel();
   });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePanel(); });
 
@@ -1345,82 +1350,65 @@ h2 {
   setInterval(updateClock, 1000);
 </script>
 
-<!-- Background changer -->
 <script>
-  const backgrounds = [
-    "default",
-    "images/hollywoodsunset.jpg",
-    "images/vegasnight.jpg",
-    "images/newbeginning.jpg"
-  ];
+(() => {
+  const canvas = document.getElementById("rain");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const layers = [document.getElementById("bg-a"), document.getElementById("bg-b")];
-  const bgBtn = document.getElementById("bg-btn");
+  let W = 0, H = 0, drops = [], MAX = 0;
+  function makeStatic() {
+    return { x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2.6 + 1.1, sliding: false, vy: 0, wob: Math.random() * Math.PI * 2 };
+  }
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    const base = Math.min(240, Math.floor(W * H / 13000));
+    MAX = base * 4;
+    drops = [];
+    for (let i = 0; i < base; i++) drops.push(makeStatic());
+  }
+  resize();
+  window.addEventListener("resize", resize);
 
-  let front = 0;
-  let current = 0;
-  let busy = false;
+  function drawDrop(x, y, r) {
+    const g = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.1, x, y, r);
+    g.addColorStop(0, "rgba(255,255,255,0.4)");
+    g.addColorStop(0.35, "rgba(205,220,232,0.16)");
+    g.addColorStop(1, "rgba(170,188,205,0.04)");
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
+    ctx.beginPath(); ctx.arc(x - r * 0.33, y - r * 0.33, Math.max(0.5, r * 0.22), 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,255,255,0.55)"; ctx.fill();
+  }
 
-  function paint(el, bg) {
-    if (bg === "default") {
-      el.className = "bg-layer dots";
-      el.style.backgroundImage = "";
-    } else {
-      el.className = "bg-layer photo";
-      el.style.backgroundImage = `url("${bg}")`;
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < drops.length; i++) {
+      const d = drops[i];
+      if (d.sliding) {
+        d.vy += 0.12;
+        d.y += d.vy;
+        d.wob += 0.3;
+        d.x += Math.sin(d.wob) * 0.5;
+        if (Math.random() < 0.3 && drops.length < MAX) {
+          drops.push({ x: d.x + (Math.random() - 0.5) * d.r, y: d.y - d.r, r: Math.max(0.7, d.r * (Math.random() * 0.35 + 0.35)), sliding: false, vy: 0, wob: 0 });
+        }
+        d.r *= 0.996;
+        if (d.y > H + 12 || d.r < 0.6) Object.assign(d, makeStatic());
+      } else if (d.r > 2.1 && Math.random() < 0.0009 * d.r) {
+        d.sliding = true; d.vy = 0.5;
+      }
+      drawDrop(d.x, d.y, d.r);
     }
+    if (drops.length > MAX) drops.splice(0, drops.length - MAX);
+    requestAnimationFrame(tick);
   }
-
-  paint(layers[0], "default");
-  layers[0].style.opacity = 1;
-
-  backgrounds.forEach((bg) => { if (bg !== "default") new Image().src = bg; });
-
-  function crossfadeTo(bg) {
-    const incoming = layers[1 - front];
-    const outgoing = layers[front];
-
-    paint(incoming, bg);
-    incoming.style.zIndex = 2;
-    outgoing.style.zIndex = 1;
-
-    incoming.style.transition = "none";
-    incoming.style.opacity = 0;
-    void incoming.offsetWidth;
-    incoming.style.transition = "";
-    incoming.style.opacity = 1;
-
-    front = 1 - front;
-  }
-
-  const names = {
-    "default": "Default BG",
-    "images/hollywoodsunset.jpg": "Sunset in the Depth of Hollywood",
-    "images/vegasnight.jpg": "The Vegas Night Shine",
-    "images/newbeginning.jpg": "Start of a New Beginning"
-  };
-
-  const toast = document.getElementById("bg-toast");
-
-  function showToast(bg) {
-    toast.textContent = names[bg] || bg;
-    toast.classList.remove("show");
-    void toast.offsetWidth;
-    toast.classList.add("show");
-  }
-
-  bgBtn.addEventListener("click", () => {
-    if (busy) return;
-    busy = true;
-
-    current = (current + 1) % backgrounds.length;
-    crossfadeTo(backgrounds[current]);
-    showToast(backgrounds[current]);
-    setTimeout(() => { busy = false; }, 650);
-  });
+  if (!reduce) tick();
+  else drops.forEach(d => drawDrop(d.x, d.y, d.r));
+})();
 </script>
 
-<!-- Click effects -->
 <script>
   document.addEventListener("pointerdown", (e) => {
     const btn = e.target.closest("button");
@@ -1430,8 +1418,7 @@ h2 {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // The ripple is absolutely positioned, so the button must be a
-    // positioning context or the ripple anchors to an ancestor (corner).
+    
     if (getComputedStyle(btn).position === "static") btn.style.position = "relative";
 
     [175, 175, 175].forEach((size, i) => {
@@ -1453,7 +1440,6 @@ h2 {
   });
 </script>
 
-<!-- Check time zones panel -->
 <script>
   const infoBtn = document.getElementById("tz-info-btn");
   const infoPanel = document.getElementById("info-panel");
@@ -1546,28 +1532,28 @@ h2 {
 
   function closeInfo() { infoPanel.hidden = true; }
 
-  infoBtn.addEventListener("click", () => { infoPanel.hidden ? openInfo() : closeInfo(); });
+  if (infoBtn) infoBtn.addEventListener("click", () => { infoPanel.hidden ? openInfo() : closeInfo(); });
   infoSearch.addEventListener("input", () => renderInfo(infoSearch.value));
 
   document.addEventListener("pointerdown", (e) => {
-    if (!infoPanel.hidden && !infoPanel.contains(e.target) && !infoBtn.contains(e.target)) closeInfo();
+    if (!infoPanel.hidden && !infoPanel.contains(e.target) && (!infoBtn || !infoBtn.contains(e.target))) closeInfo();
   });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeInfo(); });
 </script>
 
-<!-- Welcome note -->
 <script>
   const note = document.getElementById("note");
 
   function closeNote() { note.hidden = true; }
 
+  document.querySelector(".wordmark")?.classList.add("animate");
+  setTimeout(() => { note.hidden = false; }, 2000);
+
   document.getElementById("note-close").addEventListener("click", closeNote);
   document.getElementById("note-x").addEventListener("click", closeNote);
-  note.addEventListener("pointerdown", (e) => { if (e.target === note) closeNote(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeNote(); });
 </script>
 
-<!-- Update log -->
 <script>
   const logPanel = document.getElementById("log");
   const logBtn = document.getElementById("log-btn");
@@ -1582,7 +1568,6 @@ h2 {
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLog(); });
 </script>
 
-<!-- Games browser -->
 <script>
   const games = [
     { name: "Geometry Dash", url: "games/mygame1/index.html", img: "games-icon/geometrydash.jpg" },
@@ -2725,7 +2710,6 @@ h2 {
   });
 </script>
 
-<!-- School Web Portal form -->
 <script>
   {
     const msg = document.getElementById("portalMessage");
@@ -2735,7 +2719,6 @@ h2 {
     const newTab = document.getElementById("site-newtab");
     const closeBtn = document.getElementById("site-close");
 
-    // Accept "example.com" as well as a full https:// address
     function normalize(address) {
       let url;
       try { url = new URL(address); }
@@ -2759,7 +2742,6 @@ h2 {
     closeBtn.addEventListener("click", closeSite);
     document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) closeSite(); });
 
-    // The big centered "Search anything..." box opens sites the same way
     const homeForm = document.getElementById("homeSearchForm");
     const homeInput = document.getElementById("homeSearch");
     if (homeForm) {
@@ -2769,7 +2751,6 @@ h2 {
       });
     }
 
-    // Center quick-access chips forward their click to the real menu buttons
     document.querySelectorAll(".chip[data-target]").forEach(chip => {
       chip.addEventListener("click", () => {
         const target = document.getElementById(chip.dataset.target);
@@ -2778,7 +2759,6 @@ h2 {
     });
   }
 
-  // Collapse / expand the sidebar, remembering the choice
   (() => {
     const sidebar = document.querySelector(".sidebar");
     const toggle = document.getElementById("sidebar-toggle");
@@ -2800,7 +2780,6 @@ h2 {
   })();
 </script>
 
-<!-- In-site YouTube (embed player) -->
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -2808,7 +2787,6 @@ h2 {
   const form = $("yt-form"), input = $("yt-input"), frame = $("yt-frame"), status = $("yt-status");
   const EMBED = "https://www.youtube-nocookie.com/embed/";
 
-  // Pull an 11-char video id out of any common YouTube URL form, else null
   function videoId(text) {
     const s = text.trim();
     if (/^[\w-]{11}$/.test(s)) return s;
@@ -2823,7 +2801,7 @@ h2 {
     status.textContent = "Now playing. Paste another link or search again to change it.";
   }
   function playSearch(query) {
-    // Legacy search embed: plays videos matching the query
+
     frame.src = "https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(query) + "&autoplay=1&rel=0";
     status.textContent = 'Showing results for "' + query + '". If it does not play, paste a video link instead.';
   }
@@ -2832,7 +2810,7 @@ h2 {
     if (!frame.src) status.textContent = "Search a video or paste a YouTube link to start.";
     input.focus();
   }
-  function close() { panel.hidden = true; frame.src = ""; } // stop playback
+  function close() { panel.hidden = true; frame.src = ""; } 
 
   link.addEventListener("click", e => { e.preventDefault(); open(); });
   closeBtn.addEventListener("click", close);
@@ -2847,12 +2825,10 @@ h2 {
 })();
 </script>
 
-<!-- In-site TikTok & Instagram (embed players) -->
 <script>
 (() => {
   const $ = id => document.getElementById(id);
 
-  // One helper drives both panels: a link opens it, a form embeds the pasted post
   function setupEmbed({ linkId, panelId, closeId, formId, inputId, frameId, statusId, toEmbed, label }) {
     const link = $(linkId), panel = $(panelId), closeBtn = $(closeId);
     const form = $(formId), input = $(inputId), frame = $(frameId), status = $(statusId);
@@ -2863,7 +2839,7 @@ h2 {
       if (!frame.src) status.textContent = "Paste a " + label + " link above to view it here.";
       input.focus();
     };
-    const close = () => { panel.hidden = true; frame.src = ""; }; // stop playback
+    const close = () => { panel.hidden = true; frame.src = ""; }; 
 
     link.addEventListener("click", e => { e.preventDefault(); open(); });
     closeBtn.addEventListener("click", close);
@@ -2892,7 +2868,7 @@ h2 {
       if ((m = text.match(/\/video\/(\d{6,})/)) || (m = text.match(/\/player\/v1\/(\d{6,})/)) || (m = text.match(/^(\d{6,})$/))) {
         return "https://www.tiktok.com/player/v1/" + m[1] + "?rel=0";
       }
-      return null; // short vm.tiktok.com links can't be resolved in the browser
+      return null; 
     }
   });
 
@@ -2909,7 +2885,6 @@ h2 {
 })();
 </script>
 
-<!-- GLOSSOM Music catalog and player (Audius) -->
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -2926,10 +2901,9 @@ h2 {
   const status = $("music-status"), detailStatus = $("music-detail-status");
   const lyricsBody = $("music-lyrics-body");
   let lyricsRequest = 0;
-  let lyricLines = [];   // [{ time, el }] for synced lyrics
+  let lyricLines = [];   
   let activeLyric = -1;
 
-  // Strip "(feat. ...)", "- Remastered", etc. so the lyrics lookup matches better
   function cleanForLyrics(text) {
     return String(text || "")
       .replace(/\s*[\(\[].*?[\)\]]\s*/g, " ")
@@ -2945,7 +2919,7 @@ h2 {
     p.textContent = text;
     lyricsBody.appendChild(p);
   }
-  // Turn "[01:02.34] words" lines into {time, text}, sorted by time
+
   function parseSynced(synced) {
     const out = [];
     String(synced || "").split(/\r?\n/).forEach(line => {
@@ -2985,7 +2959,7 @@ h2 {
   }
   function updateLyricHighlight() {
     if (!lyricLines.length) return;
-    const t = audio.currentTime + 0.2; // tiny lead so the line flips as it's sung
+    const t = audio.currentTime + 0.2; 
     let idx = -1;
     for (let i = 0; i < lyricLines.length; i++) {
       if (lyricLines[i].time <= t) idx = i; else break;
@@ -2996,11 +2970,11 @@ h2 {
     if (idx < 0) return;
     const el = lyricLines[idx].el;
     el.classList.add("active");
-    // Keep the active line centered in the panel without scrolling the whole page
+
     const target = el.offsetTop - lyricsBody.clientHeight / 2 + el.clientHeight / 2;
     lyricsBody.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
   }
-  // Pull plain words out of an lrclib record (plain, or synced with the [mm:ss] tags stripped)
+
   function plainLyricsOf(data) {
     if (!data) return "";
     return (data.plainLyrics || "").trim()
@@ -3012,7 +2986,7 @@ h2 {
     if (!response.ok) throw new Error("Request failed");
     return response.json();
   }
-  // Backup source (plain lyrics only, no timing) for songs lrclib doesn't have
+
   async function fetchOvhLyrics(artist, title) {
     try {
       const url = "https://api.lyrics.ovh/v1/" + encodeURIComponent(artist) + "/" + encodeURIComponent(title);
@@ -3027,14 +3001,14 @@ h2 {
     setLyricsMessage("Loading lyrics...");
     const artistName = cleanForLyrics(trackArtist(track));
     const trackName = cleanForLyrics(track.title);
-    // Prefer a record that has synced (timestamped) lyrics; fall back to any with words
+
     const pickBest = records => {
       if (!Array.isArray(records)) return null;
       return records.find(r => (r.syncedLyrics || "").trim())
         || records.find(r => plainLyricsOf(r)) || null;
     };
     try {
-      // 1) Exact match — fastest and most accurate when it hits
+
       const getUrl = new URL("https://lrclib.net/api/get");
       getUrl.searchParams.set("artist_name", artistName);
       getUrl.searchParams.set("track_name", trackName);
@@ -3042,7 +3016,6 @@ h2 {
       if (thisRequest !== lyricsRequest) return;
       if (record && !(record.syncedLyrics || "").trim() && !plainLyricsOf(record)) record = null;
 
-      // 2) Fuzzy search on title + artist (most Audius songs land here)
       if (!record) {
         const s = new URL("https://lrclib.net/api/search");
         s.searchParams.set("track_name", trackName);
@@ -3051,7 +3024,6 @@ h2 {
         if (thisRequest !== lyricsRequest) return;
       }
 
-      // 3) Last resort: search by title alone
       if (!record) {
         const s = new URL("https://lrclib.net/api/search");
         s.searchParams.set("q", trackName);
@@ -3061,11 +3033,10 @@ h2 {
 
       if (thisRequest !== lyricsRequest) return;
       if (record && (record.syncedLyrics || "").trim() && renderSyncedLyrics(record.syncedLyrics)) {
-        return; // synced lyrics rendered (bold + moving + click to seek)
+        return; 
       }
       let plain = plainLyricsOf(record);
 
-      // 4) Backup source when lrclib has nothing (plain lyrics, no sync)
       if (!plain) {
         plain = await fetchOvhLyrics(artistName, trackName);
         if (thisRequest !== lyricsRequest) return;
@@ -3082,7 +3053,7 @@ h2 {
   const API = "https://api.audius.co/v1", APP_NAME = "GLOSSOM";
   const fallbackArt = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#38245a"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs><rect width="400" height="400" fill="url(#g)"/><text x="200" y="225" text-anchor="middle" font-size="100" fill="white">G</text></svg>');
   const playlistView = $("music-playlist-view");
-  // tracks = songs shown on the browse page; queue = the list that is actually playing
+
   let tracks = [], queue = [], currentIndex = -1, requestNumber = 0;
   let backTarget = "browse";
 
@@ -3168,7 +3139,7 @@ h2 {
     const query = searchInput.value.trim(), genre = genreSelect.value;
     status.textContent = "Searching the music catalog...";
     discoverButton.disabled = true;
-    // Keep the old results on screen while typing so the page doesn't flicker
+
     if (!tracks.length) {
       list.replaceChildren();
       const loading = document.createElement("div");
@@ -3261,7 +3232,7 @@ h2 {
   });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) panel.hidden = true; });
   discoverButton.addEventListener("click", fetchTracks);
-  // Search as you type: wait until the user pauses for a moment, then search
+
   function debounce(fn, ms) {
     let timer;
     return () => { clearTimeout(timer); timer = setTimeout(fn, ms); };
@@ -3302,7 +3273,6 @@ h2 {
     if (currentIndex !== -1) detailStatus.textContent = "This stream could not be played. Try another track.";
   });
 
-  /* ===== PLAYLISTS ===== */
   const PL_KEY = "glossom-playlists";
   const plHome = $("pl-home"), plEditor = $("pl-editor"), plGrid = $("pl-grid");
   const plCreateForm = $("pl-create-form"), plNewName = $("pl-new-name");
@@ -3312,10 +3282,10 @@ h2 {
   const plSearchStatus = $("pl-search-status"), plResults = $("pl-results");
   const plEdit = $("pl-edit"), plTitleText = $("pl-title-text"), plFilter = $("pl-filter");
   const plNameLabel = $("pl-name-label"), plAddSection = $("pl-add-section");
-  // editingId = the playlist that is open; plEditing = whether edit mode is on
+
   let playlists = loadPlaylists(), editingId = null, plEditing = false;
   let results = [], plRequest = 0, deleteTimer = null;
-  // Multi-select on the "Your playlists" grid
+
   const plSelectBtn = $("pl-select"), plSelectCancel = $("pl-select-cancel");
   const plSelectBar = $("pl-select-bar"), plSelectCount = $("pl-select-count");
   const plBulkDelete = $("pl-bulk-delete");
@@ -3333,7 +3303,7 @@ h2 {
   }
   function currentPlaylist() { return playlists.find(p => p.id === editingId); }
   function songCount(n) { return n + (n === 1 ? " song" : " songs"); }
-  // Only keep what the player needs, so saved playlists stay small
+
   function slimTrack(t) {
     const a = t.artwork || {};
     return {
@@ -3388,7 +3358,7 @@ h2 {
     plBulkDelete.classList.remove("armed");
     plBulkDelete.textContent = "🗑️ Delete selected";
   }
-  // Only show playlists whose name contains what's typed in the search box
+
   function shownPlaylists() {
     const filter = normalizeSearchText(plFilter.value);
     return playlists.filter(p => normalizeSearchText(p.name).includes(filter));
@@ -3406,7 +3376,7 @@ h2 {
   function renderPlaylistGrid() {
     plGrid.replaceChildren();
     const shown = shownPlaylists();
-    // Never keep a playlist selected that the search box is hiding
+
     selected.forEach(id => { if (!shown.some(p => p.id === id)) selected.delete(id); });
     updateSelectUI(shown);
     if (!playlists.length) {
@@ -3575,7 +3545,7 @@ h2 {
     savePlaylists();
     plNewName.value = "";
     results = []; plSearch.value = ""; plSearchStatus.textContent = "";
-    openEditor(p.id, true); // a brand-new playlist opens ready to add songs
+    openEditor(p.id, true); 
     plSearch.focus();
   });
 
@@ -3598,7 +3568,6 @@ h2 {
     if (p && p.songs.length) playList(p.songs.slice(), 0, "playlist");
   });
 
-  // Click once to arm, click again within 3 seconds to really delete
   plDelete.addEventListener("click", () => {
     if (!plDelete.classList.contains("armed")) {
       plDelete.classList.add("armed");
@@ -3615,7 +3584,6 @@ h2 {
   plSearch.addEventListener("input", debounce(searchForPlaylist, SEARCH_DELAY));
   plFilter.addEventListener("input", renderPlaylistGrid);
 
-  // 1st click: turn on selecting. After that: "Select All?" / "Deselect All"
   plSelectBtn.addEventListener("click", () => {
     if (!selecting) {
       selecting = true;
@@ -3629,7 +3597,6 @@ h2 {
   });
   plSelectCancel.addEventListener("click", () => { exitSelect(); renderPlaylistGrid(); });
 
-  // Click once to arm, click again within 3 seconds to delete every selected playlist
   plBulkDelete.addEventListener("click", () => {
     if (!selected.size) return;
     if (!plBulkDelete.classList.contains("armed")) {
@@ -3645,114 +3612,6 @@ h2 {
   });
   audio.addEventListener("play", renderEditor);
   audio.addEventListener("pause", renderEditor);
-})();
-</script>
-
-<script>
-(() => {
-  const GAP = 24;
-  const HOLE = 62;
-  const OUTER = 165;
-  const PUSH = 12;
-  const GROW = 1.6;
-  const COLOR = "190,150,255";
-
-  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-  const css = document.createElement("style");
-  css.textContent =
-    "html.dot-burst body { background-image: none !important; }" +
-    ".dot-burst .bg-layer.dots { background-image: none !important; }" +
-    "#dot-burst { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; transition: opacity 0.6s ease; }";
-  document.head.appendChild(css);
-  document.documentElement.classList.add("dot-burst");
-
-  const canvas = document.createElement("canvas");
-  canvas.id = "dot-burst";
-  document.querySelector(".bg-stack").after(canvas);
-  const ctx = canvas.getContext("2d");
-
-  let cols = 0, rows = 0;
-
-  function resize() {
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = Math.ceil(window.innerWidth * dpr);
-    canvas.height = Math.ceil(window.innerHeight * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cols = Math.ceil(window.innerWidth / GAP);
-    rows = Math.ceil(window.innerHeight / GAP);
-  }
-  window.addEventListener("resize", resize);
-  resize();
-
-  let moved = false, power = 0;
-  window.addEventListener("pointermove", () => { moved = true; }, { once: true });
-
-  const clamp01 = (v) => Math.max(0, Math.min(1, v));
-
-  function frame() {
-    requestAnimationFrame(frame);
-
-    const onDots = typeof current === "undefined" || current === 0;
-    canvas.style.opacity = onDots ? 1 : 0;
-    if (!onDots) return;
-
-    power += ((moved ? 1 : 0) - power) * 0.06;
-
-    let cx = 0, cy = 0;
-    state.forEach((b) => { cx += b.x; cy += b.y; });
-    cx /= state.length;
-    cy /= state.length;
-
-    const hole = HOLE * power;
-    const outer = OUTER * power;
-    const push = PUSH * power;
-    const outer2 = outer * outer;
-
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-    ctx.fillStyle = "rgba(255,255,255,0.18)";
-    ctx.beginPath();
-    const near = [];
-    for (let j = 0; j < rows; j++) {
-      for (let i = 0; i < cols; i++) {
-        const x = GAP / 2 + i * GAP, y = GAP / 2 + j * GAP;
-        const dx = x - cx, dy = y - cy;
-        if (outer > 4 && dx * dx + dy * dy < outer2) {
-          near.push(dx, dy);
-          continue;
-        }
-        ctx.moveTo(x + 1, y);
-        ctx.arc(x, y, 1, 0, 6.2832);
-      }
-    }
-    ctx.fill();
-
-    for (let n = 0; n < near.length; n += 2) {
-      const dx = near[n], dy = near[n + 1];
-      const d = Math.hypot(dx, dy);
-      const ux = d > 0.5 ? dx / d : 1;
-      const uy = d > 0.5 ? dy / d : 0;
-
-      const p = d <= hole ? 1 : clamp01(1 - (d - hole) / (outer - hole));
-      const p2 = p * p;
-
-      let f = 1;
-      if (d < hole) {
-        const t = clamp01((d / hole - 0.55) / 0.45);
-        f = t * t * (3 - 2 * t);
-      }
-      if (f < 0.02) continue;
-
-      const dist = d + push * p2;
-      const radius = (1 + GROW * p2) * (0.4 + 0.6 * f);
-      ctx.fillStyle = "rgba(" + COLOR + "," + ((0.18 + 0.5 * p2) * f) + ")";
-      ctx.beginPath();
-      ctx.arc(cx + ux * dist, cy + uy * dist, radius, 0, 6.2832);
-      ctx.fill();
-    }
-  }
-  frame();
 })();
 </script>
 
