@@ -1,0 +1,3068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>glossom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,300..800;1,300..800&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background-color: #0b1020;
+  color: white;
+}
+
+#scene { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.svg-defs { position: absolute; width: 0; height: 0; }
+.photo, .photo-water { position: absolute; inset: 0; background: url("images/scene.jpg") center center / cover no-repeat; }
+.photo-water {
+  filter: url(#water);
+  -webkit-mask: linear-gradient(to bottom, transparent 58%, #000 66%);
+          mask: linear-gradient(to bottom, transparent 58%, #000 66%);
+  animation: waterFade 8s linear infinite;
+}
+.photo-water-b {
+  filter: url(#water2);
+  animation-delay: -4s;
+}
+@keyframes waterFade {
+  0% { opacity: 0; }
+  4% { opacity: 1; }
+  96% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.scene-dim { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, transparent 55%, rgba(8,10,18,0.3) 100%); }
+
+#rain { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 9; pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-water { filter: none; animation: none; opacity: 1; }
+  .photo-water-b { display: none; }
+}
+
+h1 {
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  color: white;
+  text-align: center;
+  text-shadow: 0 0 5px #fff, 0 20px 10px #9e5ac9, 0 20px 15px #9e5ac9;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+}
+
+h2 {
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  color: white;
+  text-align: center;
+  text-shadow: 0 0 5px #fff, 0 20px 10px #9e5ac9, 0 20px 15px #9e5ac9;
+  opacity: 0;
+  animation: fadeIn 3s ease forwards;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.aurora { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.blob {
+  position: absolute; top: 0; left: 0;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  filter: blur(50px);
+  will-change: transform;
+}
+.blob1 { background: radial-gradient(circle, #c58bff 0%, #9e5ac9 55%, transparent 80%); }
+.blob2 { background: radial-gradient(circle, #7fa2ff 0%, #3a6bff 55%, transparent 80%); }
+.blob3 { background: radial-gradient(circle, #b07dff 0%, #7b3fe4 55%, transparent 80%); }
+.blob4 { background: radial-gradient(circle, #7fa2ff 0%, #3a6bff 55%, transparent 80%); }
+.blob5 { background: radial-gradient(circle, #c58bff 0%, #9e5ac9 55%, transparent 80%); }
+
+.wind { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.band {
+  position: absolute; left: 0;
+  width: 70vw; height: 28vh;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: windFlow 24s linear infinite;
+}
+.band1 { top: 5%;  background: radial-gradient(ellipse, #8fd3ff, transparent 70%); animation-duration: 12s; animation-delay: 0s; }
+.band2 { top: 30%; background: radial-gradient(ellipse, #b388ff, transparent 70%); animation-duration: 15s; animation-delay: -5s; }
+.band3 { top: 55%; background: radial-gradient(ellipse, #a3dcff, transparent 70%); animation-duration: 13s; animation-delay: -9s; }
+.band4 { top: 75%; background: radial-gradient(ellipse, #c4a1ff, transparent 70%); animation-duration: 17s; animation-delay: -12s; }
+
+@keyframes windFlow {
+  0%   { transform: translate(-80vw, 0) scaleX(1); opacity: 0; }
+  15%  { opacity: 0.55; }
+  50%  { transform: translate(15vw, -8vh) scaleX(1.25); }
+  85%  { opacity: 0.55; }
+  100% { transform: translate(110vw, 5vh) scaleX(1); opacity: 0; }
+}
+
+.bg-stack { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-layer {
+  position: absolute; inset: 0;
+  background-color: black;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.bg-layer.dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-repeat: repeat;
+  background-position: 0 0;
+}
+.bg-layer.photo::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); }
+
+.bg-toast {
+  position: fixed; top: 20px; left: 50%;
+  transform: translateX(-50%) translateY(-150%);
+  z-index: 5;
+  padding: 14px 28px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 15, 15, 0.9);
+  color: white;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  font-size: 1.2rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-shadow: 0 0 6px #9e5ac9;
+  box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
+  opacity: 0;
+  pointer-events: none;
+}
+.bg-toast.show { animation: toastDrop 3.5s ease forwards; }
+.bg-toast:empty { display: none; }
+@keyframes toastDrop {
+  0%   { transform: translateX(-50%) translateY(-150%); opacity: 0; }
+  12%  { transform: translateX(-50%) translateY(0); opacity: 1; }
+  55%  { transform: translateX(-50%) translateY(0); opacity: 1; }
+  100% { transform: translateX(-50%) translateY(-150%); opacity: 0; }
+}
+
+
+.circle-btn {
+  position: relative;
+  width: 120px; height: 120px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 15, 15, 0.85);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px;
+  color: white;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  font-size: 1.5rem;
+  font-weight: 900;
+  padding: 10px;
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: break-word;
+  cursor: pointer;
+  box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
+  text-shadow: 0 0 6px #9e5ac9;
+  transition: transform 0.2s, box-shadow 0.2s;
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+  animation-delay: 0.6s;
+}
+
+.circle-btn:hover {
+  box-shadow: 0 4px 8px #fff, 0 8px 16px #9e5ac9, 0 12px 24px #9e5ac9;
+}
+.circle-btn:focus, .circle-btn:focus-visible { outline: none; }
+
+.clock {
+  text-align: center;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 4px 5px #fff, 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
+  position: relative; z-index: 1;
+}
+.home-clock {
+  margin: 0 0 4px;
+  font-size: clamp(2.6rem, 7vw, 4.8rem);
+  line-height: 1.05;
+  color: #fff;
+  text-shadow: 0 0 6px rgba(216,180,254,0.65), 0 0 20px rgba(192,132,252,0.45), 0 0 40px rgba(168,85,247,0.3);
+}
+.home-clock .clock-row { gap: 12px; }
+.home-clock .clock-icon { display: none; }
+.home-clock #clock-zone { display: none; }
+.home-clock { opacity: 0; }
+.home-clock.animate { animation: clockFadeIn 0.8s ease 1.35s forwards; }
+@keyframes clockFadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .home-clock { opacity: 1; }
+  .home-clock.animate { animation: none; }
+}
+.clock-row { display: flex; justify-content: center; align-items: center; gap: 20px; }
+.clock-icon {
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+  filter: drop-shadow(0 4px 4px rgba(255, 255, 255, 0.7)) drop-shadow(0 8px 8px #9e5ac9) drop-shadow(0 10px 12px #9e5ac9);
+}
+#icon-left { transform: scaleX(-1); }
+
+.tz-btn { width: 110px; height: 90px; margin: 0; padding: 8px; font-size: 0.95rem; z-index: 1; }
+.tz-btn .icon { font-size: 1.6rem; }
+.tz-row { display: flex; justify-content: center; gap: 20px; position: relative; z-index: 1; }
+
+.tz-panel {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+  width: min(90vw, 360px);
+  max-height: 70vh;
+  display: flex; flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 15, 15, 0.95);
+  color: white;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  box-shadow: 0 4px 5px rgba(255, 255, 255, 0.6), 0 8px 10px #9e5ac9, 0 10px 15px #9e5ac9;
+}
+.tz-panel[hidden] { display: none; }
+.tz-title { font-weight: 700; font-size: 1.1rem; text-align: center; }
+#tz-search, #info-search {
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  font-size: 1rem;
+  outline: none;
+}
+#tz-list, #info-list { overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+#info-list { gap: 6px; }
+.tz-item { padding: 8px 12px; border-radius: 12px; cursor: pointer; font-weight: 600; }
+.tz-item:hover { background: rgba(158, 90, 201, 0.35); }
+.tz-item.active { background: rgba(58, 107, 255, 0.35); }
+
+.info-panel { width: min(92vw, 460px); }
+.info-hint { font-size: 0.85rem; opacity: 0.75; text-align: center; }
+.info-group summary { cursor: pointer; padding: 8px 12px; border-radius: 12px; font-weight: 700; }
+.info-group summary:hover { background: rgba(158, 90, 201, 0.35); }
+.info-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 14px; font-weight: 600; }
+.info-time { white-space: nowrap; opacity: 0.85; }
+
+.note {
+  position: fixed; z-index: 8;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  left: calc(16px + env(safe-area-inset-left, 0px));
+  max-width: min(84vw, 320px);
+  animation: noteSlide 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.1) both;
+}
+.note[hidden] { display: none; }
+@keyframes noteSlide { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
+.note-card {
+  position: relative;
+  padding: 14px 36px 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(15, 15, 15, 0.9);
+  backdrop-filter: blur(10px);
+  color: white;
+  text-align: left;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+.note-card h1 {
+  font-size: 1.05rem;
+  margin: 0 0 4px;
+  opacity: 1;
+  animation: none;
+  text-shadow: none;
+}
+.note-card p { margin: 0; font-size: 0.86rem; font-weight: 500; line-height: 1.35; color: rgba(255,255,255,0.8); }
+.note-close { display: none; }
+.note-x {
+  position: absolute; top: 8px; right: 10px;
+  background: none; border: none; color: white;
+  font-size: 1rem; cursor: pointer; opacity: 0.6;
+}
+.note-x:hover { opacity: 1; }
+
+.log-scroll { max-height: 50vh; overflow-y: auto; text-align: left; margin-bottom: 20px; padding-right: 6px; }
+.log-entry { margin-bottom: 18px; }
+.log-date { font-weight: 700; font-size: 1.15rem; margin-bottom: 6px; }
+.log-tag { display: inline-block; padding: 2px 12px; margin: 6px 0 2px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
+.log-tag.new { background: rgba(58, 107, 255, 0.45); }
+.log-tag.fix { background: rgba(158, 90, 201, 0.55); }
+.log-tag.change { background: rgba(143, 211, 255, 0.35); }
+.log-entry ul { margin: 4px 0 0; padding-left: 22px; font-weight: 600; line-height: 1.5; }
+
+.page {
+  position: relative; z-index: 1;
+  min-height: 100vh; min-height: 100dvh;
+  box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+}
+
+.orbit {
+  position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
+  z-index: 20; pointer-events: auto;
+  display: flex; align-items: center; gap: 22px;
+  padding: 11px 22px;
+  border-radius: 999px;
+  background: rgba(16, 14, 24, 0.5);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.14);
+}
+.orbit-btn {
+  box-sizing: border-box;
+  width: 54px; height: 54px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.10); border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff; text-decoration: none; cursor: pointer;
+  transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
+}
+.orbit-btn:hover {
+  transform: scale(1.14) translateY(-2px);
+  background: rgba(168, 85, 247, 0.3);
+  box-shadow: 0 0 20px rgba(168,85,247,0.6);
+}
+.orbit-btn .icon { font-size: 1.45rem; line-height: 1; }
+.orbit-icon { font-size: 1.5rem; }
+.orbit-icon i { color: #fff; }
+.ai-logo { width: 1.55rem; height: 1.55rem; fill: #fff; display: block; }
+
+@media (max-width: 760px), (max-height: 640px) {
+  .orbit { gap: 12px; padding: 9px 14px; top: 12px; }
+  .orbit-btn { width: 46px; height: 46px; }
+  .orbit-btn:hover { transform: scale(1.1); }
+  .page { flex-direction: column; padding: 24px 16px; }
+}
+
+.sidebar {
+  flex: 0 0 248px;
+  box-sizing: border-box;
+  padding: 18px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; gap: 10px;
+  background: rgba(10, 10, 14, 0.82);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+.sidebar-toggle {
+  display: flex; align-items: center; gap: 8px;
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 8px 12px;
+  border: 0; border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06); color: #cfc6dd;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; transition: background 0.18s;
+}
+.sidebar-toggle:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
+.sidebar-toggle-icon { font-size: 1rem; line-height: 1; transition: transform 0.2s; }
+
+.quick-icons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.quick-icon {
+  display: flex; align-items: center; justify-content: center;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  background: #1b1b22;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: #fff; font-size: 1.5rem; text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.quick-icon:hover { background: #2a2a34; transform: translateY(-2px); }
+.quick-icon .fa-youtube { color: #ff3d3d; }
+.quick-icon .fa-tiktok { color: #ffffff; }
+.quick-icon .fa-instagram { color: #e1497f; }
+
+.side-label { color: #b9b0c9; font-size: 0.72rem; letter-spacing: 0.14em; font-weight: 800; margin: 12px 6px 2px; }
+.side-nav { display: flex; flex-direction: column; gap: 3px; }
+.nav-item {
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; gap: 13px;
+  width: 100%;
+  padding: 11px 13px;
+  border: 0; border-radius: 11px;
+  background: none; color: #ffffff;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-size: 1rem; font-weight: 700;
+  text-align: left; cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.nav-item:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.nav-item .icon { font-size: 1.2rem; width: 1.4em; text-align: center; flex: 0 0 auto; }
+
+.sidebar.collapsed { flex-basis: 76px; padding-left: 12px; padding-right: 12px; }
+.sidebar.collapsed .sidebar-toggle { align-self: center; }
+.sidebar.collapsed .sidebar-toggle-text { display: none; }
+.sidebar.collapsed .sidebar-toggle-icon { transform: rotate(180deg); }
+.sidebar.collapsed .quick-icons { grid-template-columns: 1fr; }
+.sidebar.collapsed .side-label { display: none; }
+.sidebar.collapsed .nav-item { justify-content: center; padding-left: 0; padding-right: 0; }
+.sidebar.collapsed .nav-item span:not(.icon) { display: none; }
+.sidebar.collapsed .nav-item .icon { width: auto; }
+
+.main {
+  flex: 1; min-width: 0;
+  box-sizing: border-box;
+  display: flex; flex-direction: column;
+  padding: 0;
+}
+.topbar {
+  display: flex; align-items: center; justify-content: center;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 24px 14px;
+}
+.topbar-search { flex: 1; display: flex; gap: 8px; max-width: 620px; margin: 0 auto 0 0; }
+.topbar-search input {
+  flex: 1; min-width: 0;
+  padding: 10px 16px;
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #16161c; color: #fff;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-size: 0.95rem; outline: none;
+}
+.topbar-search input::placeholder { color: rgba(255, 255, 255, 0.45); }
+.topbar-search input:focus { border-color: #9e5ac9; }
+.topbar-search button {
+  position: relative; overflow: hidden;
+  padding: 10px 20px; border: 0; border-radius: 40px;
+  background: #9e5ac9; color: #fff;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-weight: 700; cursor: pointer;
+}
+.topbar-search button:hover { background: #b07dff; }
+#portalMessage { margin: 2px 0 0; color: rgba(255,255,255,0.75); font-size: 0.9rem; }
+#portalMessage:empty { display: none; }
+.topbar-clock { margin: 0; font-size: 2.8rem; white-space: nowrap; color: #ffffff; font-weight: 700; text-align: center; }
+.topbar-clock .clock-row { gap: 10px; justify-content: center; }
+.topbar-clock .clock-icon { width: 1.3em; height: 1.3em; flex: 0 0 auto; font-size: 1.05em; }
+.topbar-clock #clock-zone { font-size: 0.6em; opacity: 0.8; }
+
+.home {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 48px; padding: 30px 24px; text-align: center;
+}
+.wordmark {
+  position: relative;
+  margin: 0;
+  font-family: "Pacifico", cursive;
+  font-weight: 400; font-style: normal;
+  font-size: clamp(4rem, 14vw, 9.5rem); line-height: 1.2;
+  text-transform: lowercase;
+  padding-bottom: 0.14em;
+  color: #fff;
+  text-shadow: 0 0 6px rgba(216,180,254,0.65), 0 0 20px rgba(192,132,252,0.45), 0 0 40px rgba(168,85,247,0.3);
+}
+.wordmark::after {
+  content: "glossom";
+  position: absolute; inset: 0;
+  padding-bottom: 0.14em;
+  pointer-events: none;
+  text-transform: lowercase;
+  color: transparent;
+  text-shadow: none;
+  -webkit-text-stroke: 0;
+  background-image: linear-gradient(105deg,
+    transparent 40%,
+    rgba(255,255,255,0.55) 47%,
+    rgba(255,255,255,1) 50%,
+    rgba(255,255,255,0.55) 53%,
+    transparent 60%);
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  background-position: -150% 0;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.9)) drop-shadow(0 0 22px rgba(216,180,254,0.85));
+  opacity: 0;
+}
+.wordmark.shine::after {
+  opacity: 1;
+  animation: wmShine 0.95s ease-in-out;
+}
+@keyframes wmShine {
+  from { background-position: -150% 0; }
+  to { background-position: 250% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wordmark.shine::after { animation: none; opacity: 0; }
+}
+
+.wm-letter { opacity: 0; }
+.wordmark.animate .wm-letter { animation: wmLetterIn 0.35s ease forwards; }
+.wordmark.animate .wm-letter:nth-child(1) { animation-delay: 0.08s; }
+.wordmark.animate .wm-letter:nth-child(2) { animation-delay: 0.22s; }
+.wordmark.animate .wm-letter:nth-child(3) { animation-delay: 0.36s; }
+.wordmark.animate .wm-letter:nth-child(4) { animation-delay: 0.50s; }
+.wordmark.animate .wm-letter:nth-child(5) { animation-delay: 0.64s; }
+.wordmark.animate .wm-letter:nth-child(6) { animation-delay: 0.78s; }
+.wordmark.animate .wm-letter:nth-child(7) { animation-delay: 0.92s; }
+@keyframes wmLetterIn { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .wm-letter { opacity: 1; animation: none; }
+}
+.home-search {
+  display: flex; align-items: center; gap: 10px;
+  width: min(760px, 92%);
+  padding: 7px 7px 7px 24px;
+  border-radius: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+.home-search-icon { display: flex; align-items: center; color: #fff; opacity: 0.9; font-size: 1.05rem; pointer-events: none; }
+.home-search input {
+  flex: 1; min-width: 0; box-sizing: border-box;
+  padding: 14px 6px;
+  border: 0; background: transparent; color: #fff;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-size: 1.15rem; font-weight: 600; outline: none;
+}
+.home-search input::placeholder { color: rgba(255, 255, 255, 0.9); }
+.home-search-go {
+  flex: 0 0 auto;
+  width: 50px; height: 50px; border-radius: 50%;
+  border: 1px solid rgba(216,180,254,0.6);
+  background: linear-gradient(160deg, #c084fc, #a855f7);
+  color: #fff;
+  font-size: 1.3rem; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 12px rgba(216,180,254,0.85), 0 0 26px rgba(168,85,247,0.6), 0 0 44px rgba(147,51,234,0.4);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.home-search-go:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 16px rgba(216,180,254,1), 0 0 34px rgba(168,85,247,0.8), 0 0 60px rgba(147,51,234,0.55);
+}
+.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.chip {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 40px;
+  background: rgba(22, 22, 28, 0.8); color: #ffffff;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive; font-size: 0.98rem; font-weight: 700; cursor: pointer;
+  transition: background 0.18s, transform 0.15s;
+}
+.chip:hover { background: rgba(255, 255, 255, 0.12); transform: translateY(-2px); }
+#message { margin: 6px auto 0; max-width: 820px; min-height: 1.4em; font-size: clamp(0.95rem, 1.8vw, 1.4rem); color: #ffffff; font-weight: 700; }
+
+@media (max-width: 760px) {
+  .page { flex-direction: column; }
+  .sidebar {
+    flex: 0 0 auto; flex-direction: column;
+    border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .side-nav { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .topbar { flex-wrap: wrap; }
+  .topbar-clock { display: none; }
+  #portalMessage { position: static; margin-top: 8px; }
+}
+
+.music-panel { position:fixed; inset:0; z-index:1000; box-sizing:border-box; width:100%; height:100%; max-height:100vh; overflow-y:auto; padding:clamp(18px,4vw,38px); background:linear-gradient(145deg,#171321,#09090d 70%); color:#fff; font-family:"Shantell Sans", "Segoe UI", system-ui, cursive; }
+.music-panel[hidden], .music-panel [hidden] { display:none !important; }
+.music-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; max-width:1200px; margin:0 auto 18px; }
+.music-heading h2 { margin:0; font-size:1.7rem; opacity:1; animation:none; }
+.music-close { border:0; background:#ffffff12; color:white; border-radius:50%; width:42px; height:42px; font-size:1.6rem; cursor:pointer; }
+.music-panel section { max-width:1200px; margin:0 auto; }
+.music-subtitle { color:#bdb5c9; margin:0 0 16px; }
+.music-panel input[type="search"], .music-panel input[type="text"], .music-panel select { box-sizing:border-box; width:100%; padding:12px 14px; border:1px solid #ffffff20; border-radius:12px; background:#ffffff0d; color:white; font:inherit; }
+.music-panel select option { color:#111; }
+.music-browse { display:grid; grid-template-columns:minmax(180px,1fr) 190px auto auto; gap:10px; }
+.music-action-alt { background:#ffffff16; }
+.music-action:disabled { opacity:.5; cursor:default; filter:none; }
+.music-action, .music-controls button {
+  position: relative;
+  border: 1px solid #ffffff22;
+  border-radius: 12px;
+  padding: 11px 15px;
+  background: #8b5cf6;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+.music-action:hover, .music-controls button:hover { filter:brightness(1.15); }
+.music-status { color:#aaa1b7; font-size:.9rem; }
+#music-list-heading { margin:25px 0 13px; }
+.music-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:17px; }
+.music-track { min-width:0; padding:12px; text-align:left; border:1px solid transparent; border-radius:14px; background:#ffffff0b; color:white; cursor:pointer; font:inherit; transition:background .2s,transform .2s; }
+.music-track:hover, .music-track.active { background:#ffffff18; transform:translateY(-2px); }
+.music-track-art { display:block; width:100%; aspect-ratio:1; object-fit:cover; border-radius:9px; background:#30283b; margin-bottom:11px; }
+.music-track-title { display:block; font-weight:700; line-height:1.3; overflow-wrap:anywhere; }
+.music-track-artist { display:block; color:#b8b0c2; font-size:.88rem; margin-top:5px; overflow-wrap:anywhere; }
+.music-empty { color:#b8b0c2; padding:16px 2px; grid-column:1/-1; }
+.music-back-link { background:#ffffff16; margin:0 0 22px; }
+.music-stage { display:flex; align-items:stretch; gap:clamp(18px,3vw,34px); margin-top:10px; }
+.music-player-col { flex:1 1 55%; min-width:0; }
+.music-lyrics { flex:1 1 45%; min-width:0; display:flex; flex-direction:column; border:1px solid #ffffff1a; border-radius:18px; background:#ffffff08; padding:18px 20px; max-height:65vh; }
+.music-lyrics-head { margin:0 0 10px; font-size:1.1rem; letter-spacing:.04em; }
+.music-lyrics-body { position:relative; overflow-y:auto; overflow-wrap:anywhere; line-height:1.6; color:#cfc6dd; font-size:1.2rem; font-weight:700; scroll-behavior:smooth; }
+.music-lyrics-body .music-status { font-size:.95rem; font-weight:400; }
+.lyric-plain { white-space:pre-wrap; }
+.lyric-line { margin:2px 0; padding:6px 10px; border-radius:10px; cursor:pointer; color:#9b92ad; font-size:1.7em; transition:color .2s, background .2s, transform .2s; transform-origin:left center; }
+.lyric-line:hover { color:#fff; background:#ffffff10; }
+.lyric-line.active { color:#fff; font-weight:900; transform:translateX(10px); text-shadow:0 0 10px rgba(255,255,255,0.65), 0 0 24px rgba(167,139,250,0.9), 0 0 42px rgba(167,139,250,0.65); animation:lyricGlow 1.6s ease-in-out infinite; }
+@keyframes lyricGlow {
+  0%, 100% { text-shadow:0 0 10px rgba(255,255,255,0.6), 0 0 22px rgba(167,139,250,0.8), 0 0 38px rgba(167,139,250,0.55); }
+  50%      { text-shadow:0 0 16px rgba(255,255,255,0.85), 0 0 34px rgba(167,139,250,1), 0 0 60px rgba(167,139,250,0.8); }
+}
+.music-detail { display:flex; align-items:center; gap:clamp(20px,5vw,48px); margin:0 0 25px; }
+.music-detail-art { width:min(42vw,340px); aspect-ratio:1; object-fit:cover; border-radius:18px; background:#30283b; box-shadow:0 15px 45px #0008; }
+.music-detail-copy { min-width:0; }
+.music-detail-label { color:#c4a5ff; letter-spacing:.15em; font-size:.8rem; font-weight:700; }
+.music-detail-copy h2 { font-size:clamp(1.7rem,4vw,3rem); line-height:1.1; overflow-wrap:anywhere; margin:10px 0; opacity:1; animation:none; }
+.music-artist { color:#c6bdcf; font-size:1.1rem; }
+#music-seek { width:100%; accent-color:#a78bfa; cursor:pointer; }
+.music-times { display:flex; justify-content:space-between; color:#b8b0c2; font-size:.85rem; }
+.music-controls { display:flex; justify-content:center; align-items:center; gap:14px; margin:22px 0 12px; }
+.music-controls button { background:#ffffff17; }
+.music-controls .music-play-button { background:#a78bfa; color:#171321; font-weight:700; min-width:90px; }
+#music-detail-status { text-align:center; }
+
+.site-panel { position:fixed; inset:0; z-index:1000; display:flex; flex-direction:column; background:#09090d; }
+#site-panel { z-index:1100; }
+.site-panel[hidden] { display:none !important; }
+.site-bar { display:flex; align-items:center; gap:10px; padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px; background:#171321; border-bottom:1px solid #ffffff14; }
+.site-host { flex:1; min-width:0; color:#cfc6dd; font-family:"Shantell Sans", "Segoe UI", system-ui, cursive; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.site-btn { flex:0 0 auto; border:0; border-radius:10px; padding:9px 13px; background:#ffffff14; color:#fff; font:inherit; font-family:"Shantell Sans", "Segoe UI", system-ui, cursive; text-decoration:none; cursor:pointer; }
+.site-btn:hover { background:#ffffff26; }
+.site-body { flex:1; position:relative; background:#fff; }
+#site-frame { position:absolute; inset:0; width:100%; height:100%; border:0; }
+.site-blocked { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:24px; background:#141217; }
+.site-blocked[hidden] { display:none !important; }
+.sb-card { max-width:440px; text-align:center; color:#e8e6ee; }
+.sb-icon { font-size:2.6rem; margin-bottom:12px; }
+.sb-card h3 { margin:0 0 10px; font-size:1.5rem; color:#fff; word-break:break-all; }
+.sb-card p { margin:0 0 22px; line-height:1.6; color:#b9b4c6; font-size:1rem; }
+.sb-open { display:inline-block; background:#a855f7; color:#fff; text-decoration:none; font-weight:700; padding:13px 24px; border-radius:12px; font-family:"Shantell Sans","Segoe UI",system-ui,cursive; transition:background 0.2s, transform 0.15s; }
+.sb-open:hover { background:#b968ff; transform:scale(1.04); }
+
+.ddg-panel { background:#171619; }
+.ddg-panel .site-bar { background:#1f1e22; border-bottom:1px solid #ffffff10; }
+.ddg-bar-form { flex:1; display:flex; align-items:center; gap:10px; min-width:0; max-width:620px; background:#2b2a30; border:1px solid #ffffff14; border-radius:999px; padding:9px 18px; }
+.ddg-bar-form .ddg-mark { opacity:0.55; font-size:0.95rem; }
+.ddg-bar-form input { flex:1; min-width:0; background:transparent; border:0; outline:none; color:#f1f1f3; font:inherit; font-family:"Shantell Sans","Segoe UI",system-ui,cursive; }
+.ddg-bar-form input::placeholder { color:#ffffff66; }
+.ddg-body { flex:1; overflow-y:auto; padding:26px 24px 70px; }
+#ddg-results { max-width:1120px; margin:0 auto; }
+.ddg-layout { display:flex; gap:42px; align-items:flex-start; }
+.ddg-left { flex:1 1 auto; min-width:0; max-width:640px; display:flex; flex-direction:column; gap:30px; }
+.ddg-right { flex:0 0 380px; position:sticky; top:0; }
+.ddg-result { position:relative; cursor:pointer; }
+.ddg-rhead { display:flex; align-items:center; gap:11px; margin-bottom:8px; }
+.ddg-fav { width:30px; height:30px; border-radius:9px; background:#2d2c33; object-fit:contain; flex:0 0 auto; padding:2px; box-sizing:border-box; }
+.ddg-site { display:flex; flex-direction:column; justify-content:center; line-height:1.3; min-width:0; }
+.ddg-site .n { font-size:0.9rem; font-weight:700; color:#ededf0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ddg-site .u { font-size:0.82rem; color:#9c9ca6; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ddg-title { font-size:1.4rem; font-weight:400; color:#b5bdff; margin:0 0 6px; line-height:1.3; }
+.ddg-result:hover .ddg-title { text-decoration:underline; }
+.ddg-snippet { color:#bcbcc4; font-size:1rem; line-height:1.55; }
+.ddg-snippet b { color:#ededf0; font-weight:700; }
+
+.ddg-kp { background:#201f24; border:1px solid #ffffff10; border-radius:16px; padding:22px 22px 18px; }
+.ddg-kp-top { display:flex; gap:14px; align-items:flex-start; }
+.ddg-kp-top .ddg-kp-h { flex:1; min-width:0; }
+.ddg-kp h2 { margin:0 0 3px; font-size:1.5rem; color:#f1f1f3; line-height:1.2; }
+.ddg-kp .ddg-kp-sub { color:#9c9ca6; font-size:0.9rem; margin-bottom:2px; }
+.ddg-kp .ddg-kp-site { color:#b5bdff; font-size:0.88rem; cursor:pointer; }
+.ddg-kp .ddg-kp-site:hover { text-decoration:underline; }
+.ddg-kp-img { width:122px; height:94px; object-fit:cover; border-radius:10px; flex:0 0 auto; }
+.ddg-kp-desc { color:#cdcdd3; font-size:0.95rem; line-height:1.55; margin:14px 0 4px; }
+.ddg-kp-more { color:#b5bdff; cursor:pointer; font-size:0.95rem; }
+.ddg-kp-more:hover { text-decoration:underline; }
+.ddg-kp-rows { margin-top:14px; border-top:1px solid #ffffff12; padding-top:14px; display:flex; flex-direction:column; gap:12px; }
+.ddg-kp-row { display:flex; gap:14px; font-size:0.92rem; }
+.ddg-kp-row .k { flex:0 0 118px; font-weight:700; color:#ededf0; }
+.ddg-kp-row .v { color:#bcbcc4; }
+.ddg-kp-links { margin-top:16px; border-top:1px solid #ffffff12; padding-top:14px; }
+.ddg-kp-links .t { font-weight:700; color:#ededf0; font-size:0.92rem; margin-bottom:12px; }
+.ddg-kp-links .row { display:flex; gap:26px; }
+.ddg-kp-qlink { display:flex; flex-direction:column; align-items:center; gap:7px; cursor:pointer; color:#bcbcc4; font-size:0.78rem; }
+.ddg-kp-qlink i { font-size:1.5rem; color:#cdcdd3; }
+.ddg-kp-qlink .fa-youtube { color:#ff3d3d; }
+.ddg-kp-qlink:hover { color:#f1f1f3; }
+
+.ddg-empty { text-align:center; color:#b9b9c2; padding:40px 14px; line-height:1.7; font-size:1rem; }
+.ddg-empty a { color:#b5bdff; font-weight:700; text-decoration:none; }
+.ddg-empty a:hover { text-decoration:underline; }
+
+@media (max-width: 880px) {
+  .ddg-layout { flex-direction:column; }
+  .ddg-left { max-width:none; order:2; }
+  .ddg-right { position:static; flex-basis:auto; width:100%; order:1; }
+}
+
+.yt-search { display:flex; gap:10px; margin:6px 0 10px; max-width:700px; }
+.yt-search input { flex:1; min-width:0; }
+.yt-stage { position:relative; width:100%; max-width:1000px; margin:10px auto 0; aspect-ratio:16/9; background:#000; border-radius:16px; overflow:hidden; box-shadow:0 15px 45px #0009; }
+#yt-frame { position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+.tt-stage { position:relative; width:100%; max-width:325px; margin:10px auto 0; aspect-ratio:9/16; background:#000; border-radius:16px; overflow:hidden; box-shadow:0 15px 45px #0009; }
+#tt-frame { position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+.ig-stage { width:100%; max-width:400px; margin:10px auto 0; }
+#ig-frame { display:block; width:100%; height:min(80vh,720px); border:0; background:#fff; border-radius:14px; box-shadow:0 15px 45px #0009; }
+
+.pl-page-title { font-size:1.6rem; margin:0 0 6px; }
+.pl-create, .pl-search { display:flex; gap:10px; margin:14px 0 6px; }
+.pl-create input, .pl-search input { flex:1; min-width:0; }
+.pl-editor-head { display:flex; align-items:center; gap:clamp(16px,4vw,32px); margin-bottom:22px; }
+.pl-cover { width:min(34vw,180px); aspect-ratio:1; object-fit:cover; border-radius:16px; background:#30283b; box-shadow:0 12px 35px #0008; flex:0 0 auto; }
+.pl-editor-info { flex:1; min-width:0; }
+.pl-editor-info .music-detail-label { display:block; margin-bottom:8px; }
+.music-panel input.pl-name-input { font-size:clamp(1.3rem,3.5vw,2rem); font-weight:700; padding:8px 12px; }
+.pl-title-text { font-size:clamp(1.3rem,3.5vw,2rem); line-height:1.15; margin:0; overflow-wrap:anywhere; opacity:1; animation:none; }
+.pl-actions { display:flex; flex-wrap:wrap; gap:10px; }
+.pl-list-head { display:flex; align-items:center; flex-wrap:wrap; gap:10px; }
+.pl-list-head h3 { margin-right:4px; }
+.pl-list-head .music-action { padding:7px 13px; font-size:.9rem; }
+#pl-grid .music-track { position:relative; }
+#pl-grid .music-track.selected { border-color:#a78bfa; background:#a78bfa26; }
+.pl-check { position:absolute; top:18px; right:18px; width:28px; height:28px; border-radius:50%; border:2px solid #fff; background:#0008; color:#171321; display:flex; align-items:center; justify-content:center; font-weight:900; box-shadow:0 2px 8px #0009; }
+.selected > .pl-check { background:#a78bfa; border-color:#a78bfa; }
+.pl-select-bar { position:sticky; bottom:0; display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:18px; padding:12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); border-radius:14px; background:#1d1729f2; border:1px solid #ffffff20; box-shadow:0 -8px 24px #0008; }
+.pl-select-bar .music-action:disabled { opacity:.45; }
+#pl-edit.editing { background:#a78bfa; color:#171321; font-weight:700; }
+.pl-danger { background:#ffffff10; color:#ffb4c4; }
+.pl-danger.armed { background:#e0436b; color:white; }
+.pl-songs, .pl-results { list-style:none; margin:0 0 10px; padding:0; display:flex; flex-direction:column; gap:8px; }
+.pl-song { display:flex; align-items:center; gap:12px; padding:8px 10px; border-radius:12px; background:#ffffff0b; }
+.pl-song.playing { background:#a78bfa33; }
+.pl-song-num { width:1.6em; text-align:right; color:#8f86a0; font-size:.9rem; flex:0 0 auto; }
+.pl-song img { width:46px; height:46px; border-radius:8px; object-fit:cover; background:#30283b; flex:0 0 auto; }
+.pl-song-text { flex:1; min-width:0; }
+.pl-song-text .music-track-title, .pl-song-text .music-track-artist { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pl-song-text .music-track-artist { margin-top:2px; }
+.pl-icon-btn { flex:0 0 auto; border:0; border-radius:10px; padding:8px 11px; background:#ffffff14; color:white; font:inherit; cursor:pointer; }
+.pl-icon-btn:hover { background:#ffffff26; }
+.pl-icon-btn.add { background:#8b5cf6; }
+.pl-icon-btn:disabled { background:#ffffff0d; color:#9a92a8; cursor:default; }
+
+@media(max-width:900px) { .music-stage { flex-direction:column; } .music-lyrics { max-height:none; } }
+@media(max-width:650px) { .music-browse { grid-template-columns:1fr; } .pl-editor-head { flex-direction:column; align-items:flex-start; } .music-detail { flex-direction:column; align-items:flex-start; } .music-detail-art { width:min(75vw,320px); } .music-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } }
+
+#miniMusicPlayer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99999;
+  width: 320px;
+  box-sizing: border-box;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  color: white;
+  background: linear-gradient(145deg, rgba(36, 20, 60, 0.96), rgba(12, 8, 22, 0.96));
+  border: 1px solid rgba(168, 85, 247, 0.7);
+  border-radius: 20px;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.35), 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(120%) scale(0.96);
+  transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.25, 1.1), opacity 0.3s ease, visibility 0s linear 0.45s;
+}
+#miniMusicPlayer.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.25, 1.1), opacity 0.3s ease, visibility 0s;
+}
+#miniMusicPlayer.playing { animation: miniGlow 2.4s ease-in-out infinite; }
+#miniMusicPlayer::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c084fc, #7fa2ff, transparent);
+  background-size: 200% 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+#miniMusicPlayer.playing::before { opacity: 1; animation: miniShine 2.6s linear infinite; }
+
+@keyframes miniGlow {
+  0%, 100% { box-shadow: 0 0 14px rgba(168, 85, 247, 0.3), 0 10px 30px rgba(0, 0, 0, 0.5); }
+  50%      { box-shadow: 0 0 32px rgba(168, 85, 247, 0.7), 0 10px 30px rgba(0, 0, 0, 0.5); }
+}
+@keyframes miniShine { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@keyframes miniBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@keyframes miniEq { 0%, 100% { height: 3px; } 50% { height: 12px; } }
+
+.mini-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  opacity: 0.55;
+  overflow: hidden;
+}
+.mini-close:hover { opacity: 1; background: rgba(255, 255, 255, 0.12); }
+
+.mini-top { display: flex; align-items: center; gap: 12px; padding-right: 18px; }
+.mini-art-wrap {
+  position: relative;
+  flex: 0 0 66px;
+  width: 66px;
+  height: 66px;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3a6bff, #9e5ac9);
+  box-shadow: 0 6px 16px rgba(158, 90, 201, 0.55);
+  transition: transform 0.25s ease;
+}
+.mini-art-wrap:hover { transform: scale(1.07) rotate(-2deg); }
+.mini-art-wrap::after {
+  content: "↗";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.mini-art-wrap:hover::after { opacity: 1; }
+#miniMusicArt { display: block; width: 100%; height: 100%; object-fit: cover; }
+#miniMusicPlayer.playing #miniMusicArt { animation: miniBeat 1.8s ease-in-out infinite; }
+
+.mini-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.mini-label { display: flex; align-items: center; color: #c084fc; font-size: 10px; letter-spacing: 1.5px; }
+.mini-eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; margin-right: 6px; }
+.mini-eq i { display: block; width: 3px; height: 3px; border-radius: 2px; background: #c084fc; }
+#miniMusicPlayer.playing .mini-eq i { animation: miniEq 0.9s ease-in-out infinite; }
+.mini-eq i:nth-child(2) { animation-delay: -0.3s; }
+.mini-eq i:nth-child(3) { animation-delay: -0.6s; }
+.mini-eq i:nth-child(4) { animation-delay: -0.15s; }
+.mini-title, .mini-artist { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.mini-title { font-size: 15px; font-weight: 700; }
+.mini-artist { font-size: 12px; color: #c4b5fd; }
+
+.mini-progress { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #c4b5fd; }
+#miniMusicSeek {
+  flex: 1;
+  min-width: 0;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 99px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #c084fc var(--p, 0%), rgba(255, 255, 255, 0.2) var(--p, 0%));
+}
+#miniMusicSeek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px #a855f7;
+}
+#miniMusicSeek::-moz-range-track { background: transparent; }
+#miniMusicSeek::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px #a855f7;
+}
+
+.mini-controls { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.mini-skip {
+  position: relative;
+  overflow: hidden;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  font-family: "Shantell Sans", "Segoe UI", system-ui, cursive;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.mini-skip:hover { background: rgba(168, 85, 247, 0.5); transform: translateY(-2px); }
+.mini-skip:active { transform: scale(0.95); }
+#miniMusicToggle {
+  position: relative;
+  overflow: hidden;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a855f7, #7e22ce);
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.7);
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+#miniMusicToggle:hover { transform: scale(1.08); box-shadow: 0 0 22px rgba(192, 132, 252, 0.9); }
+#miniMusicToggle:active { transform: scale(0.94); }
+
+@media (max-width: 480px) {
+  #miniMusicPlayer { width: calc(100vw - 24px); top: 12px; right: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #miniMusicPlayer, #miniMusicPlayer * { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="scene" aria-hidden="true">
+  <div class="photo"></div>
+  <div class="photo-water"></div>
+  <div class="photo-water photo-water-b"></div>
+  <div class="scene-dim"></div>
+  <svg class="svg-defs" width="0" height="0" aria-hidden="true">
+    <filter id="water" x="-12%" y="-12%" width="124%" height="160%">
+      <feTurbulence type="turbulence" baseFrequency="0.012 0.026" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/>
+      <feOffset in="n" dy="0" result="n2">
+        <animate attributeName="dy" from="0" to="-300" dur="8s" calcMode="linear" repeatCount="indefinite"/>
+      </feOffset>
+      <feDisplacementMap in="SourceGraphic" in2="n2" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="water2" x="-12%" y="-12%" width="124%" height="160%">
+      <feTurbulence type="turbulence" baseFrequency="0.012 0.026" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/>
+      <feOffset in="n" dy="0" result="n2">
+        <animate attributeName="dy" from="0" to="-300" dur="8s" begin="-4s" calcMode="linear" repeatCount="indefinite"/>
+      </feOffset>
+      <feDisplacementMap in="SourceGraphic" in2="n2" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+</div>
+
+<canvas id="rain" aria-hidden="true"></canvas>
+
+<div class="page">
+
+  <div class="home">
+    <div id="clock" class="clock home-clock">
+      <div class="clock-row">
+        <span class="clock-icon" id="icon-left"></span>
+        <div id="clock-time"></div>
+        <span class="clock-icon" id="icon-right"></span>
+      </div>
+      <div id="clock-zone"></div>
+    </div>
+    <h1 class="wordmark" aria-label="GLOSSOM"><span class="wm-letter">G</span><span class="wm-letter">L</span><span class="wm-letter">O</span><span class="wm-letter">S</span><span class="wm-letter">S</span><span class="wm-letter">O</span><span class="wm-letter">M</span></h1>
+    <form id="homeSearchForm" class="home-search">
+      <span class="home-search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+      <input type="text" id="homeSearch" placeholder="Search the web or enter a URL" autocomplete="off">
+      <button type="submit" class="home-search-go" aria-label="Go">→</button>
+    </form>
+    <p id="portalMessage" aria-live="polite"></p>
+  </div>
+
+  <div class="orbit">
+    <button id="music-btn" class="orbit-btn orbit-icon" aria-label="Music"><i class="fa-solid fa-music"></i></button>
+    <button id="ai-btn" class="orbit-btn orbit-icon" aria-label="AI"><svg class="ai-logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.6a1.15 1.15 0 0 0-1.15 1.15v1.2H7.3A3.3 3.3 0 0 0 4 7.25v7.5a3.3 3.3 0 0 0 3.3 3.3h9.4a3.3 3.3 0 0 0 3.3-3.3v-7.5a3.3 3.3 0 0 0-3.3-3.3h-3.55v-1.2A1.15 1.15 0 0 0 12 1.6Zm-3 7.15a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2Zm6 0a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2Zm-5 5.35h4a1 1 0 0 1 0 2h-4a1 1 0 0 1 0-2ZM1.75 9.5a1 1 0 0 0-1 1v3a1 1 0 0 0 2 0v-3a1 1 0 0 0-1-1Zm20.5 0a1 1 0 0 0-1 1v3a1 1 0 0 0 2 0v-3a1 1 0 0 0-1-1Z"/></svg></button>
+    <a id="instagram-link" class="orbit-btn orbit-icon" href="https://www.instagram.com/" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    <a id="tiktok-link" class="orbit-btn orbit-icon" href="https://www.tiktok.com/" rel="noopener noreferrer" aria-label="TikTok" style="--x:-458px;--y:67px"><i class="fa-brands fa-tiktok"></i></a>
+    <a id="youtube-link" class="orbit-btn orbit-icon" href="https://www.youtube.com/" rel="noopener noreferrer" aria-label="YouTube" style="--x:-367px;--y:-187px"><i class="fa-brands fa-youtube"></i></a>
+  </div>
+
+</div>
+
+<div id="tz-panel" class="tz-panel" hidden>
+  <div class="tz-title">Choose your time zone</div>
+  <input id="tz-search" type="text" placeholder="Search (e.g. London, Tokyo)" autocomplete="off">
+  <div id="tz-list"></div>
+</div>
+
+<div id="info-panel" class="tz-panel info-panel" hidden>
+  <div class="tz-title">Find your time zone</div>
+  <input id="info-search" type="text" placeholder="Search a city or continent" autocomplete="off">
+  <div class="info-hint">Find your city, then choose it with the Time Zone button.</div>
+  <div id="info-list"></div>
+</div>
+
+<div id="note" class="note" role="dialog" aria-labelledby="note-title" hidden>
+  <div class="note-card">
+    <button id="note-x" class="note-x" aria-label="Close note">✕</button>
+    <h1 id="note-title">Welcome to GLOSSOM</h1>
+    <p id="note-text">I'm a noob ahh coder so i couldn't make it where people can doomscroll or open up tiktok or youtube on the site itself. you can only paste links :(</p>
+    <button id="note-close" class="circle-btn note-close"><span>Got it</span></button>
+  </div>
+</div>
+
+<div id="log" class="note" role="dialog" aria-labelledby="log-title" hidden>
+  <div class="note-card log-card">
+    <button id="log-x" class="note-x" aria-label="Close update log">✕</button>
+    <h1 id="log-title">Update Log</h1>
+    <div class="log-scroll">
+      <div class="log-entry">
+        <div class="log-date">January 5th, 2027</div>
+        <div class="log-tag new">GLOSSOM release, more bugs will be fixed and patched.</div>
+        <ul>
+          <li>Be free around here.</li>
+          <li>More updates coming, and more bugs... so expect those, you'll be notified we get a new update.</li>
+          <li>More backgrounds for the "Change Background" button will be added soon</li>
+        </ul>
+      </div>
+    </div>
+    <button id="log-close" class="circle-btn note-close"><span>Close</span></button>
+  </div>
+</div>
+
+<div id="yt-panel" class="music-panel" role="dialog" aria-modal="true" aria-labelledby="yt-title" hidden>
+  <div class="music-heading">
+    <h2 id="yt-title">YouTube</h2>
+    <button id="yt-close" class="music-close" type="button" aria-label="Close YouTube">×</button>
+  </div>
+  <section>
+    <p class="music-subtitle">Search a video or paste a YouTube link, then watch it right here without leaving the site.</p>
+    <form id="yt-form" class="yt-search">
+      <input id="yt-input" type="search" placeholder="Search YouTube or paste a link..." autocomplete="off" aria-label="Search YouTube or paste a link">
+      <button class="music-action" type="submit">Watch</button>
+    </form>
+    <p id="yt-status" class="music-status" aria-live="polite"></p>
+    <div class="yt-stage">
+      <iframe id="yt-frame" title="YouTube video player" data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+  </section>
+</div>
+
+<div id="tt-panel" class="music-panel" role="dialog" aria-modal="true" aria-labelledby="tt-title" hidden>
+  <div class="music-heading">
+    <h2 id="tt-title">TikTok</h2>
+    <button id="tt-close" class="music-close" type="button" aria-label="Close TikTok">×</button>
+  </div>
+  <section>
+    <p class="music-subtitle">Paste a TikTok video link, then watch it right here without leaving the site.</p>
+    <form id="tt-form" class="yt-search">
+      <input id="tt-input" type="search" placeholder="Paste a TikTok video link..." autocomplete="off" aria-label="Paste a TikTok link">
+      <button class="music-action" type="submit">Watch</button>
+    </form>
+    <p id="tt-status" class="music-status" aria-live="polite"></p>
+    <div class="tt-stage">
+      <iframe id="tt-frame" title="TikTok video player" data-allow="autoplay; encrypted-media; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+  </section>
+</div>
+
+<div id="ig-panel" class="music-panel" role="dialog" aria-modal="true" aria-labelledby="ig-title" hidden>
+  <div class="music-heading">
+    <h2 id="ig-title">Instagram</h2>
+    <button id="ig-close" class="music-close" type="button" aria-label="Close Instagram">×</button>
+  </div>
+  <section>
+    <p class="music-subtitle">Paste an Instagram post or reel link, then view it right here without leaving the site.</p>
+    <form id="ig-form" class="yt-search">
+      <input id="ig-input" type="search" placeholder="Paste an Instagram post or reel link..." autocomplete="off" aria-label="Paste an Instagram link">
+      <button class="music-action" type="submit">Watch</button>
+    </form>
+    <p id="ig-status" class="music-status" aria-live="polite"></p>
+    <div class="ig-stage">
+      <iframe id="ig-frame" title="Instagram post" data-allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" scrolling="no"></iframe>
+    </div>
+  </section>
+</div>
+
+<div id="site-panel" class="site-panel" role="dialog" aria-modal="true" aria-label="Website viewer" hidden>
+  <div class="site-bar">
+    <span id="site-host" class="site-host"></span>
+    <a id="site-newtab" class="site-btn" href="#" target="_blank" rel="noopener noreferrer">Open in new tab ↗</a>
+    <button id="site-close" class="site-btn" type="button" aria-label="Close website">✕</button>
+  </div>
+  <div class="site-body">
+    <iframe id="site-frame" title="Website viewer" referrerpolicy="no-referrer" data-allow="autoplay; fullscreen; encrypted-media; picture-in-picture; clipboard-write" allowfullscreen></iframe>
+    <div id="site-blocked" class="site-blocked" hidden>
+      <div class="sb-card">
+        <div class="sb-icon">🔒</div>
+        <h3 id="site-blocked-host">This site</h3>
+        <p>won't allow itself to be shown inside another page — that's a security rule set by the website, not something this site can change.</p>
+        <a id="site-blocked-link" class="sb-open" href="#" target="_blank" rel="noopener noreferrer">Open in a new tab ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="ddg-panel" class="site-panel ddg-panel" role="dialog" aria-modal="true" aria-label="Search results" hidden>
+  <div class="site-bar">
+    <form id="ddg-form" class="ddg-bar-form">
+      <span class="ddg-mark">🔍</span>
+      <input id="ddg-input" type="text" placeholder="Search DuckDuckGo" autocomplete="off">
+    </form>
+    <a id="ddg-full" class="site-btn" href="#" target="_blank" rel="noopener noreferrer">Full results ↗</a>
+    <button id="ddg-close" class="site-btn" type="button" aria-label="Close results">✕</button>
+  </div>
+  <div class="ddg-body"><div id="ddg-results"></div></div>
+</div>
+
+<div id="music-panel" class="music-panel" role="dialog" aria-modal="true" aria-labelledby="music-title" hidden>
+  <div class="music-heading">
+    <h2 id="music-title">GLOSSOM Music</h2>
+    <button id="music-close" class="music-close" type="button" aria-label="Close music">×</button>
+  </div>
+
+  <section id="music-browse-view">
+    <p class="music-subtitle">NOTE: If you have a specific song you wanna search up, type it with capitalization and be specific with the song title or else it might not come up.</p>
+        <p class="music-subtitle">Lyrics on most of the songs may not be provided.</p>
+    <p class="music-subtitle">Music is provided by Audius and its artists. Popular commercial releases may not be available.</p>
+        <p class="music-subtitle">Make sure when searching up a song, search up the song AND the artist, or it probably won't show up what you're looking for.</p>
+
+    <div class="music-browse">
+      <input id="music-search" type="search" placeholder="Search songs or artists..." autocomplete="off" aria-label="Search songs or artists">
+      <select id="music-genre" aria-label="Choose a genre">
+        <option value="all">All genres</option><option value="Electronic">Electronic</option>
+        <option value="Hip-Hop/Rap">Hip-Hop / Rap</option><option value="Pop">Pop</option>
+        <option value="R&B">R&amp;B</option><option value="Rock">Rock</option>
+        <option value="Alternative">Alternative</option><option value="Jazz">Jazz</option>
+        <option value="Classical">Classical</option><option value="Dance">Dance</option>
+        <option value="Ambient">Ambient</option><option value="House">House</option>
+        <option value="Techno">Techno</option><option value="Other">Other</option>
+      </select>
+      <button id="music-discover" class="music-action" type="button">Discover music</button>
+      <button id="music-playlists-btn" class="music-action music-action-alt" type="button">Create a playlist</button>
+    </div>
+    <p id="music-status" class="music-status" aria-live="polite">Loading the music catalog...</p>
+    <h3 id="music-list-heading">Popular on Audius</h3>
+    <div id="music-list" class="music-grid"><div class="music-empty">Loading songs...</div></div>
+  </section>
+
+  <section id="music-detail-view" hidden>
+    <button id="music-back-to-list" class="music-action music-back-link" type="button">← Back to songs</button>
+    <div class="music-stage">
+      <div class="music-player-col">
+        <div class="music-detail">
+          <img id="music-detail-art" class="music-detail-art" alt="Album artwork">
+          <div class="music-detail-copy">
+            <p class="music-detail-label">NOW PLAYING</p>
+            <h2 id="music-song-title">Choose a song</h2>
+            <p id="music-song-artist" class="music-artist">Artist</p>
+            <p id="music-song-genre" class="music-status"></p>
+          </div>
+        </div>
+        <audio id="music-audio" preload="none"></audio>
+        <input id="music-seek" type="range" min="0" max="1000" value="0" aria-label="Song progress">
+        <div class="music-times"><span id="music-current-time">0:00</span><span id="music-duration">0:00</span></div>
+        <div class="music-controls">
+          <button id="music-back" type="button" aria-label="Back 15 seconds">−15 sec</button>
+          <button id="music-toggle" class="music-play-button" type="button">Play</button>
+          <button id="music-forward" type="button" aria-label="Forward 15 seconds">+15 sec</button>
+        </div>
+        <p id="music-detail-status" class="music-status" aria-live="polite">Select a song to play.</p>
+      </div>
+      <aside class="music-lyrics" aria-label="Lyrics">
+        <h3 class="music-lyrics-head">Lyrics</h3>
+        <div id="music-lyrics-body" class="music-lyrics-body">
+          <p class="music-status">Select a song to see its lyrics.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="music-playlist-view" hidden>
+    <div id="pl-home">
+      <button id="pl-home-back" class="music-action music-back-link" type="button">← Back to songs</button>
+      <h3 class="pl-page-title">Create a playlist</h3>
+      <p class="music-subtitle">Give it a name, then add as many songs as you want. Your playlists are saved in this browser.</p>
+      <form id="pl-create-form" class="pl-create">
+        <input id="pl-new-name" type="text" maxlength="60" placeholder="Name your playlist..." autocomplete="off" aria-label="New playlist name">
+        <button class="music-action" type="submit">Create playlist</button>
+      </form>
+      <div class="pl-search">
+        <input id="pl-filter" type="search" placeholder="Search your playlists..." autocomplete="off" aria-label="Search your playlists">
+      </div>
+      <div class="pl-list-head">
+        <h3>Your playlists</h3>
+        <button id="pl-select" class="music-action music-action-alt" type="button">Select</button>
+        <button id="pl-select-cancel" class="music-action music-action-alt" type="button" hidden>Cancel</button>
+      </div>
+      <div id="pl-grid" class="music-grid"></div>
+      <div id="pl-select-bar" class="pl-select-bar" hidden>
+        <span id="pl-select-count">0 selected</span>
+        <button id="pl-bulk-delete" class="music-action pl-danger" type="button">🗑️ Delete selected</button>
+      </div>
+    </div>
+
+    <div id="pl-editor" hidden>
+      <button id="pl-editor-back" class="music-action music-back-link" type="button">← All playlists</button>
+      <div class="pl-editor-head">
+        <img id="pl-cover" class="pl-cover" alt="Playlist cover">
+        <div class="pl-editor-info">
+          <label id="pl-name-label" class="music-detail-label" for="pl-name">PLAYLIST</label>
+          <h2 id="pl-title-text" class="pl-title-text"></h2>
+          <input id="pl-name" class="pl-name-input" type="text" maxlength="60" autocomplete="off" hidden>
+          <p id="pl-count" class="music-status"></p>
+          <div class="pl-actions">
+            <button id="pl-play" class="music-action" type="button">▶ Play playlist</button>
+            <button id="pl-edit" class="music-action music-action-alt" type="button">✏️ Edit playlist</button>
+            <button id="pl-delete" class="music-action pl-danger" type="button">🗑️ Delete playlist</button>
+          </div>
+        </div>
+      </div>
+
+      <h3>Songs in this playlist</h3>
+      <ol id="pl-songs" class="pl-songs"></ol>
+
+      <div id="pl-add-section" hidden>
+        <h3>Add songs</h3>
+        <div class="pl-search">
+          <input id="pl-search" type="search" placeholder="Start typing a song or artist to add..." autocomplete="off" aria-label="Search songs to add">
+        </div>
+        <p id="pl-search-status" class="music-status" aria-live="polite"></p>
+        <ul id="pl-results" class="pl-results"></ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const blobs = document.querySelectorAll(".blob");
+
+  const settings = [
+    { ox: -40, oy: -30 },
+    { ox:  40, oy: -30 },
+    { ox:   0, oy:  40 },
+    { ox: -50, oy:  30 },
+    { ox:  50, oy:  15 }
+  ];
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let leaderX = mouseX;
+  let leaderY = mouseY;
+
+  const state = Array.from(blobs).map((el, i) => ({ el, x: mouseX, y: mouseY, ...settings[i] }));
+
+  window.addEventListener("pointermove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  const LEADER_SPEED = 0.06;
+  const FOLLOW_SPEED = 0.35;
+  const MAX_GAP = 14;
+
+  function animate() {
+    leaderX += (mouseX - leaderX) * LEADER_SPEED;
+    leaderY += (mouseY - leaderY) * LEADER_SPEED;
+
+    state.forEach((b) => {
+      const tx = leaderX + b.ox;
+      const ty = leaderY + b.oy;
+      b.x += (tx - b.x) * FOLLOW_SPEED;
+      b.y += (ty - b.y) * FOLLOW_SPEED;
+
+      const gx = b.x - tx;
+      const gy = b.y - ty;
+      const gap = Math.hypot(gx, gy);
+      if (gap > MAX_GAP) {
+        b.x = tx + (gx / gap) * MAX_GAP;
+        b.y = ty + (gy / gap) * MAX_GAP;
+      }
+
+      const half = b.el.offsetWidth / 2;
+      b.el.style.transform = `translate(${b.x - half}px, ${b.y - half}px)`;
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+</script>
+
+
+<script>
+  const timeEl = document.getElementById("clock-time");
+  const zoneEl = document.getElementById("clock-zone");
+  const iconLeft = document.getElementById("icon-left");
+  const iconRight = document.getElementById("icon-right");
+
+  const tzBtn = document.getElementById("tz-btn");
+  const tzPanel = document.getElementById("tz-panel");
+  const tzSearch = document.getElementById("tz-search");
+  const tzList = document.getElementById("tz-list");
+
+  const allZones = Intl.supportedValuesOf
+    ? Intl.supportedValuesOf("timeZone")
+    : ["America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles",
+       "Europe/London", "Europe/Paris", "Asia/Tokyo", "Australia/Sydney"];
+
+  let tz = "America/Chicago";
+
+  let currentIcon = "";
+
+  function updateClock() {
+    const now = new Date();
+
+    timeEl.textContent = now.toLocaleTimeString("en-US", {
+      timeZone: tz, hour: "numeric", minute: "2-digit", hour12: false
+    });
+
+    zoneEl.textContent = now
+      .toLocaleTimeString("en-US", { timeZone: tz, timeZoneName: "short" })
+      .split(" ")
+      .pop();
+
+    const hour = Number(
+      new Intl.DateTimeFormat("en-US", { timeZone: tz, hour: "numeric", hourCycle: "h23" }).format(now)
+    );
+
+    const icon = hour >= 7 && hour < 19 ? "sun" : "moon";
+    if (icon !== currentIcon) {
+      currentIcon = icon;
+      const symbol = icon === "sun" ? "☀️" : "🌙";
+      iconLeft.innerHTML = symbol;
+      iconRight.innerHTML = symbol;
+    }
+  }
+
+  function renderList(filter = "") {
+    const q = filter.trim().toLowerCase().replace(/ /g, "_");
+    tzList.innerHTML = "";
+
+    allZones
+      .filter((z) => z.toLowerCase().includes(q))
+      .forEach((z) => {
+        const item = document.createElement("div");
+        item.className = "tz-item" + (z === tz ? " active" : "");
+        item.textContent = z.replace(/_/g, " ");
+        item.addEventListener("click", () => {
+          tz = z;
+          try { localStorage.setItem("tz", z); } catch (e) {}
+          currentIcon = "";
+          updateClock();
+          closePanel();
+        });
+        tzList.appendChild(item);
+      });
+  }
+
+  function openPanel() {
+    tzSearch.value = "";
+    renderList();
+    tzPanel.hidden = false;
+    const active = tzList.querySelector(".active");
+    if (active) active.scrollIntoView({ block: "center" });
+    tzSearch.focus();
+  }
+
+  function closePanel() { tzPanel.hidden = true; }
+
+  if (tzBtn) tzBtn.addEventListener("click", () => { tzPanel.hidden ? openPanel() : closePanel(); });
+  tzSearch.addEventListener("input", () => renderList(tzSearch.value));
+
+  document.addEventListener("pointerdown", (e) => {
+    if (!tzPanel.hidden && !tzPanel.contains(e.target) && (!tzBtn || !tzBtn.contains(e.target))) closePanel();
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePanel(); });
+
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+
+<script>
+(() => {
+  const canvas = document.getElementById("rain");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let W = 0, H = 0, drops = [], MAX = 0;
+  function makeStatic() {
+    return { x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2.6 + 1.1, sliding: false, vy: 0, wob: Math.random() * Math.PI * 2 };
+  }
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    const base = Math.min(240, Math.floor(W * H / 13000));
+    MAX = base * 4;
+    drops = [];
+    for (let i = 0; i < base; i++) drops.push(makeStatic());
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  function drawDrop(x, y, r) {
+    const g = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.1, x, y, r);
+    g.addColorStop(0, "rgba(255,255,255,0.4)");
+    g.addColorStop(0.35, "rgba(205,220,232,0.16)");
+    g.addColorStop(1, "rgba(170,188,205,0.04)");
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
+    ctx.beginPath(); ctx.arc(x - r * 0.33, y - r * 0.33, Math.max(0.5, r * 0.22), 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,255,255,0.55)"; ctx.fill();
+  }
+
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < drops.length; i++) {
+      const d = drops[i];
+      if (d.sliding) {
+        d.vy += 0.12;
+        d.y += d.vy;
+        d.wob += 0.3;
+        d.x += Math.sin(d.wob) * 0.5;
+        if (Math.random() < 0.3 && drops.length < MAX) {
+          drops.push({ x: d.x + (Math.random() - 0.5) * d.r, y: d.y - d.r, r: Math.max(0.7, d.r * (Math.random() * 0.35 + 0.35)), sliding: false, vy: 0, wob: 0 });
+        }
+        d.r *= 0.996;
+        if (d.y > H + 12 || d.r < 0.6) Object.assign(d, makeStatic());
+      } else if (d.r > 2.1 && Math.random() < 0.0009 * d.r) {
+        d.sliding = true; d.vy = 0.5;
+      }
+      drawDrop(d.x, d.y, d.r);
+    }
+    if (drops.length > MAX) drops.splice(0, drops.length - MAX);
+    requestAnimationFrame(tick);
+  }
+  if (!reduce) tick();
+  else drops.forEach(d => drawDrop(d.x, d.y, d.r));
+})();
+</script>
+
+
+<script>
+  const infoBtn = document.getElementById("tz-info-btn");
+  const infoPanel = document.getElementById("info-panel");
+  const infoSearch = document.getElementById("info-search");
+  const infoList = document.getElementById("info-list");
+
+  const continentNames = {
+    Africa: "Africa",
+    America: "North & South America",
+    Antarctica: "Antarctica",
+    Arctic: "Arctic",
+    Asia: "Asia",
+    Atlantic: "Atlantic Ocean",
+    Australia: "Australia",
+    Europe: "Europe",
+    Indian: "Indian Ocean",
+    Pacific: "Pacific (Oceania)"
+  };
+
+  const zoneList = Intl.supportedValuesOf
+    ? Intl.supportedValuesOf("timeZone")
+    : ["America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles",
+       "Europe/London", "Europe/Paris", "Asia/Tokyo", "Australia/Sydney"];
+
+  function zoneInfo(z, now) {
+    const time = now.toLocaleTimeString("en-US", { timeZone: z, hour: "numeric", minute: "2-digit" });
+    const parts = new Intl.DateTimeFormat("en-US", { timeZone: z, timeZoneName: "shortOffset" }).formatToParts(now);
+    const offset = (parts.find((p) => p.type === "timeZoneName") || {}).value || "";
+    return { time, offset };
+  }
+
+  function renderInfo(filter = "") {
+    const raw = filter.trim().toLowerCase();
+    const q = raw.replace(/ /g, "_");
+    const now = new Date();
+    const groups = {};
+
+    zoneList.forEach((z) => {
+      if (!z.includes("/")) return;
+      const [cont, ...rest] = z.split("/");
+      const contLabel = (continentNames[cont] || cont).toLowerCase();
+      if (raw && !z.toLowerCase().includes(q) && !contLabel.includes(raw)) return;
+      (groups[cont] = groups[cont] || []).push({ z, city: rest.join(" / ").replace(/_/g, " ") });
+    });
+
+    infoList.innerHTML = "";
+    const conts = Object.keys(groups);
+    if (!conts.length) {
+      infoList.textContent = "No matches";
+      return;
+    }
+
+    conts.forEach((cont) => {
+      const details = document.createElement("details");
+      details.className = "info-group";
+      if (raw) details.open = true;
+
+      const summary = document.createElement("summary");
+      summary.textContent = `${continentNames[cont] || cont} (${groups[cont].length})`;
+      details.appendChild(summary);
+
+      groups[cont].forEach(({ z, city }) => {
+        const { time, offset } = zoneInfo(z, now);
+        const row = document.createElement("div");
+        row.className = "info-row";
+
+        const name = document.createElement("span");
+        name.textContent = city;
+
+        const when = document.createElement("span");
+        when.className = "info-time";
+        when.textContent = `${time} · ${offset}`;
+
+        row.appendChild(name);
+        row.appendChild(when);
+        details.appendChild(row);
+      });
+
+      infoList.appendChild(details);
+    });
+  }
+
+  function openInfo() {
+    document.getElementById("tz-panel").hidden = true;
+    infoSearch.value = "";
+    renderInfo();
+    infoPanel.hidden = false;
+    infoSearch.focus();
+  }
+
+  function closeInfo() { infoPanel.hidden = true; }
+
+  if (infoBtn) infoBtn.addEventListener("click", () => { infoPanel.hidden ? openInfo() : closeInfo(); });
+  infoSearch.addEventListener("input", () => renderInfo(infoSearch.value));
+
+  document.addEventListener("pointerdown", (e) => {
+    if (!infoPanel.hidden && !infoPanel.contains(e.target) && (!infoBtn || !infoBtn.contains(e.target))) closeInfo();
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeInfo(); });
+</script>
+
+<script>
+  const note = document.getElementById("note");
+
+  function closeNote() { note.hidden = true; }
+
+  document.querySelector(".wordmark")?.classList.add("animate");
+  document.getElementById("clock")?.classList.add("animate");
+  setTimeout(() => { note.hidden = false; }, 2000);
+
+  (() => {
+    const wm = document.querySelector(".wordmark");
+    if (!wm || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    function go() { wm.classList.add("shine"); }
+    function schedule() { setTimeout(go, 2500 + Math.random() * 5500); }
+    wm.addEventListener("animationend", (e) => {
+      if (e.animationName === "wmShine") { wm.classList.remove("shine"); schedule(); }
+    });
+    schedule();
+  })();
+
+  document.getElementById("note-close").addEventListener("click", closeNote);
+  document.getElementById("note-x").addEventListener("click", closeNote);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeNote(); });
+</script>
+
+<script>
+  const logPanel = document.getElementById("log");
+  const logBtn = document.getElementById("log-btn");
+
+  function openLog() { logPanel.hidden = false; }
+  function closeLog() { logPanel.hidden = true; }
+
+  if (logBtn) logBtn.addEventListener("click", openLog);
+  document.getElementById("log-close").addEventListener("click", closeLog);
+  document.getElementById("log-x").addEventListener("click", closeLog);
+  logPanel.addEventListener("pointerdown", (e) => { if (e.target === logPanel) closeLog(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLog(); });
+</script>
+
+<script>
+  // The embedded players need these permissions (autoplay, fullscreen...). They are applied here
+  // instead of in the HTML because Firefox doesn't understand several of the names and prints a
+  // console warning for each one, so Firefox only gets the names it knows. Other browsers get all.
+  (() => {
+    const firefox = /firefox/i.test(navigator.userAgent);
+    const unknownToFirefox = ["accelerometer", "autoplay", "clipboard-write", "encrypted-media", "gyroscope"];
+    document.querySelectorAll("iframe[data-allow]").forEach((frame) => {
+      const names = frame.dataset.allow.split(";").map((n) => n.trim()).filter(Boolean)
+        .filter((n) => !(firefox && unknownToFirefox.includes(n)));
+      if (names.length) frame.setAttribute("allow", names.join("; "));
+    });
+  })();
+</script>
+
+<!-- ===================== SCRAMJET PROXY ===================== -->
+<!-- server.js serves these two files (straight from node_modules). If they are missing the
+     site still works: everything falls back to the paste-a-link panels and the
+     instant-answer search panel. -->
+<script src="/scram/scramjet.all.js"></script>
+<script src="/baremux/index.js"></script>
+<script>
+  // Once the proxy is running, the welcome note stops saying "you can only paste links".
+  window.addEventListener("glossom:proxy-ready", () => {
+    const text = document.getElementById("note-text");
+    if (text) text.textContent = "tiktok, youtube and instagram open right here on the site now. if one doesn't load, you can still paste a link :)";
+  });
+
+  window.glossomProxy = (() => {
+    const TRANSPORT = "/libcurl/index.mjs";   // served by server.js
+    const SETUP_TIMEOUT_MS = 12000;           // after this, give up and use the fallbacks
+
+    let scramjet = null;
+    let connection = null;
+    let readyPromise = null;
+    let isReady = false;
+
+    try {
+      const { ScramjetController } = $scramjetLoadController();
+      scramjet = new ScramjetController({
+        files: {
+          wasm: "/scram/scramjet.wasm.wasm",
+          all: "/scram/scramjet.all.js",
+          sync: "/scram/scramjet.sync.js",
+        },
+      });
+      connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+    } catch (e) {
+      scramjet = null;
+      console.error("[glossom] Scramjet failed to load:", e);
+    }
+
+    const wispUrl = (location.protocol === "https:" ? "wss" : "ws") + "://" + location.host + "/wisp/";
+
+    async function setup() {
+      if (!scramjet || !connection) throw new Error("Scramjet files did not load");
+      if (!("serviceWorker" in navigator)) throw new Error("service workers need https (or localhost)");
+      // The ORDER here matters. init() creates Scramjet's settings storage (a small browser
+      // database) and the service worker opens that same database when it starts. If the worker
+      // starts first it leaves an EMPTY database behind, and init() then fails with
+      // "'config' is not a known object store name". So: init first, worker second.
+      try {
+        await scramjet.init();   // saves Scramjet's settings where the service worker can read them
+      } catch (e) {
+        if (/object store/i.test(String((e && e.message) || e))) {
+          console.warn(
+            "[glossom] This browser is holding an empty, half-made Scramjet storage for this address " +
+            "(left behind by an older version of this page). Fix: clear this site's data for localhost " +
+            "and reload, or open the site on a different port (stop the server, run PORT=3000 npm start, " +
+            "then open http://localhost:3000)."
+          );
+        }
+        throw e;
+      }
+      await navigator.serviceWorker.register("/sw.js", { scope: "/" });
+      await navigator.serviceWorker.ready;
+      if ((await connection.getTransport()) !== TRANSPORT) {
+        await connection.setTransport(TRANSPORT, [{ websocket: wispUrl }]);
+      }
+    }
+
+    function withTimeout(promise, ms) {
+      let timer;
+      const timeout = new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error("proxy setup timed out")), ms);
+      });
+      return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+    }
+
+    function ready() {
+      if (!readyPromise) {
+        readyPromise = withTimeout(setup(), SETUP_TIMEOUT_MS).then(
+          () => { isReady = true; window.dispatchEvent(new Event("glossom:proxy-ready")); },
+          (e) => { readyPromise = null; throw e; }
+        );
+      }
+      return readyPromise;
+    }
+
+    // Warm up in the background once the page has loaded, so the first click is quick.
+    const warmUp = () => setTimeout(() => ready().catch((e) => console.warn("[glossom] proxy setup:", e)), 800);
+    if (document.readyState === "complete") warmUp();
+    else window.addEventListener("load", warmUp);
+
+    // Scramjet only works properly in iframes that its own frame helper has wrapped (the helper
+    // gives the iframe a name that proxied pages look for; without it Scramjet logs "DIRECT
+    // IFRAMES WILL NOT WORK"). go() wraps an iframe once, then loads the site in it.
+    const wrapped = new WeakMap();
+    function go(iframe, url) {
+      try {
+        let helper = wrapped.get(iframe);
+        if (!helper) { helper = scramjet.createFrame(iframe); wrapped.set(iframe, helper); }
+        helper.go(url);
+      } catch (e) {
+        console.warn("[glossom] Scramjet's frame helper failed, loading the frame directly:", e);
+        if (!iframe.name) iframe.name = "glossom-" + Math.random().toString(36).slice(2, 10);
+        iframe.src = scramjet.encodeUrl(url);
+      }
+    }
+
+    return {
+      ready,
+      isReady: () => isReady,
+      available: () => !!scramjet && "serviceWorker" in navigator,
+      encode: (url) => scramjet.encodeUrl(url),
+      go,
+    };
+  })();
+</script>
+<!-- =================== END SCRAMJET PROXY =================== -->
+
+<script>
+  {
+    const msg = document.getElementById("portalMessage");
+    const panel = document.getElementById("site-panel");
+    const frame = document.getElementById("site-frame");
+    const host = document.getElementById("site-host");
+    const newTab = document.getElementById("site-newtab");
+    const closeBtn = document.getElementById("site-close");
+
+    function normalize(address) {
+      let url;
+      try { url = new URL(address); }
+      catch { try { url = new URL("https://" + address); } catch { return null; } }
+      return (url.protocol === "http:" || url.protocol === "https:") ? url : null;
+    }
+    const blockedEl = document.getElementById("site-blocked");
+    const blockedHost = document.getElementById("site-blocked-host");
+    const blockedLink = document.getElementById("site-blocked-link");
+    const NO_FRAME = ["tiktok.com","youtube.com","youtu.be","google.com","instagram.com","facebook.com","fb.com","twitter.com","x.com","reddit.com","amazon.com","linkedin.com","netflix.com","pinterest.com","spotify.com","twitch.tv","apple.com","microsoft.com","yahoo.com","bing.com","quora.com","discord.com","snapchat.com","roblox.com","ebay.com","paypal.com","play.google.com"];
+    function blocksFraming(hostname) {
+      const h = hostname.replace(/^www\./, "");
+      return NO_FRAME.some(d => h === d || h.endsWith("." + d));
+    }
+    // Show a site inside the viewer panel through the Scramjet proxy.
+    // Resolves true if the proxy handled it, false if the proxy isn't available
+    // (so the caller can fall back to something else).
+    async function openViaProxy(url) {
+      const proxy = window.glossomProxy;
+      if (!proxy || !proxy.available()) return false;
+      if (msg && !proxy.isReady()) msg.textContent = "Starting the proxy…";
+      try {
+        await proxy.ready();
+        const proxied = proxy.encode(url.href);
+        host.textContent = url.hostname;
+        newTab.href = proxied;
+        blockedEl.hidden = true;
+        proxy.go(frame, url.href);
+        panel.hidden = false;
+        return true;
+      } catch (e) {
+        console.warn("[glossom] proxy unavailable:", e);
+        return false;
+      } finally {
+        if (msg) msg.textContent = "";
+      }
+    }
+
+    async function openSite(url) {
+      if (await openViaProxy(url)) return;
+
+      // No proxy: show the page directly, or the "this site blocks embedding" card.
+      host.textContent = url.hostname;
+      newTab.href = url.href;
+      panel.hidden = false;
+      if (msg) msg.textContent = "";
+      if (blocksFraming(url.hostname)) {
+        frame.src = "about:blank";
+        blockedHost.textContent = url.hostname.replace(/^www\./, "");
+        blockedLink.href = url.href;
+        blockedEl.hidden = false;
+      } else {
+        blockedEl.hidden = true;
+        frame.src = url.href;
+      }
+    }
+    function closeSite() { panel.hidden = true; frame.src = "about:blank"; blockedEl.hidden = true; }
+
+    const ddgPanel = document.getElementById("ddg-panel");
+    const ddgResults = document.getElementById("ddg-results");
+    const ddgInput = document.getElementById("ddg-input");
+    const ddgForm = document.getElementById("ddg-form");
+    const ddgFull = document.getElementById("ddg-full");
+    const ddgClose = document.getElementById("ddg-close");
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c])); }
+
+    function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return ""; } }
+    function prettyName(host) {
+      const label = (host.split(".")[0] || host);
+      return label.split("-").map(w => w ? w[0].toUpperCase() + w.slice(1) : w).join("-");
+    }
+    function crumb(u) {
+      try {
+        const x = new URL(u);
+        const h = x.hostname.replace(/^www\./, "");
+        const segs = decodeURIComponent(x.pathname).split("/").filter(Boolean);
+        return h + (segs.length ? " › " + segs.join(" › ") : "");
+      } catch { return hostOf(u); }
+    }
+    function favFor(host) { return host ? "https://icons.duckduckgo.com/ip3/" + host + ".ico" : ""; }
+    function splitSentence(text) {
+      const t = String(text).trim();
+      const m = t.match(/^(.{20,90}?[.!?])(\s+|$)([\s\S]*)$/);
+      if (m) return { title: m[1].trim(), snippet: m[3].trim() };
+      if (t.length > 80) return { title: t.slice(0, 80).trim() + "…", snippet: t };
+      return { title: t, snippet: "" };
+    }
+    function resultRow(url, title, snippet) {
+      const host = hostOf(url);
+      return "<div class='ddg-result' data-link='" + esc(url) + "'>" +
+        "<div class='ddg-rhead'>" +
+          "<img class='ddg-fav' src='" + esc(favFor(host)) + "' alt='' onerror=\"this.style.visibility='hidden'\">" +
+          "<div class='ddg-site'><span class='n'>" + esc(prettyName(host)) + "</span><span class='u'>" + esc(crumb(url)) + "</span></div>" +
+        "</div>" +
+        "<div class='ddg-title'>" + esc(title) + "</div>" +
+        (snippet ? "<div class='ddg-snippet'>" + esc(snippet) + "</div>" : "") +
+      "</div>";
+    }
+
+    function knowledgePanel(data, query) {
+      const ib = data.Infobox || {};
+      const content = ib.content || [];
+      const img = data.Image ? (data.Image.startsWith("http") ? data.Image : "https://duckduckgo.com" + data.Image) : "";
+      const site = data.AbstractURL ? hostOf(data.AbstractURL) : "";
+
+      let official = "", youtube = "";
+      const rows = [];
+      content.forEach(c => {
+        const dt = c.data_type || "";
+        if (dt === "official_website" && typeof c.value === "string") { official = c.value; return; }
+        if (dt === "youtube_channel" && typeof c.value === "string") { youtube = "https://www.youtube.com/channel/" + c.value; return; }
+        if (dt === "string" && typeof c.value === "string" && c.label) rows.push({ k: c.label, v: c.value });
+      });
+
+      let subtitle = "";
+      const typeRow = rows.find(r => /^type$/i.test(r.k));
+      if (typeRow) subtitle = typeRow.v;
+
+      let h = "<div class='ddg-kp'><div class='ddg-kp-top'><div class='ddg-kp-h'>" +
+        "<h2>" + esc(data.Heading || query) + "</h2>" +
+        (subtitle ? "<div class='ddg-kp-sub'>" + esc(subtitle) + "</div>" : "") +
+        (official || data.AbstractURL ? "<div class='ddg-kp-site' data-link='" + esc(official || data.AbstractURL) + "'>" + esc(hostOf(official || data.AbstractURL)) + "</div>" : "") +
+        "</div>" +
+        (img ? "<img class='ddg-kp-img' src='" + esc(img) + "' alt='' onerror=\"this.style.display='none'\">" : "") +
+      "</div>";
+
+      if (data.AbstractText) {
+        h += "<div class='ddg-kp-desc'>" + esc(data.AbstractText) +
+          (data.AbstractURL ? " <span class='ddg-kp-more' data-link='" + esc(data.AbstractURL) + "'>Continued on " + esc(data.AbstractSource || "source") + " →</span>" : "") +
+        "</div>";
+      }
+
+      if (rows.length) {
+        h += "<div class='ddg-kp-rows'>";
+        rows.slice(0, 6).forEach(r => {
+          h += "<div class='ddg-kp-row'><span class='k'>" + esc(r.k) + "</span><span class='v'>" + esc(r.v) + "</span></div>";
+        });
+        h += "</div>";
+      }
+
+      const links = [];
+      if (official) links.push({ icon: "fa-solid fa-globe", label: "Website", url: official });
+      if (data.AbstractURL) links.push({ icon: "fa-brands fa-wikipedia-w", label: data.AbstractSource || "Wikipedia", url: data.AbstractURL });
+      if (youtube) links.push({ icon: "fa-brands fa-youtube", label: "YouTube", url: youtube });
+      if (links.length) {
+        h += "<div class='ddg-kp-links'><div class='t'>Quick links</div><div class='row'>";
+        links.forEach(l => {
+          h += "<div class='ddg-kp-qlink' data-link='" + esc(l.url) + "'><i class='" + l.icon + "'></i><span>" + esc(l.label) + "</span></div>";
+        });
+        h += "</div></div>";
+      }
+
+      h += "</div>";
+      return h;
+    }
+
+    function looksLikeUrl(s) {
+      if (/^https?:\/\//i.test(s)) return true;
+      if (/\s/.test(s)) return false;
+      return /^[\w-]+(\.[\w-]+)+(:\d+)?(\/\S*)?$/.test(s) && /\.(com|net|org|io|dev|gov|edu|co|app|ai|me|tv|xyz|info|us|uk|ca|site|online|page)(\/|$|:)/i.test(s);
+    }
+
+    function flattenTopics(topics, out) {
+      topics.forEach(t => {
+        if (t.Topics) flattenTopics(t.Topics, out);
+        else if (t.FirstURL && t.Text) out.push(t);
+      });
+    }
+
+    async function ddgSearch(query) {
+      ddgInput.value = query;
+      ddgFull.href = "https://duckduckgo.com/?q=" + encodeURIComponent(query);
+      ddgResults.innerHTML = "<div class='ddg-empty'>Searching…</div>";
+      ddgPanel.hidden = false;
+      if (msg) msg.textContent = "";
+      let data;
+      try {
+        const res = await fetch("https://api.duckduckgo.com/?format=json&no_html=1&skip_disambig=1&t=glossom&q=" + encodeURIComponent(query));
+        data = await res.json();
+      } catch (e) {
+        ddgResults.innerHTML = "<div class='ddg-empty'>Couldn't reach DuckDuckGo. <a href='https://duckduckgo.com/?q=" + encodeURIComponent(query) + "' target='_blank' rel='noopener'>Open full results ↗</a></div>";
+        return;
+      }
+      let left = "";
+      if (data.AbstractText && data.AbstractURL) {
+        left += resultRow(data.AbstractURL, data.Heading || query, data.AbstractText);
+      }
+      if (data.Results) {
+        data.Results.forEach(r => {
+          if (r.FirstURL && r.Text) { const s = splitSentence(r.Text); left += resultRow(r.FirstURL, s.title, s.snippet); }
+        });
+      }
+      const topics = [];
+      flattenTopics(data.RelatedTopics || [], topics);
+      topics.slice(0, 25).forEach(t => {
+        const s = splitSentence(t.Text);
+        left += resultRow(t.FirstURL, s.title, s.snippet);
+      });
+
+      const hasKp = !!(data.AbstractText && (data.Image || (data.Infobox && data.Infobox.content && data.Infobox.content.length)));
+      const right = hasKp ? knowledgePanel(data, query) : "";
+
+      if (!left && !right) {
+        ddgResults.innerHTML = "<div class='ddg-empty'>No instant answer for “" + esc(query) + "”.<br>DuckDuckGo blocks showing its full results page inside another site, so open the complete results here:<br><br><a href='https://duckduckgo.com/?q=" + encodeURIComponent(query) + "' target='_blank' rel='noopener'>Open full results on DuckDuckGo ↗</a></div>";
+        return;
+      }
+      ddgResults.innerHTML = "<div class='ddg-layout'><div class='ddg-left'>" + left + "</div>" +
+        (right ? "<div class='ddg-right'>" + right + "</div>" : "") + "</div>";
+    }
+
+    ddgResults.addEventListener("click", e => {
+      const el = e.target.closest("[data-link]");
+      if (!el) return;
+      const url = normalize(el.getAttribute("data-link"));
+      if (url) openSite(url);
+    });
+    ddgForm.addEventListener("submit", e => { e.preventDefault(); const q = ddgInput.value.trim(); if (q) ddgSearch(q); });
+    ddgClose.addEventListener("click", () => { ddgPanel.hidden = true; });
+    ddgFull.addEventListener("click", e => {
+      // Proxy not running (or still starting): leave it as a normal link that opens a new tab.
+      if (!window.glossomProxy || !window.glossomProxy.isReady()) return;
+      const url = normalize(ddgFull.href);
+      if (!url) return;
+      e.preventDefault();
+      openViaProxy(url).then(ok => { if (!ok) window.open(ddgFull.href, "_blank", "noopener"); });
+    });
+
+    // Where searches go when the proxy is running. Swap for
+    // "https://www.google.com/search?q=" or "https://www.bing.com/search?q=" if you prefer.
+    const SEARCH_URL = "https://duckduckgo.com/?q=";
+
+    async function searchWeb(query) {
+      const url = normalize(SEARCH_URL + encodeURIComponent(query));
+      if (url && await openViaProxy(url)) return;
+      ddgSearch(query);   // no proxy: use the built-in instant-answer results panel
+    }
+
+    function submitAddress(value) {
+      const v = value.trim();
+      if (!v) return;
+      if (looksLikeUrl(v)) {
+        const url = normalize(v);
+        if (url) { openSite(url); return; }
+      }
+      searchWeb(v);
+    }
+
+    // Lets the YouTube / TikTok / Instagram buttons open the real sites through the proxy.
+    window.glossomOpenSite = (address) => {
+      const url = normalize(address);
+      return url ? openViaProxy(url) : Promise.resolve(false);
+    };
+    closeBtn.addEventListener("click", closeSite);
+    document.addEventListener("keydown", e => {
+      if (e.key !== "Escape") return;
+      if (!panel.hidden) closeSite();
+      else if (!ddgPanel.hidden) ddgPanel.hidden = true;
+    });
+
+    const homeForm = document.getElementById("homeSearchForm");
+    const homeInput = document.getElementById("homeSearch");
+    if (homeForm) {
+      homeForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        submitAddress(homeInput.value);
+      });
+    }
+
+    document.querySelectorAll(".chip[data-target]").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const target = document.getElementById(chip.dataset.target);
+        if (target) target.click();
+      });
+    });
+  }
+
+  (() => {
+    const sidebar = document.querySelector(".sidebar");
+    const toggle = document.getElementById("sidebar-toggle");
+    if (!sidebar || !toggle) return;
+    const STORE = "glossom-sidebar-collapsed";
+    function apply(collapsed) {
+      sidebar.classList.toggle("collapsed", collapsed);
+      toggle.setAttribute("aria-label", collapsed ? "Expand menu" : "Collapse menu");
+      toggle.title = collapsed ? "Expand menu" : "Collapse menu";
+    }
+    let saved = false;
+    try { saved = localStorage.getItem(STORE) === "1"; } catch (e) {}
+    apply(saved);
+    toggle.addEventListener("click", () => {
+      const collapsed = !sidebar.classList.contains("collapsed");
+      apply(collapsed);
+      try { localStorage.setItem(STORE, collapsed ? "1" : "0"); } catch (e) {}
+    });
+  })();
+</script>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const link = $("youtube-link"), panel = $("yt-panel"), closeBtn = $("yt-close");
+  const form = $("yt-form"), input = $("yt-input"), frame = $("yt-frame"), status = $("yt-status");
+  const EMBED = "https://www.youtube-nocookie.com/embed/";
+
+  function videoId(text) {
+    const s = text.trim();
+    if (/^[\w-]{11}$/.test(s)) return s;
+    let m;
+    if ((m = s.match(/[?&]v=([\w-]{11})/))) return m[1];
+    if ((m = s.match(/youtu\.be\/([\w-]{11})/))) return m[1];
+    if ((m = s.match(/\/(?:embed|shorts|live)\/([\w-]{11})/))) return m[1];
+    return null;
+  }
+  function playVideo(id) {
+    frame.src = EMBED + encodeURIComponent(id) + "?autoplay=1&rel=0";
+    status.textContent = "Now playing. Paste another link or search again to change it.";
+  }
+  function playSearch(query) {
+
+    frame.src = "https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(query) + "&autoplay=1&rel=0";
+    status.textContent = 'Showing results for "' + query + '". If it does not play, paste a video link instead.';
+  }
+  function open() {
+    panel.hidden = false;
+    if (!frame.src) status.textContent = "Search a video or paste a YouTube link to start.";
+    input.focus();
+  }
+  function close() { panel.hidden = true; frame.src = ""; } 
+
+  link.addEventListener("click", async e => {
+    e.preventDefault();
+    if (await window.glossomOpenSite?.("https://www.youtube.com/")) return;   // real YouTube through the proxy
+    open();                                                                    // no proxy: paste-a-link player
+  });
+  closeBtn.addEventListener("click", close);
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) close(); });
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) { status.textContent = "Type something to search, or paste a YouTube link."; return; }
+    const id = videoId(text);
+    if (id) playVideo(id); else playSearch(text);
+  });
+})();
+</script>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+
+  function setupEmbed({ linkId, panelId, closeId, formId, inputId, frameId, statusId, toEmbed, label, proxyUrl }) {
+    const link = $(linkId), panel = $(panelId), closeBtn = $(closeId);
+    const form = $(formId), input = $(inputId), frame = $(frameId), status = $(statusId);
+    if (!link || !panel) return;
+
+    const open = () => {
+      panel.hidden = false;
+      if (!frame.src) status.textContent = "Paste a " + label + " link above to view it here.";
+      input.focus();
+    };
+    const close = () => { panel.hidden = true; frame.src = ""; }; 
+
+    link.addEventListener("click", async e => {
+      e.preventDefault();
+      if (proxyUrl && await window.glossomOpenSite?.(proxyUrl)) return;   // real site through the proxy
+      open();                                                              // no proxy: paste-a-link panel
+    });
+    closeBtn.addEventListener("click", close);
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) close(); });
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) { status.textContent = "Paste a " + label + " link first."; return; }
+      const src = toEmbed(text);
+      if (!src) {
+        status.textContent = "That doesn't look like a " + label + " link. Copy the full link to a specific " +
+          (label === "TikTok" ? "video" : "post or reel") + ".";
+        return;
+      }
+      frame.src = src;
+      status.textContent = "Loaded. Paste another link to change it.";
+    });
+  }
+
+  setupEmbed({
+    linkId: "tiktok-link", panelId: "tt-panel", closeId: "tt-close",
+    formId: "tt-form", inputId: "tt-input", frameId: "tt-frame", statusId: "tt-status",
+    label: "TikTok",
+    proxyUrl: "https://www.tiktok.com/",
+    toEmbed(text) {
+      let m;
+      if ((m = text.match(/\/video\/(\d{6,})/)) || (m = text.match(/\/player\/v1\/(\d{6,})/)) || (m = text.match(/^(\d{6,})$/))) {
+        return "https://www.tiktok.com/player/v1/" + m[1] + "?rel=0";
+      }
+      return null; 
+    }
+  });
+
+  setupEmbed({
+    linkId: "instagram-link", panelId: "ig-panel", closeId: "ig-close",
+    formId: "ig-form", inputId: "ig-input", frameId: "ig-frame", statusId: "ig-status",
+    label: "Instagram",
+    proxyUrl: "https://www.instagram.com/",
+    toEmbed(text) {
+      const m = text.match(/instagram\.com\/(?:[^/]+\/)?(?:p|reel|reels|tv)\/([A-Za-z0-9_-]+)/i);
+      if (m) return "https://www.instagram.com/p/" + m[1] + "/embed/";
+      return null;
+    }
+  });
+})();
+</script>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const openButton = $("music-btn"), panel = $("music-panel");
+  const closeButton = $("music-close"), browseView = $("music-browse-view");
+  const detailView = $("music-detail-view"), backToList = $("music-back-to-list");
+  const searchInput = $("music-search"), genreSelect = $("music-genre");
+  const discoverButton = $("music-discover"), audio = $("music-audio");
+  const toggleButton = $("music-toggle"), backButton = $("music-back");
+  const forwardButton = $("music-forward"), seek = $("music-seek");
+  const title = $("music-song-title"), artist = $("music-song-artist");
+  const detailArt = $("music-detail-art"), detailGenre = $("music-song-genre");
+  const currentTime = $("music-current-time"), duration = $("music-duration");
+  const status = $("music-status"), detailStatus = $("music-detail-status");
+  const lyricsBody = $("music-lyrics-body");
+  let lyricsRequest = 0;
+  let lyricLines = [];   
+  let activeLyric = -1;
+
+  function cleanForLyrics(text) {
+    return String(text || "")
+      .replace(/\s*[\(\[].*?[\)\]]\s*/g, " ")
+      .replace(/\s*[-–]\s*(remaster|remastered|live|radio edit|edit|version|remix).*$/i, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+  function setLyricsMessage(text) {
+    lyricLines = []; activeLyric = -1;
+    lyricsBody.replaceChildren();
+    const p = document.createElement("p");
+    p.className = "music-status";
+    p.textContent = text;
+    lyricsBody.appendChild(p);
+  }
+
+  function parseSynced(synced) {
+    const out = [];
+    String(synced || "").split(/\r?\n/).forEach(line => {
+      const stamps = [...line.matchAll(/\[(\d+):(\d+(?:\.\d+)?)\]/g)];
+      if (!stamps.length) return;
+      const text = line.replace(/\[(\d+):(\d+(?:\.\d+)?)\]/g, "").trim();
+      stamps.forEach(m => out.push({ time: Number(m[1]) * 60 + Number(m[2]), text }));
+    });
+    return out.sort((a, b) => a.time - b.time);
+  }
+  function renderSyncedLyrics(synced) {
+    const parsed = parseSynced(synced);
+    if (!parsed.length) return false;
+    lyricsBody.replaceChildren();
+    lyricLines = parsed.map(line => {
+      const el = document.createElement("div");
+      el.className = "lyric-line";
+      el.textContent = line.text || "♪";
+      el.addEventListener("click", () => {
+        audio.currentTime = line.time;
+        if (audio.paused) audio.play().catch(() => {});
+      });
+      lyricsBody.appendChild(el);
+      return { time: line.time, el };
+    });
+    activeLyric = -1;
+    updateLyricHighlight();
+    return true;
+  }
+  function renderPlainLyrics(text) {
+    lyricLines = []; activeLyric = -1;
+    lyricsBody.replaceChildren();
+    const div = document.createElement("div");
+    div.className = "lyric-plain";
+    div.textContent = text;
+    lyricsBody.appendChild(div);
+  }
+  function updateLyricHighlight() {
+    if (!lyricLines.length) return;
+    const t = audio.currentTime + 0.2; 
+    let idx = -1;
+    for (let i = 0; i < lyricLines.length; i++) {
+      if (lyricLines[i].time <= t) idx = i; else break;
+    }
+    if (idx === activeLyric) return;
+    if (activeLyric >= 0) lyricLines[activeLyric].el.classList.remove("active");
+    activeLyric = idx;
+    if (idx < 0) return;
+    const el = lyricLines[idx].el;
+    el.classList.add("active");
+
+    const target = el.offsetTop - lyricsBody.clientHeight / 2 + el.clientHeight / 2;
+    lyricsBody.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
+  }
+
+  function plainLyricsOf(data) {
+    if (!data) return "";
+    return (data.plainLyrics || "").trim()
+      || (data.syncedLyrics || "").replace(/\[\d+:\d+(?:\.\d+)?\]/g, "").trim();
+  }
+  async function fetchJSON(url) {
+    const response = await fetch(url);
+    if (response.status === 404) return null;
+    if (!response.ok) throw new Error("Request failed");
+    return response.json();
+  }
+
+  async function fetchOvhLyrics(artist, title) {
+    try {
+      const url = "https://api.lyrics.ovh/v1/" + encodeURIComponent(artist) + "/" + encodeURIComponent(title);
+      const response = await fetch(url);
+      if (!response.ok) return "";
+      const data = await response.json();
+      return (data && data.lyrics || "").trim();
+    } catch (e) { return ""; }
+  }
+  async function loadLyrics(track) {
+    const thisRequest = ++lyricsRequest;
+    setLyricsMessage("Loading lyrics...");
+    const artistName = cleanForLyrics(trackArtist(track));
+    const trackName = cleanForLyrics(track.title);
+
+    const pickBest = records => {
+      if (!Array.isArray(records)) return null;
+      return records.find(r => (r.syncedLyrics || "").trim())
+        || records.find(r => plainLyricsOf(r)) || null;
+    };
+    try {
+
+      const getUrl = new URL("https://lrclib.net/api/get");
+      getUrl.searchParams.set("artist_name", artistName);
+      getUrl.searchParams.set("track_name", trackName);
+      let record = await fetchJSON(getUrl.toString());
+      if (thisRequest !== lyricsRequest) return;
+      if (record && !(record.syncedLyrics || "").trim() && !plainLyricsOf(record)) record = null;
+
+      if (!record) {
+        const s = new URL("https://lrclib.net/api/search");
+        s.searchParams.set("track_name", trackName);
+        s.searchParams.set("artist_name", artistName);
+        record = pickBest(await fetchJSON(s.toString()));
+        if (thisRequest !== lyricsRequest) return;
+      }
+
+      if (!record) {
+        const s = new URL("https://lrclib.net/api/search");
+        s.searchParams.set("q", trackName);
+        record = pickBest(await fetchJSON(s.toString()));
+        if (thisRequest !== lyricsRequest) return;
+      }
+
+      if (thisRequest !== lyricsRequest) return;
+      if (record && (record.syncedLyrics || "").trim() && renderSyncedLyrics(record.syncedLyrics)) {
+        return; 
+      }
+      let plain = plainLyricsOf(record);
+
+      if (!plain) {
+        plain = await fetchOvhLyrics(artistName, trackName);
+        if (thisRequest !== lyricsRequest) return;
+      }
+
+      if (plain) renderPlainLyrics(plain);
+      else setLyricsMessage("No lyrics found for this song. Independent tracks often aren't in any lyrics database.");
+    } catch (e) {
+      if (thisRequest !== lyricsRequest) return;
+      setLyricsMessage("Lyrics could not load. Your internet or school network may be blocking the lyrics service.");
+    }
+  }
+  const list = $("music-list"), listHeading = $("music-list-heading");
+  const API = "https://api.audius.co/v1", APP_NAME = "GLOSSOM";
+  const fallbackArt = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#38245a"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs><rect width="400" height="400" fill="url(#g)"/><text x="200" y="225" text-anchor="middle" font-size="100" fill="white">G</text></svg>');
+  const playlistView = $("music-playlist-view");
+
+  let tracks = [], queue = [], currentIndex = -1, requestNumber = 0;
+  let backTarget = "browse";
+
+  function formatTime(s) {
+    if (!Number.isFinite(s) || s < 0) return "0:00";
+    return Math.floor(s / 60) + ":" + Math.floor(s % 60).toString().padStart(2, "0");
+  }
+  function trackArtist(t) { return t.user && (t.user.name || t.user.handle) || "Independent artist"; }
+  function artworkFor(t) {
+    const a = t.artwork || {};
+    return a["480x480"] || a["150x150"] || a["1000x1000"] || fallbackArt;
+  }
+  function normalizeSearchText(value) {
+    return String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+  }
+  function showView(name) {
+    browseView.hidden = name !== "browse";
+    detailView.hidden = name !== "detail";
+    playlistView.hidden = name !== "playlists";
+    panel.scrollTop = 0;
+  }
+  function showBrowse() { showView("browse"); }
+  function showDetails() { showView("detail"); }
+
+  function rankMatches(catalogTracks, query) {
+    const words = normalizeSearchText(query)
+      .split(/\s+/)
+      .filter(Boolean)
+      .filter(word => !["by", "song", "songs", "music"].includes(word));
+
+    return catalogTracks
+      .map(track => {
+        const cleanTitle = normalizeSearchText(track.title);
+        const cleanArtist = normalizeSearchText(trackArtist(track));
+        const combined = cleanTitle + " " + cleanArtist;
+        const matches = words.length > 0 && words.every(word => combined.includes(word));
+        const score =
+          words.filter(word => cleanTitle.includes(word)).length * 3 +
+          words.filter(word => cleanArtist.includes(word)).length;
+        return { track, matches, score };
+      })
+      .filter(item => item.matches)
+      .sort((a, b) => b.score - a.score)
+      .map(item => item.track);
+  }
+
+  function renderTracks() {
+    list.replaceChildren();
+    if (!tracks.length) {
+      const empty = document.createElement("div");
+      empty.className = "music-empty";
+      empty.textContent = "No songs found. Try another search or genre.";
+      list.appendChild(empty);
+      return;
+    }
+    tracks.forEach((track, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "music-track" + (queue === tracks && index === currentIndex ? " active" : "");
+      const art = document.createElement("img");
+      art.className = "music-track-art"; art.src = artworkFor(track);
+      art.alt = "Album artwork for " + (track.title || "song");
+      art.loading = "lazy"; art.onerror = () => { art.src = fallbackArt; };
+      const songTitle = document.createElement("span");
+      songTitle.className = "music-track-title";
+      songTitle.textContent = track.title || "Untitled track";
+      const songArtist = document.createElement("span");
+      songArtist.className = "music-track-artist";
+      songArtist.textContent = trackArtist(track);
+      button.append(art, songTitle, songArtist);
+      button.addEventListener("click", () => playList(tracks, index, "browse"));
+      list.appendChild(button);
+    });
+  }
+
+  async function fetchTracks() {
+    const thisRequest = ++requestNumber;
+    const query = searchInput.value.trim(), genre = genreSelect.value;
+    status.textContent = "Searching the music catalog...";
+    discoverButton.disabled = true;
+
+    if (!tracks.length) {
+      list.replaceChildren();
+      const loading = document.createElement("div");
+      loading.className = "music-empty"; loading.textContent = "Finding songs...";
+      list.appendChild(loading);
+    }
+    try {
+      let url;
+      if (query) {
+        url = new URL(API + "/tracks/search");
+        url.searchParams.set("query", query);
+      } else {
+        url = new URL(API + "/tracks/trending");
+        if (genre !== "all") url.searchParams.set("genre", genre);
+      }
+      url.searchParams.set("limit", "30");
+      url.searchParams.set("app_name", APP_NAME);
+      const response = await fetch(url.toString());
+      if (!response.ok) throw new Error("Catalog request failed");
+      const json = await response.json();
+      if (thisRequest !== requestNumber) return;
+
+      const catalogTracks = (json.data || []).filter(
+        t => t && t.id && t.title && t.is_streamable !== false
+      );
+
+      tracks = query ? rankMatches(catalogTracks, query) : catalogTracks;
+
+      listHeading.textContent = query
+        ? "Matching songs"
+        : (genre === "all" ? "Popular on Audius" : genre + " music");
+      renderTracks();
+
+      if (!tracks.length && query) {
+        status.textContent =
+          'No close match for "' + query +
+          '" was found in Audius. This song or artist may not be in the Audius catalog. Try the exact song title or artist name.';
+      } else {
+        status.textContent = tracks.length
+          ? tracks.length + (query ? " matching songs found. " : " songs found. ") + "Select a song to open its player."
+          : "No playable songs found. Try another genre or search.";
+      }
+    } catch (e) {
+      if (thisRequest !== requestNumber) return;
+      tracks = []; renderTracks();
+      status.textContent = "The music catalog could not load. Check your internet connection or whether your school network blocks Audius.";
+    } finally {
+      if (thisRequest === requestNumber) discoverButton.disabled = false;
+    }
+  }
+
+  function playList(list, index, from) {
+    queue = list;
+    backTarget = from;
+    backToList.textContent = from === "playlist" ? "← Back to playlist" : "← Back to songs";
+    playTrack(index);
+  }
+
+  async function playTrack(index) {
+    if (index < 0 || index >= queue.length) return;
+    currentIndex = index;
+    const track = queue[index];
+    title.textContent = track.title || "Unknown song";
+    artist.textContent = trackArtist(track);
+    detailGenre.textContent = track.genre || "";
+    detailArt.src = artworkFor(track);
+    detailArt.alt = "Album artwork for " + (track.title || "song");
+    detailArt.onerror = () => { detailArt.src = fallbackArt; };
+    currentTime.textContent = "0:00"; duration.textContent = "0:00";
+    seek.value = "0"; toggleButton.textContent = "Pause";
+    detailStatus.textContent = "Loading track...";
+    showDetails(); renderTracks(); renderEditor(); loadLyrics(track);
+    audio.src = API + "/tracks/" + encodeURIComponent(track.id) + "/stream?app_name=" + encodeURIComponent(APP_NAME);
+    try { await audio.play(); detailStatus.textContent = "Now playing."; }
+    catch (e) {
+      toggleButton.textContent = "Play";
+      detailStatus.textContent = "This track could not start. It may be unavailable on this network.";
+    }
+  }
+
+  openButton.addEventListener("click", () => {
+    panel.hidden = false; showBrowse();
+    if (!tracks.length) fetchTracks();
+    searchInput.focus();
+  });
+  closeButton.addEventListener("click", () => { panel.hidden = true; });
+  backToList.addEventListener("click", () => {
+    if (backTarget === "playlist" && currentPlaylist()) openEditor(editingId, plEditing);
+    else showBrowse();
+  });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) panel.hidden = true; });
+  discoverButton.addEventListener("click", fetchTracks);
+
+  function debounce(fn, ms) {
+    let timer;
+    return () => { clearTimeout(timer); timer = setTimeout(fn, ms); };
+  }
+  const SEARCH_DELAY = 350;
+  searchInput.addEventListener("input", debounce(fetchTracks, SEARCH_DELAY));
+  genreSelect.addEventListener("change", fetchTracks);
+  toggleButton.addEventListener("click", async () => {
+    if (currentIndex === -1) return;
+    if (audio.paused) {
+      try { await audio.play(); }
+      catch (e) { detailStatus.textContent = "Playback could not start. The stream may be blocked."; }
+    } else audio.pause();
+  });
+  backButton.addEventListener("click", () => {
+    if (Number.isFinite(audio.duration)) audio.currentTime = Math.max(0, audio.currentTime - 15);
+  });
+  forwardButton.addEventListener("click", () => {
+    if (Number.isFinite(audio.duration)) audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
+  });
+  seek.addEventListener("input", () => {
+    if (Number.isFinite(audio.duration) && audio.duration > 0) audio.currentTime = Number(seek.value) / 1000 * audio.duration;
+  });
+  audio.addEventListener("timeupdate", () => {
+    if (Number.isFinite(audio.duration) && audio.duration > 0) seek.value = String(Math.round(audio.currentTime / audio.duration * 1000));
+    currentTime.textContent = formatTime(audio.currentTime);
+    updateLyricHighlight();
+  });
+  audio.addEventListener("seeked", updateLyricHighlight);
+  audio.addEventListener("loadedmetadata", () => { duration.textContent = formatTime(audio.duration); });
+  audio.addEventListener("play", () => { toggleButton.textContent = "Pause"; detailStatus.textContent = "Now playing."; });
+  audio.addEventListener("pause", () => { toggleButton.textContent = "Play"; });
+  audio.addEventListener("ended", () => {
+    if (currentIndex + 1 < queue.length) playTrack(currentIndex + 1);
+    else { toggleButton.textContent = "Play"; detailStatus.textContent = "End of this list."; }
+  });
+  audio.addEventListener("error", () => {
+    if (currentIndex !== -1) detailStatus.textContent = "This stream could not be played. Try another track.";
+  });
+
+  const PL_KEY = "glossom-playlists";
+  const plHome = $("pl-home"), plEditor = $("pl-editor"), plGrid = $("pl-grid");
+  const plCreateForm = $("pl-create-form"), plNewName = $("pl-new-name");
+  const plName = $("pl-name"), plCover = $("pl-cover"), plCount = $("pl-count");
+  const plPlay = $("pl-play"), plDelete = $("pl-delete"), plSongs = $("pl-songs");
+  const plSearch = $("pl-search");
+  const plSearchStatus = $("pl-search-status"), plResults = $("pl-results");
+  const plEdit = $("pl-edit"), plTitleText = $("pl-title-text"), plFilter = $("pl-filter");
+  const plNameLabel = $("pl-name-label"), plAddSection = $("pl-add-section");
+
+  let playlists = loadPlaylists(), editingId = null, plEditing = false;
+  let results = [], plRequest = 0, deleteTimer = null;
+
+  const plSelectBtn = $("pl-select"), plSelectCancel = $("pl-select-cancel");
+  const plSelectBar = $("pl-select-bar"), plSelectCount = $("pl-select-count");
+  const plBulkDelete = $("pl-bulk-delete");
+  let selecting = false, selected = new Set(), bulkTimer = null;
+
+  function loadPlaylists() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(PL_KEY));
+      return Array.isArray(saved) ? saved.filter(p => p && p.id && Array.isArray(p.songs)) : [];
+    } catch (e) { return []; }
+  }
+  function savePlaylists() {
+    try { localStorage.setItem(PL_KEY, JSON.stringify(playlists)); }
+    catch (e) { plSearchStatus.textContent = "Your browser would not save this playlist (storage may be full or blocked)."; }
+  }
+  function currentPlaylist() { return playlists.find(p => p.id === editingId); }
+  function songCount(n) { return n + (n === 1 ? " song" : " songs"); }
+
+  function slimTrack(t) {
+    const a = t.artwork || {};
+    return {
+      id: t.id, title: t.title || "Untitled track", genre: t.genre || "",
+      user: { name: trackArtist(t) },
+      artwork: { "480x480": a["480x480"] || a["150x150"] || a["1000x1000"] || "" }
+    };
+  }
+  function songRow(track, number) {
+    const row = document.createElement("li");
+    row.className = "pl-song";
+    if (number != null) {
+      const num = document.createElement("span");
+      num.className = "pl-song-num"; num.textContent = number;
+      row.appendChild(num);
+    }
+    const art = document.createElement("img");
+    art.src = artworkFor(track); art.alt = ""; art.loading = "lazy";
+    art.onerror = () => { art.src = fallbackArt; };
+    const text = document.createElement("div");
+    text.className = "pl-song-text";
+    const songTitle = document.createElement("span");
+    songTitle.className = "music-track-title"; songTitle.textContent = track.title || "Untitled track";
+    const songArtist = document.createElement("span");
+    songArtist.className = "music-track-artist"; songArtist.textContent = trackArtist(track);
+    text.append(songTitle, songArtist);
+    row.append(art, text);
+    return row;
+  }
+  function iconButton(label, ariaLabel, onClick, extraClass) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "pl-icon-btn" + (extraClass ? " " + extraClass : "");
+    b.textContent = label; b.setAttribute("aria-label", ariaLabel);
+    b.addEventListener("click", onClick);
+    return b;
+  }
+
+  function showPlaylistHome() {
+    editingId = null;
+    exitSelect();
+    showView("playlists");
+    plHome.hidden = false; plEditor.hidden = true;
+    renderPlaylistGrid();
+  }
+  function exitSelect() {
+    selecting = false;
+    selected.clear();
+    resetBulkDelete();
+  }
+  function resetBulkDelete() {
+    clearTimeout(bulkTimer);
+    plBulkDelete.classList.remove("armed");
+    plBulkDelete.textContent = "🗑️ Delete selected";
+  }
+
+  function shownPlaylists() {
+    const filter = normalizeSearchText(plFilter.value);
+    return playlists.filter(p => normalizeSearchText(p.name).includes(filter));
+  }
+  function updateSelectUI(shown) {
+    if (!playlists.length) selecting = false;
+    plSelectBtn.hidden = !playlists.length;
+    const allSelected = shown.length > 0 && shown.every(p => selected.has(p.id));
+    plSelectBtn.textContent = !selecting ? "Select" : (allSelected ? "Deselect All" : "Select All?");
+    plSelectCancel.hidden = !selecting;
+    plSelectBar.hidden = !selecting;
+    plSelectCount.textContent = selected.size + " selected";
+    plBulkDelete.disabled = selected.size === 0;
+  }
+  function renderPlaylistGrid() {
+    plGrid.replaceChildren();
+    const shown = shownPlaylists();
+
+    selected.forEach(id => { if (!shown.some(p => p.id === id)) selected.delete(id); });
+    updateSelectUI(shown);
+    if (!playlists.length) {
+      const empty = document.createElement("div");
+      empty.className = "music-empty";
+      empty.textContent = "No playlists yet. Name one above to get started.";
+      plGrid.appendChild(empty);
+      return;
+    }
+    if (!shown.length) {
+      const empty = document.createElement("div");
+      empty.className = "music-empty";
+      empty.textContent = 'No playlists match "' + plFilter.value.trim() + '".';
+      plGrid.appendChild(empty);
+      return;
+    }
+    shown.forEach(p => {
+      const card = document.createElement("button");
+      card.type = "button"; card.className = "music-track";
+      const isSelected = selecting && selected.has(p.id);
+      card.classList.toggle("selected", isSelected);
+      if (selecting) {
+        card.setAttribute("aria-pressed", String(isSelected));
+        const check = document.createElement("span");
+        check.className = "pl-check"; check.textContent = isSelected ? "✓" : "";
+        card.appendChild(check);
+      }
+      const art = document.createElement("img");
+      art.className = "music-track-art"; art.alt = "";
+      art.src = p.songs.length ? artworkFor(p.songs[0]) : fallbackArt;
+      art.onerror = () => { art.src = fallbackArt; };
+      const name = document.createElement("span");
+      name.className = "music-track-title"; name.textContent = p.name || "Untitled playlist";
+      const count = document.createElement("span");
+      count.className = "music-track-artist"; count.textContent = songCount(p.songs.length);
+      card.append(art, name, count);
+      card.addEventListener("click", () => {
+        if (!selecting) { openEditor(p.id); return; }
+        if (selected.has(p.id)) selected.delete(p.id); else selected.add(p.id);
+        resetBulkDelete();
+        renderPlaylistGrid();
+      });
+      plGrid.appendChild(card);
+    });
+  }
+
+  function openEditor(id, editMode = false) {
+    editingId = id;
+    const p = currentPlaylist();
+    if (!p) { showPlaylistHome(); return; }
+    showView("playlists");
+    plHome.hidden = true; plEditor.hidden = false;
+    resetDelete();
+    setEditMode(editMode);
+  }
+  function setEditMode(on) {
+    const p = currentPlaylist();
+    if (!p) return;
+    plEditing = on;
+    if (!on && !p.name.trim()) { p.name = "Untitled playlist"; savePlaylists(); }
+    plName.value = p.name;
+    plTitleText.textContent = p.name;
+    plName.hidden = !on;
+    plTitleText.hidden = on;
+    plNameLabel.textContent = on ? "PLAYLIST NAME" : "PLAYLIST";
+    plAddSection.hidden = !on;
+    plEdit.classList.toggle("editing", on);
+    plEdit.textContent = on ? "✓ Done editing" : "✏️ Edit playlist";
+    renderEditor();
+  }
+  function renderEditor() {
+    const p = currentPlaylist();
+    if (!p || plEditor.hidden) return;
+    plCover.src = p.songs.length ? artworkFor(p.songs[0]) : fallbackArt;
+    plCover.onerror = () => { plCover.src = fallbackArt; };
+    plCount.textContent = songCount(p.songs.length);
+    plPlay.disabled = !p.songs.length;
+
+    const playingId = queue[currentIndex] && queue[currentIndex].id;
+    plSongs.replaceChildren();
+    if (!p.songs.length) {
+      const empty = document.createElement("li");
+      empty.className = "music-empty";
+      empty.textContent = plEditing
+        ? "No songs yet. Search below to add some."
+        : "No songs yet. Click \"Edit playlist\" to add some.";
+      plSongs.appendChild(empty);
+    }
+    p.songs.forEach((song, i) => {
+      const row = songRow(song, i + 1);
+      if (backTarget === "playlist" && song.id === playingId && !audio.paused) row.classList.add("playing");
+      row.append(iconButton("▶", "Play " + song.title, () => playList(p.songs.slice(), i, "playlist")));
+      if (plEditing) {
+        row.append(iconButton("✕", "Remove " + song.title + " from playlist", () => {
+          p.songs.splice(i, 1);
+          savePlaylists(); renderEditor();
+        }));
+      }
+      plSongs.appendChild(row);
+    });
+    renderResults();
+  }
+  function renderResults() {
+    const p = currentPlaylist();
+    plResults.replaceChildren();
+    if (!p) return;
+    results.forEach(track => {
+      const row = songRow(track);
+      const added = p.songs.some(s => s.id === track.id);
+      const btn = iconButton(added ? "Added ✓" : "+ Add", "Add " + track.title + " to playlist", () => {
+        p.songs.push(slimTrack(track));
+        savePlaylists(); renderEditor();
+      }, "add");
+      btn.disabled = added;
+      row.appendChild(btn);
+      plResults.appendChild(row);
+    });
+  }
+
+  async function searchForPlaylist() {
+    const query = plSearch.value.trim();
+    const thisRequest = ++plRequest;
+    if (!query) { results = []; renderResults(); plSearchStatus.textContent = ""; return; }
+    plSearchStatus.textContent = "Searching...";
+    try {
+      const url = new URL(API + "/tracks/search");
+      url.searchParams.set("query", query);
+      url.searchParams.set("limit", "30");
+      url.searchParams.set("app_name", APP_NAME);
+      const response = await fetch(url.toString());
+      if (!response.ok) throw new Error("Search failed");
+      const json = await response.json();
+      if (thisRequest !== plRequest) return;
+      const found = (json.data || []).filter(t => t && t.id && t.title && t.is_streamable !== false);
+      const ranked = rankMatches(found, query);
+      results = ranked.length ? ranked : found;
+      plSearchStatus.textContent = results.length
+        ? results.length + " songs found. Click \"+ Add\" to put one in your playlist."
+        : 'No songs found for "' + query + '". Try the exact song title or artist name.';
+      renderResults();
+    } catch (e) {
+      if (thisRequest !== plRequest) return;
+      results = []; renderResults();
+      plSearchStatus.textContent = "Search could not load. Check your internet connection or whether your school network blocks Audius.";
+    }
+  }
+
+  function resetDelete() {
+    clearTimeout(deleteTimer);
+    plDelete.classList.remove("armed");
+    plDelete.textContent = "🗑️ Delete playlist";
+  }
+
+  $("music-playlists-btn").addEventListener("click", () => { showPlaylistHome(); plNewName.focus(); });
+  $("pl-home-back").addEventListener("click", showBrowse);
+  $("pl-editor-back").addEventListener("click", showPlaylistHome);
+
+  plCreateForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const p = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      name: plNewName.value.trim() || "My playlist " + (playlists.length + 1),
+      songs: []
+    };
+    playlists.push(p);
+    savePlaylists();
+    plNewName.value = "";
+    results = []; plSearch.value = ""; plSearchStatus.textContent = "";
+    openEditor(p.id, true); 
+    plSearch.focus();
+  });
+
+  plEdit.addEventListener("click", () => {
+    setEditMode(!plEditing);
+    if (plEditing) plName.focus();
+  });
+
+  plName.addEventListener("input", () => {
+    const p = currentPlaylist();
+    if (p) { p.name = plName.value; savePlaylists(); }
+  });
+  plName.addEventListener("change", () => {
+    const p = currentPlaylist();
+    if (p && !p.name.trim()) { p.name = plName.value = "Untitled playlist"; savePlaylists(); }
+  });
+
+  plPlay.addEventListener("click", () => {
+    const p = currentPlaylist();
+    if (p && p.songs.length) playList(p.songs.slice(), 0, "playlist");
+  });
+
+  plDelete.addEventListener("click", () => {
+    if (!plDelete.classList.contains("armed")) {
+      plDelete.classList.add("armed");
+      plDelete.textContent = "🗑️ Confirm to delete";
+      deleteTimer = setTimeout(resetDelete, 3000);
+      return;
+    }
+    resetDelete();
+    playlists = playlists.filter(p => p.id !== editingId);
+    savePlaylists();
+    showPlaylistHome();
+  });
+
+  plSearch.addEventListener("input", debounce(searchForPlaylist, SEARCH_DELAY));
+  plFilter.addEventListener("input", renderPlaylistGrid);
+
+  plSelectBtn.addEventListener("click", () => {
+    if (!selecting) {
+      selecting = true;
+    } else {
+      const shown = shownPlaylists();
+      const allSelected = shown.every(p => selected.has(p.id));
+      shown.forEach(p => allSelected ? selected.delete(p.id) : selected.add(p.id));
+    }
+    resetBulkDelete();
+    renderPlaylistGrid();
+  });
+  plSelectCancel.addEventListener("click", () => { exitSelect(); renderPlaylistGrid(); });
+
+  plBulkDelete.addEventListener("click", () => {
+    if (!selected.size) return;
+    if (!plBulkDelete.classList.contains("armed")) {
+      plBulkDelete.classList.add("armed");
+      plBulkDelete.textContent = "🗑️ Confirm to delete" + selected.size;
+      bulkTimer = setTimeout(resetBulkDelete, 3000);
+      return;
+    }
+    playlists = playlists.filter(p => !selected.has(p.id));
+    savePlaylists();
+    exitSelect();
+    renderPlaylistGrid();
+  });
+  audio.addEventListener("play", renderEditor);
+  audio.addEventListener("pause", renderEditor);
+})();
+</script>
+
+<div id="miniMusicPlayer" role="region" aria-label="Music player">
+  <button id="miniMusicClose" class="mini-close" type="button" aria-label="Close player">✕</button>
+
+  <div class="mini-top">
+    <button id="miniMusicOpen" class="mini-art-wrap" type="button" aria-label="Open the music page">
+      <img id="miniMusicArt" alt="Album cover">
+    </button>
+    <div class="mini-info">
+      <div class="mini-label">
+        <span class="mini-eq"><i></i><i></i><i></i><i></i></span>
+        <span id="miniMusicState">NOW PLAYING</span>
+      </div>
+      <div id="miniMusicTitle" class="mini-title">No song playing</div>
+      <div id="miniMusicArtist" class="mini-artist"></div>
+    </div>
+  </div>
+
+  <div class="mini-progress">
+    <span id="miniMusicCur">0:00</span>
+    <input id="miniMusicSeek" type="range" min="0" max="1000" value="0" aria-label="Song progress">
+    <span id="miniMusicDur">0:00</span>
+  </div>
+
+  <div class="mini-controls">
+    <button id="miniMusicBack" class="mini-skip" type="button" aria-label="Rewind 15 seconds">↺ 15s</button>
+    <button id="miniMusicToggle" type="button" aria-label="Play music">▶</button>
+    <button id="miniMusicForward" class="mini-skip" type="button" aria-label="Skip forward 15 seconds">15s ↻</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+
+  const audio = $("music-audio");
+  const panel = $("music-panel");
+  const mini = $("miniMusicPlayer");
+  const miniArt = $("miniMusicArt");
+  const miniTitle = $("miniMusicTitle");
+  const miniArtist = $("miniMusicArtist");
+  const miniState = $("miniMusicState");
+  const miniCur = $("miniMusicCur");
+  const miniDur = $("miniMusicDur");
+  const miniSeek = $("miniMusicSeek");
+  const miniBack = $("miniMusicBack");
+  const miniForward = $("miniMusicForward");
+  const miniToggle = $("miniMusicToggle");
+  const miniClose = $("miniMusicClose");
+  const miniOpen = $("miniMusicOpen");
+
+  const srcTitle = $("music-song-title");
+  const srcArtist = $("music-song-artist");
+  const srcArt = $("music-detail-art");
+
+  if (!audio || !panel || !mini) {
+    console.error("GLOSSOM mini player: an element could not be found.");
+    return;
+  }
+
+  let hasPlayed = false;
+  let dismissed = false;
+  let dragging = false;
+
+  function fmt(s) {
+    if (!Number.isFinite(s) || s < 0) return "0:00";
+    return Math.floor(s / 60) + ":" + Math.floor(s % 60).toString().padStart(2, "0");
+  }
+
+  function setFill() {
+    miniSeek.style.setProperty("--p", miniSeek.value / 10 + "%");
+  }
+
+  function syncInfo() {
+    const t = srcTitle ? srcTitle.textContent.trim() : "";
+    const a = srcArtist ? srcArtist.textContent.trim() : "";
+    miniTitle.textContent = t || "Unknown song";
+    miniTitle.title = t;
+    miniArtist.textContent = a;
+    if (srcArt && srcArt.src && miniArt.src !== srcArt.src) miniArt.src = srcArt.src;
+  }
+
+  function syncState() {
+    const playing = !audio.paused && !audio.ended;
+    const show = hasPlayed && !dismissed && panel.hidden;
+    mini.classList.toggle("visible", show);
+    mini.classList.toggle("playing", playing);
+    miniState.textContent = playing ? "NOW PLAYING" : "PAUSED";
+    miniToggle.textContent = playing ? "❚❚" : "▶";
+    miniToggle.setAttribute("aria-label", playing ? "Pause music" : "Play music");
+  }
+
+  function syncProgress() {
+    const d = audio.duration;
+    const ok = Number.isFinite(d) && d > 0;
+    miniCur.textContent = fmt(audio.currentTime);
+    miniDur.textContent = fmt(ok ? d : 0);
+    if (!dragging) miniSeek.value = ok ? Math.round((audio.currentTime / d) * 1000) : 0;
+    setFill();
+  }
+
+  function syncAll() {
+    syncInfo();
+    syncState();
+    syncProgress();
+  }
+
+  audio.addEventListener("play", () => { hasPlayed = true; dismissed = false; syncAll(); });
+  audio.addEventListener("pause", syncAll);
+  audio.addEventListener("ended", syncAll);
+  audio.addEventListener("loadedmetadata", syncAll);
+  audio.addEventListener("durationchange", syncAll);
+  audio.addEventListener("timeupdate", syncProgress);
+
+  miniSeek.addEventListener("input", () => {
+    dragging = true;
+    const d = audio.duration;
+    if (Number.isFinite(d) && d > 0) {
+      audio.currentTime = (miniSeek.value / 1000) * d;
+      miniCur.textContent = fmt(audio.currentTime);
+    }
+    setFill();
+  });
+  miniSeek.addEventListener("change", () => { dragging = false; });
+
+  miniBack.addEventListener("click", () => {
+    if (Number.isFinite(audio.duration)) audio.currentTime = Math.max(0, audio.currentTime - 15);
+  });
+  miniForward.addEventListener("click", () => {
+    if (Number.isFinite(audio.duration)) audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
+  });
+
+  miniToggle.addEventListener("click", async () => {
+    if (audio.paused) {
+      try { await audio.play(); }
+      catch (error) { console.error("Could not resume music:", error); }
+    } else {
+      audio.pause();
+    }
+    syncState();
+  });
+
+  miniClose.addEventListener("click", () => {
+    audio.pause();
+    dismissed = true;
+    syncState();
+  });
+
+  miniOpen.addEventListener("click", () => {
+    const browse = $("music-browse-view");
+    const detail = $("music-detail-view");
+    const playlistsView = $("music-playlist-view");
+    if (browse) browse.hidden = true;
+    if (playlistsView) playlistsView.hidden = true;
+    if (detail) detail.hidden = false;
+    panel.hidden = false;
+  });
+
+  new MutationObserver(syncState).observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+
+  [srcTitle, srcArtist, srcArt].filter(Boolean).forEach((element) => {
+    new MutationObserver(syncInfo).observe(element, {
+      attributes: true, childList: true, characterData: true, subtree: true
+    });
+  });
+
+  syncAll();
+})();
+</script>
+
+<script>
+  (() => {
+    const COUNT = 12;
+    const COLORS = ["#8fd3ff", "#b388ff", "#a3dcff", "#c4a1ff", "#7fa2ff", "#c58bff"];
+
+    const wind = document.querySelector(".wind");
+    if (!wind) return;
+
+    for (let i = 0; i < COUNT; i++) {
+      const band = document.createElement("div");
+      band.className = "band";
+
+      const color = COLORS[i % COLORS.length];
+      const duration = 10 + Math.random() * 10;
+
+      band.style.top = ((i + Math.random() * 0.8) / COUNT) * 92 + "%";
+      band.style.width = 50 + Math.random() * 40 + "vw";
+      band.style.height = 18 + Math.random() * 18 + "vh";
+      band.style.background = "radial-gradient(ellipse, " + color + ", transparent 70%)";
+      band.style.animationDuration = duration + "s";
+      band.style.animationDelay = "-" + Math.random() * duration + "s";
+
+      wind.appendChild(band);
+    }
+  })();
+</script>
+
+</body>
+</html>
