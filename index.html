@@ -1679,9 +1679,45 @@ h2 {
 
     const wispUrl = (location.protocol === "https:" ? "wss" : "ws") + "://" + location.host + "/wisp/";
 
+    // Scramjet v1 keeps its settings in an IndexedDB called "$scramjet". Its service worker opens
+    // that DB *without* creating the tables, so if the worker gets there first the DB ends up empty
+    // and scramjet.init() fails forever after ("One of the specified object stores was not found").
+    // So: create the DB with all its tables before the worker is registered, and if a browser
+    // already has the broken empty DB, delete it and reload once.
+    const IDB_NAME = "$scramjet";
+    const IDB_STORES = ["config", "cookies", "redirectTrackers", "referrerPolicies", "publicSuffixList"];
+    const REPAIR_FLAG = "glossom-scramjet-db-repaired";
+
+    function idbRequest(req) {
+      return new Promise((resolve, reject) => {
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function ensureScramjetDb() {
+      const req = indexedDB.open(IDB_NAME);   // no version: creates v1 if missing, else opens as-is
+      req.onupgradeneeded = () => IDB_STORES.forEach((s) => {
+        if (!req.result.objectStoreNames.contains(s)) req.result.createObjectStore(s);
+      });
+      const db = await idbRequest(req);
+      const broken = IDB_STORES.some((s) => !db.objectStoreNames.contains(s));
+      db.close();
+      if (!broken) { sessionStorage.removeItem(REPAIR_FLAG); return; }
+
+      if (sessionStorage.getItem(REPAIR_FLAG)) throw new Error("Scramjet's database is still broken after a repair; clear this site's data");
+      sessionStorage.setItem(REPAIR_FLAG, "1");
+      console.warn("[glossom] repairing Scramjet's database");
+      for (const reg of await navigator.serviceWorker.getRegistrations()) await reg.unregister();
+      await withTimeout(idbRequest(indexedDB.deleteDatabase(IDB_NAME)), 5000).catch(() => {});
+      location.reload();
+      await new Promise(() => {});   // wait for the reload
+    }
+
     async function setup() {
       if (!scramjet || !connection) throw new Error("Scramjet files did not load");
       if (!("serviceWorker" in navigator)) throw new Error("service workers need https (or localhost)");
+      await ensureScramjetDb();
       await navigator.serviceWorker.register("/sw.js", { scope: "/" });
       await navigator.serviceWorker.ready;
       await scramjet.init();   // saves Scramjet's settings where the service worker can read them
